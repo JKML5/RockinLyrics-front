@@ -5,7 +5,7 @@ function Header() {
     <header className="header">
       <a href="/">
         <img src={logo} alt="Logo Rockin'1000" className="header__logo" />
-      </a>{' '}
+      </a>
     </header>
   );
 }

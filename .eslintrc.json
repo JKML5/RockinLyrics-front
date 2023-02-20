@@ -22,7 +22,9 @@
         "prettier/prettier": ["error", { "endOfLine": "auto" }],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react/react-in-jsx-scope": "off",
+        "react/no-danger" : "off",
         "no-console": "off",
+        "jsx-a11y/media-has-caption": "off",
         "jsx-a11y/label-has-associated-control": ["error", {
             "required": {
                 "some": ["nesting", "id"]

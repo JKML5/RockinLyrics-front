@@ -1,9 +1,18 @@
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
-import { addLyrics } from '../store';
+import useFetchLyrics from '../hooks/useFetchLyrics';
+
+function showLyrics(lyrics) {
+  return (
+    <div
+      className="tutorial__lyrics"
+      dangerouslySetInnerHTML={{ __html: lyrics }}
+    />
+  );
+}
 
 /**
  * Affiche une ligne de tuto
@@ -11,19 +20,7 @@ import { addLyrics } from '../store';
  * @returns
  */
 function Tutorial({ data }) {
-  const dispatch = useDispatch();
-
-  function showLyrics(id) {
-    const lyricsList = useSelector((state) => state.lyricsList);
-    const lyrics = lyricsList[id];
-
-    return (
-      <div
-        className="tutorial__lyrics"
-        dangerouslySetInnerHTML={{ __html: lyrics }}
-      />
-    );
-  }
+  const lyricsList = useSelector((state) => state.lyricsList);
 
   let buttonsToShow = null;
 
@@ -42,15 +39,11 @@ function Tutorial({ data }) {
       </>
     );
   } else if (data.type === 'pdf') {
-    // Save lyrics into redux
-    fetch(`/lyrics/${data.id}.html`)
-      .then((response) => response.text())
-      .then((lyrics) => dispatch(addLyrics(data.id, lyrics)))
-      .catch((error) => console.error(error));
+    useFetchLyrics(data.id);
 
     buttonsToShow = (
       <>
-        <ButtonLyrics onClick={() => showLyrics(data.id)} />
+        <ButtonLyrics />
         <ButtonDrive googleId={data.id} />
       </>
     );
@@ -62,7 +55,7 @@ function Tutorial({ data }) {
         {data.title}
         <div className="tutorial__heading_buttons">{buttonsToShow}</div>
       </div>
-
+      {lyricsList[data.id] && showLyrics(lyricsList[data.id])}
       <audio controls>
         <source type="audio/mpeg" />
         Your browser does not support the audio element.

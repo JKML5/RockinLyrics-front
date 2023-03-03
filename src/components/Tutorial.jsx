@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
@@ -22,6 +23,12 @@ function showLyrics(lyrics) {
 function Tutorial({ data }) {
   const lyricsList = useSelector((state) => state.lyricsList);
 
+  const [showLyricsFlag, setShowLyricsFlag] = useState(false);
+
+  const handleClickLyrics = () => {
+    setShowLyricsFlag(!showLyricsFlag);
+  };
+
   let buttonsToShow = null;
 
   if (data.type === 'audio') {
@@ -43,7 +50,7 @@ function Tutorial({ data }) {
 
     buttonsToShow = (
       <>
-        <ButtonLyrics />
+        <ButtonLyrics onClick={handleClickLyrics} />
         <ButtonDrive googleId={data.id} />
       </>
     );
@@ -55,7 +62,7 @@ function Tutorial({ data }) {
         {data.title}
         <div className="tutorial__heading_buttons">{buttonsToShow}</div>
       </div>
-      {lyricsList[data.id] && showLyrics(lyricsList[data.id])}
+      {lyricsList[data.id] && showLyricsFlag && showLyrics(lyricsList[data.id])}
       <audio controls>
         <source type="audio/mpeg" />
         Your browser does not support the audio element.

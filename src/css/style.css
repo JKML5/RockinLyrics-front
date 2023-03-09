@@ -8,10 +8,6 @@
   /* Safari/Chrome, autres WebKit */
 }
 
-video, audio {
-  display: none;
-}
-
 img {
   width: 100%;
   height: auto;
@@ -326,11 +322,6 @@ strong {
   border-bottom: 1px solid #DFDFDF;
 }
 
-.tutorial__audio, .tutorial__video {
-  width: 100%;
-  padding: 0 25px;
-}
-
 .tutorial__lyrics, .tutorial__dynamics {
   background-color: white;
   padding: 10px 0;
@@ -347,6 +338,10 @@ strong {
 
 .tutorial__lyrics strong, .tutorial__dynamics strong {
   font-weight: 400;
+}
+
+.player__audio {
+  width: 100%;
 }
 
 .filter-buttons {

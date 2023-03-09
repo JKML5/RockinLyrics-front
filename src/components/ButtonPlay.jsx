@@ -2,17 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import playImgSrc from '../assets/play.svg';
 
-function ButtonPlay({ googleId, className }) {
-  function handleClick() {
-    console.log(googleId);
-  }
-
+function ButtonPlay({ onClick }) {
   return (
-    <button
-      type="button"
-      className={`btn tutorial__audio ${className}`}
-      onClick={handleClick}
-    >
+    <button type="button" className="btn tutorial__audio" onClick={onClick}>
       <img
         src={playImgSrc}
         alt="Jouer"
@@ -22,14 +14,8 @@ function ButtonPlay({ googleId, className }) {
   );
 }
 
-ButtonPlay.defaultProps = {
-  googleId: '',
-  className: '',
-};
-
 ButtonPlay.propTypes = {
-  googleId: PropTypes.string,
-  className: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ButtonPlay;

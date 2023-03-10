@@ -340,7 +340,7 @@ strong {
   font-weight: 400;
 }
 
-.player__audio {
+.player__audio, .player__video {
   width: 100%;
 }
 

@@ -36,6 +36,21 @@ function showAudioPlayer(googleId) {
 }
 
 /**
+ * Player video
+ */
+function showVideoPlayer(googleId) {
+  return (
+    <video
+      className="player__video"
+      controls
+      src={`https://drive.google.com/uc?id=${googleId}`}
+    >
+      Your browser does not support the video element.
+    </video>
+  );
+}
+
+/**
  * Affiche une ligne de tuto
  * @param {*} param0
  * @returns
@@ -44,19 +59,20 @@ function Tutorial({ data }) {
   // Liste de toutes les paroles chargées
   const lyricsList = useSelector((state) => state.lyricsList);
 
-  // Booléen affichage des paroles
   const [showLyricsFlag, setShowLyricsFlag] = useState(false);
-
-  // Booléen affichage d'un player audio
   const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
+  const [showVideoPlayerFlag, setShowVideoPlayerFlag] = useState(false);
 
   const handleClickLyrics = () => {
     setShowLyricsFlag(!showLyricsFlag);
   };
 
   const handleClickAudioPlayer = () => {
-    console.log('click player');
     setShowAudioPlayerFlag(!showAudioPlayerFlag);
+  };
+
+  const handleClickVideoPlayer = () => {
+    setShowVideoPlayerFlag(!showAudioPlayerFlag);
   };
 
   let buttonsToShow = null;
@@ -71,7 +87,7 @@ function Tutorial({ data }) {
   } else if (data.type === 'video') {
     buttonsToShow = (
       <>
-        <ButtonPlay googleId={data.id} />
+        <ButtonPlay googleId={data.id} onClick={handleClickVideoPlayer} />
         <ButtonDrive googleId={data.id} />
       </>
     );
@@ -94,6 +110,7 @@ function Tutorial({ data }) {
       </div>
       {lyricsList[data.id] && showLyricsFlag && showLyrics(lyricsList[data.id])}
       {showAudioPlayerFlag && showAudioPlayer(data.id)}
+      {showVideoPlayerFlag && showVideoPlayer(data.id)}
     </div>
   );
 }

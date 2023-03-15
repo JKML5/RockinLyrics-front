@@ -55,7 +55,7 @@ function showVideoPlayer(googleId) {
  * @param {*} param0
  * @returns
  */
-function Tutorial({ data }) {
+function Tutorial({ data, songId }) {
   // Liste de toutes les paroles chargées
   const lyricsList = useSelector((state) => state.lyricsList);
 
@@ -92,7 +92,7 @@ function Tutorial({ data }) {
       </>
     );
   } else if (data.type === 'lyrics') {
-    useFetchLyrics(data.id);
+    useFetchLyrics(data.id, songId);
 
     buttonsToShow = (
       <>
@@ -122,6 +122,7 @@ Tutorial.propTypes = {
     type: PropTypes.string.isRequired,
     lyrics: PropTypes.string,
   }).isRequired,
+  songId: PropTypes.number.isRequired,
 };
 
 export default Tutorial;

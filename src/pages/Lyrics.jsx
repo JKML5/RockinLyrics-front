@@ -13,7 +13,7 @@ function Lyrics() {
             </a>
             <div className="song__content" id={`song_${song.id}`}>
               {song.tutorials.map((tutorial) => (
-                <Tutorial key={tutorial.id} data={tutorial} />
+                <Tutorial key={tutorial.id} data={tutorial} songId={song.id} />
               ))}
             </div>
           </li>

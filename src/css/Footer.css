@@ -1,0 +1,59 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  padding: 10px;
+}
+
+.footer__button {
+  width: 80px;
+  height: 80px;
+  border: none;
+  border-radius: 10px;
+  margin: 0 10px;
+  font-size: 14px;
+  color: white;
+  background-color: #2a2a2a;
+}
+
+.footer__button__img {
+  filter: invert(1);
+  width: 60px;
+  height: 60px;
+}
+
+.footer__button--male {
+  background-color: #3b5998;
+}
+
+.footer__button--female {
+  background-color: #dd4b39;
+}
+
+.footer__button--lead {
+  background-color: #27ae60;
+}
+
+.footer__button--bv1 {
+  background-color: #f39c12;
+}
+
+.footer__button--bv2 {
+  background-color: #2980b9;
+}
+
+.footer__button--zoom {
+  background-color: #8e44ad;
+}
+
+.footer__button--dezoom {
+  background-color: #c0392b;
+}
+
+.footer__separator {
+  width: 2px;
+  height: 50px;
+  margin: 0 10px;
+  background-color: white;
+}

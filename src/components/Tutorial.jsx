@@ -59,6 +59,9 @@ function Tutorial({ data, songId }) {
   // Liste de toutes les paroles chargées
   const lyricsList = useSelector((state) => state.lyricsList);
 
+  // Genre M / F
+  const gender = useSelector((state) => state.gender);
+
   const [showLyricsFlag, setShowLyricsFlag] = useState(false);
   const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
   const [showVideoPlayerFlag, setShowVideoPlayerFlag] = useState(false);
@@ -102,8 +105,10 @@ function Tutorial({ data, songId }) {
     );
   }
 
+  const hideClass = data.gender && data.gender !== gender ? 'hide' : '';
+
   return (
-    <div className="tutorial" id={data.id}>
+    <div className={`tutorial ${hideClass}`} id={data.id}>
       <div className="tutorial__heading">
         {data.title}
         <div className="tutorial__heading_buttons">{buttonsToShow}</div>
@@ -120,6 +125,7 @@ Tutorial.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+    gender: PropTypes.string,
     lyrics: PropTypes.string,
   }).isRequired,
   songId: PropTypes.number.isRequired,

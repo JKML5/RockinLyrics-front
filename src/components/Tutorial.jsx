@@ -28,6 +28,7 @@ function showAudioPlayer(googleId) {
     <audio
       className="player__audio"
       controls
+      autoPlay
       src={`https://drive.google.com/uc?id=${googleId}`}
     >
       Your browser does not support the audio element.
@@ -43,6 +44,7 @@ function showVideoPlayer(googleId) {
     <video
       className="player__video"
       controls
+      autoPlay
       src={`https://drive.google.com/uc?id=${googleId}`}
     >
       Your browser does not support the video element.

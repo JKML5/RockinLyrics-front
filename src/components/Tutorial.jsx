@@ -5,52 +5,9 @@ import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
 import useFetchLyrics from '../hooks/useFetchLyrics';
-
-/**
- * Bloc d'affichage des paroles
- * @param {string} lyrics Paroles d'une chanson
- * @returns
- */
-function showLyrics(lyrics) {
-  return (
-    <div
-      className="tutorial__lyrics"
-      dangerouslySetInnerHTML={{ __html: lyrics }}
-    />
-  );
-}
-
-/**
- * Player audio
- */
-function showAudioPlayer(googleId) {
-  return (
-    <audio
-      className="player__audio"
-      controls
-      autoPlay
-      src={`https://drive.google.com/uc?id=${googleId}`}
-    >
-      Your browser does not support the audio element.
-    </audio>
-  );
-}
-
-/**
- * Player video
- */
-function showVideoPlayer(googleId) {
-  return (
-    <video
-      className="player__video"
-      controls
-      autoPlay
-      src={`https://drive.google.com/uc?id=${googleId}`}
-    >
-      Your browser does not support the video element.
-    </video>
-  );
-}
+import showLyrics from '../hooks/showLyrics';
+import showAudioPlayer from '../hooks/showAudioPlayer';
+import showVideoPlayer from '../hooks/showVideoPlayer';
 
 /**
  * Affiche une ligne de tuto
@@ -58,10 +15,7 @@ function showVideoPlayer(googleId) {
  * @returns
  */
 function Tutorial({ data, songId }) {
-  // Liste de toutes les paroles chargées
   const lyricsList = useSelector((state) => state.lyricsList);
-
-  // Genre M / F
   const gender = useSelector((state) => state.gender);
 
   const [showLyricsFlag, setShowLyricsFlag] = useState(false);

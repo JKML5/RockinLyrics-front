@@ -9,14 +9,10 @@ import showLyrics from '../hooks/showLyrics';
 import showAudioPlayer from '../hooks/showAudioPlayer';
 import showVideoPlayer from '../hooks/showVideoPlayer';
 
-/**
- * Affiche une ligne de tuto
- * @param {*} param0
- * @returns
- */
 function Tutorial({ data, songId }) {
   const lyricsList = useSelector((state) => state.lyricsList);
   const gender = useSelector((state) => state.gender);
+  const category = useSelector((state) => state.category);
 
   const [showLyricsFlag, setShowLyricsFlag] = useState(false);
   const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
@@ -31,7 +27,7 @@ function Tutorial({ data, songId }) {
   };
 
   const handleClickVideoPlayer = () => {
-    setShowVideoPlayerFlag(!showAudioPlayerFlag);
+    setShowVideoPlayerFlag(!showVideoPlayerFlag);
   };
 
   let buttonsToShow = null;
@@ -61,7 +57,11 @@ function Tutorial({ data, songId }) {
     );
   }
 
-  const hideClass = data.gender && data.gender !== gender ? 'hide' : '';
+  const hideClass =
+    (data.gender && data.gender !== gender) ||
+    (data.category && !data.category.includes(category))
+      ? 'hide'
+      : '';
 
   return (
     <div className={`tutorial ${hideClass}`} id={data.id}>
@@ -82,6 +82,7 @@ Tutorial.propTypes = {
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     gender: PropTypes.string,
+    category: PropTypes.arrayOf(PropTypes.string),
     lyrics: PropTypes.string,
   }).isRequired,
   songId: PropTypes.number.isRequired,

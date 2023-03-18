@@ -3,6 +3,7 @@ import '../css/Footer.css';
 import ButtonMale from './ButtonMale';
 import ButtonFemale from './ButtonFemale';
 import ButtonRole from './ButtonCategory';
+import ButtonTheme from './ButtonTheme';
 
 function Footer() {
   return (
@@ -13,6 +14,7 @@ function Footer() {
       <ButtonRole category="LEAD" />
       <ButtonRole category="BV1" />
       <ButtonRole category="BV2" />
+      <ButtonTheme />
     </div>
   );
 }

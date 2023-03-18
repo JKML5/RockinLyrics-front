@@ -8,6 +8,8 @@
   /* Safari/Chrome, autres WebKit */
 }
 
+
+
 img {
   width: 100%;
   height: auto;
@@ -26,6 +28,15 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   line-height: 1.2;
+}
+
+.dark {
+  background-color: #000000;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #111111;
 }
 
 h1 {
@@ -71,6 +82,10 @@ strong {
   padding-bottom: 10px
 }
 
+.dark .header {
+  filter: invert(1);
+}
+
 .header__logo {
   width: auto;
   height: 100%;
@@ -78,20 +93,12 @@ strong {
 
 .section {
   padding: 30px 20px;
-  background-color: #FFFFFF;
-  border-top: 1px solid #DFDFDF;
   box-shadow: 0 10px 4px -4px #DFDFDF;
   margin-bottom: 20px;
 }
 
 .section--grey {
   background-color: #F6F6F6;
-  padding: 20px;
-}
-
-.section--dark {
-  color: #FFFFFF;
-  background-color: #343434;
   padding: 20px;
 }
 
@@ -260,7 +267,6 @@ strong {
   border: none;
   outline: none;
   border-top: 1px solid #DDDDDD;
-  background-color: #FFFFFF;
   text-align: left;
   font-size: 20px;
   font-family: 'Roboto Condensed', sans-serif;
@@ -270,15 +276,23 @@ strong {
   text-decoration: none;
   display: block;
 }
-
+.dark .song__title {
+  color: #cccccc;
+}
 .song__title:hover {
   color: #000000;
 }
+.dark .song__title:hover {
+  color: #dddddd;
+}
 
 .song__content {
-  background-color: #F6F6F6;
   max-height: 0;
   overflow: hidden;
+}
+
+.dark .song__content {
+  filter: invert(1);
 }
 
 .song__content:target {

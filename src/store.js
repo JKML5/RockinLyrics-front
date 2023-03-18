@@ -4,6 +4,7 @@ const initialState = {
   lyricsList: {},
   gender: 'F',
   category: 'LEAD',
+  theme: 'light',
 };
 
 // actions creators
@@ -33,6 +34,10 @@ export function setCategoryBV2() {
   return { type: 'setCategoryBV2' };
 }
 
+export function toggleTheme(theme) {
+  return { type: 'toggleTheme', theme };
+}
+
 const reducer = (state = initialState, action = null) => {
   switch (action.type) {
     case 'addLyrics':
@@ -53,6 +58,12 @@ const reducer = (state = initialState, action = null) => {
       return { ...state, category: 'BV1' };
     case 'setCategoryBV2':
       return { ...state, category: 'BV2' };
+    case 'toggleTheme':
+      return {
+        ...state,
+        theme: action.theme,
+      };
+
     default:
       return state;
   }

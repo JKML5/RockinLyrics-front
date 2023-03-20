@@ -16,6 +16,9 @@
   color: white;
   background-color: #2a2a2a;
   filter: brightness(0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footer__button.selected {

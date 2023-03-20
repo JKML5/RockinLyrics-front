@@ -1,8 +1,24 @@
+import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setCategoryLead, setCategoryBV1, setCategoryBV2 } from '../store';
 
 function ButtonCategory({ category }) {
+  const StyledButton = styled.button`
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 10px;
+    margin: 0 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #2a2a2a;
+    filter: brightness(0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+
   const selectedCategory = useSelector((state) => state.category);
   const dispatch = useDispatch();
 
@@ -21,7 +37,7 @@ function ButtonCategory({ category }) {
   };
 
   return (
-    <button
+    <StyledButton
       type="button"
       className={`footer__button footer__button--category ${
         selectedCategory === category ? 'selected' : ''
@@ -29,7 +45,7 @@ function ButtonCategory({ category }) {
       onClick={handleClick}
     >
       {category}
-    </button>
+    </StyledButton>
   );
 }
 

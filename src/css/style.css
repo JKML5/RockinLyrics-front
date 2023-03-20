@@ -74,22 +74,9 @@ strong {
   font-weight: 500;
 }
 
-.header {
-  height: 80px;
-  background-color: #ffffff;
-  text-align: center;
-  border-bottom: 1px solid #000000;
-  padding-bottom: 10px
-}
 
-.dark .header {
-  filter: invert(1);
-}
 
-.header__logo {
-  width: auto;
-  height: 100%;
-}
+
 
 .section {
   padding: 30px 20px;

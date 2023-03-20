@@ -14,12 +14,8 @@ export const addLyrics = (id, lyrics) => ({
   lyrics,
 });
 
-export function setGenderMale() {
-  return { type: 'setGenderMale' };
-}
-
-export function setGenderFemale() {
-  return { type: 'setGenderFemale' };
+export function toggleGender() {
+  return { type: 'toggleGender' };
 }
 
 export function setCategoryLead() {
@@ -48,10 +44,8 @@ const reducer = (state = initialState, action = null) => {
           [action.id]: action.lyrics,
         },
       };
-    case 'setGenderMale':
-      return { ...state, gender: 'M' };
-    case 'setGenderFemale':
-      return { ...state, gender: 'F' };
+    case 'toggleGender':
+      return { ...state, gender: state.gender === 'M' ? 'F' : 'M' };
     case 'setCategoryLead':
       return { ...state, category: 'LEAD' };
     case 'setCategoryBV1':

@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { setCategoryLead, setCategoryBV1, setCategoryBV2 } from '../store';
 
 function ButtonCategory({ category }) {
+  const selectedCategory = useSelector((state) => state.category);
+  const dispatch = useDispatch();
+
   const StyledButton = styled.button`
     width: 60px;
     height: 60px;
@@ -13,14 +16,13 @@ function ButtonCategory({ category }) {
     font-size: 18px;
     color: white;
     background-color: #2a2a2a;
-    filter: brightness(0.5);
+    filter: ${category === selectedCategory
+      ? 'brightness(1)'
+      : 'brightness(0.4)'};
     display: flex;
     align-items: center;
     justify-content: center;
   `;
-
-  const selectedCategory = useSelector((state) => state.category);
-  const dispatch = useDispatch();
 
   const handleClick = () => {
     switch (category) {

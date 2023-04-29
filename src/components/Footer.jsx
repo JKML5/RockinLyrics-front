@@ -25,12 +25,8 @@ function Footer() {
 
   return (
     <StyledFooter>
-      <ButtonGender gender="F" />
-      <ButtonGender gender="M" />
-      <StyledSeparator />
-      <ButtonRole category="LEAD" />
-      <ButtonRole category="BV1" />
-      <ButtonRole category="BV2" />
+      <ButtonGender />
+      <ButtonRole />
       <StyledSeparator />
       <ButtonTheme />
     </StyledFooter>

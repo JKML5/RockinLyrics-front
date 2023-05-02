@@ -4,6 +4,7 @@ const initialState = {
   gender: 'F',
   category: 'LEAD',
   theme: 'light',
+  fontSize: 18,
 };
 
 // actions creators
@@ -27,6 +28,14 @@ export function toggleTheme(theme) {
   return { type: 'toggleTheme', theme };
 }
 
+export function incrementFontSize() {
+  return { type: 'incrementFontSize' };
+}
+
+export function decrementFontSize() {
+  return { type: 'decrementFontSize' };
+}
+
 const reducer = (state = initialState, action = null) => {
   switch (action.type) {
     case 'toggleGender':
@@ -42,7 +51,16 @@ const reducer = (state = initialState, action = null) => {
         ...state,
         theme: action.theme,
       };
-
+    case 'incrementFontSize':
+      return {
+        ...state,
+        fontSize: state.fontSize + 1,
+      };
+    case 'decrementFontSize':
+      return {
+        ...state,
+        fontSize: state.fontSize - 1,
+      };
     default:
       return state;
   }

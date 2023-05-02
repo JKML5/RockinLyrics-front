@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function ContainerLyrics({ songId, tutorialId }) {
   const [lyrics, setLyrics] = useState('');
@@ -15,8 +15,7 @@ function ContainerLyrics({ songId, tutorialId }) {
     );
   }, []);
 
-  // const fontSize = useSelector((state) => state.fontSize);
-  const fontSize = 18;
+  const fontSize = useSelector((state) => state.fontSize);
 
   const StyledContainerLyrics = styled.div`
     background-color: white;

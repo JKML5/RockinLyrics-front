@@ -3,6 +3,7 @@ import React from 'react';
 import ButtonGender from './ButtonGender';
 import ButtonRole from './ButtonCategory';
 import ButtonTheme from './ButtonTheme';
+import ButtonZoom from './ButtonZoom';
 
 function Footer() {
   const StyledFooter = styled.footer`
@@ -29,6 +30,8 @@ function Footer() {
       <ButtonRole />
       <StyledSeparator />
       <ButtonTheme />
+      <ButtonZoom increment />
+      <ButtonZoom increment={false} />
     </StyledFooter>
   );
 }

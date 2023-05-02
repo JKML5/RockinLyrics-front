@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import lyricsButton from '../assets/text.png';
 
-function LyricsButton({ onClick }) {
+function LyricsButton() {
   return (
-    <button type="button" className="btn btn-lyrics" onClick={onClick}>
+    <button type="button" className="btn btn-lyrics">
       <img
         src={lyricsButton}
         alt="Paroles"
@@ -13,9 +12,5 @@ function LyricsButton({ onClick }) {
     </button>
   );
 }
-
-LyricsButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
 
 export default LyricsButton;

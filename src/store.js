@@ -1,19 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
-  lyricsList: {},
   gender: 'F',
   category: 'LEAD',
   theme: 'light',
 };
 
 // actions creators
-export const addLyrics = (id, lyrics) => ({
-  type: 'addLyrics',
-  id,
-  lyrics,
-});
-
 export function toggleGender() {
   return { type: 'toggleGender' };
 }
@@ -36,14 +29,6 @@ export function toggleTheme(theme) {
 
 const reducer = (state = initialState, action = null) => {
   switch (action.type) {
-    case 'addLyrics':
-      return {
-        ...state,
-        lyricsList: {
-          ...state.lyricsList,
-          [action.id]: action.lyrics,
-        },
-      };
     case 'toggleGender':
       return { ...state, gender: state.gender === 'M' ? 'F' : 'M' };
     case 'setCategoryLead':

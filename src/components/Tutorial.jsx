@@ -1,26 +1,19 @@
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
-import useFetchLyrics from '../hooks/useFetchLyrics';
 import ContainerLyrics from './ContainerLyrics';
 import showAudioPlayer from '../hooks/showAudioPlayer';
 import showVideoPlayer from '../hooks/showVideoPlayer';
 
 function Tutorial({ data, songId }) {
-  const lyricsList = useSelector((state) => state.lyricsList);
   const gender = useSelector((state) => state.gender);
   const category = useSelector((state) => state.category);
 
-  const [showLyricsFlag, setShowLyricsFlag] = useState(false);
   const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
   const [showVideoPlayerFlag, setShowVideoPlayerFlag] = useState(false);
-
-  const handleClickLyrics = () => {
-    setShowLyricsFlag(!showLyricsFlag);
-  };
 
   const handleClickAudioPlayer = () => {
     setShowAudioPlayerFlag(!showAudioPlayerFlag);
@@ -47,11 +40,9 @@ function Tutorial({ data, songId }) {
       </>
     );
   } else if (data.type === 'lyrics') {
-    useFetchLyrics(data.id, songId);
-
     buttonsToShow = (
       <>
-        <ButtonLyrics onClick={handleClickLyrics} />
+        <ButtonLyrics />
         <ButtonDrive googleId={data.id} />
       </>
     );
@@ -69,11 +60,13 @@ function Tutorial({ data, songId }) {
         {data.title}
         <div className="tutorial__heading_buttons">{buttonsToShow}</div>
       </div>
-      {lyricsList[data.id] &&
-        showLyricsFlag &&
-        ContainerLyrics(lyricsList[data.id])}
+
       {showAudioPlayerFlag && showAudioPlayer(data.id)}
       {showVideoPlayerFlag && showVideoPlayer(data.id)}
+
+      {data.type === 'lyrics' && (
+        <ContainerLyrics songId={songId} tutorialId={data.id} />
+      )}
     </div>
   );
 }

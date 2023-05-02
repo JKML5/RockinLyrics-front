@@ -1,7 +1,7 @@
 import songs from '../data/songs';
 import Tutorial from '../components/Tutorial';
 
-function Lyrics() {
+function Tutorials() {
   return (
     <section className="section">
       <ul className="songs">
@@ -22,4 +22,4 @@ function Lyrics() {
   );
 }
 
-export default Lyrics;
+export default Tutorials;

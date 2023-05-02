@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
+  name: 'riv', // riv, all
   gender: 'F',
   category: 'LEAD',
   theme: 'light',

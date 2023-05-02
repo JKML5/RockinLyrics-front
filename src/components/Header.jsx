@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logoAll from '../assets/logo-rockin1000.png';
+import logoRivLight from '../assets/logo-riv-light.png';
+import logoRivDark from '../assets/logo-riv-dark.png';
 
 function Header() {
   const theme = useSelector((state) => state.theme);
+  const name = useSelector((state) => state.name);
 
   const StyledHeader = styled.header`
     background-color: ${theme === 'light' ? 'none' : '#000000;'};
@@ -19,14 +22,24 @@ function Header() {
   const LogoImg = styled.img`
     width: auto;
     height: 100%;
-    filter: ${theme === 'dark' ? 'invert(1)' : 'none'};
+    filter: ${theme === 'dark' && name === 'all' ? 'invert(1)' : 'none'};
   `;
+
+  let logoImg;
+
+  if (name === 'riv') {
+    if (theme === 'light') {
+      logoImg = <LogoImg src={logoRivLight} alt="Logo Rock'in Villages" />;
+    } else {
+      logoImg = <LogoImg src={logoRivDark} alt="Logo Rock'in Villages" />;
+    }
+  } else {
+    logoImg = <LogoImg src={logoAll} alt="Logo Rockin'1000" />;
+  }
 
   return (
     <StyledHeader>
-      <Link to="/">
-        <LogoImg src={logo} alt="Logo Rockin'1000" />
-      </Link>
+      <Link to="/">{logoImg}</Link>
     </StyledHeader>
   );
 }

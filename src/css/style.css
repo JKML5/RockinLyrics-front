@@ -323,24 +323,6 @@ strong {
   border-bottom: 1px solid #DFDFDF;
 }
 
-.tutorial__lyrics, .tutorial__dynamics {
-  background-color: white;
-  padding: 10px 0;
-  font-size: 18px;
-}
-
-.tutorial__lyrics .info, .tutorial__dynamics .info {
-  color: #aaaaaa;
-}
-
-.tutorial__lyrics .disabled, .tutorial__dynamics .disabled {
-  color: #dddddd;
-}
-
-.tutorial__lyrics strong, .tutorial__dynamics strong {
-  font-weight: 400;
-}
-
 .player__audio, .player__video {
   width: 100%;
 }

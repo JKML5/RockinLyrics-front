@@ -5,7 +5,7 @@ import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
 import useFetchLyrics from '../hooks/useFetchLyrics';
-import showLyrics from '../hooks/showLyrics';
+import ContainerLyrics from './ContainerLyrics';
 import showAudioPlayer from '../hooks/showAudioPlayer';
 import showVideoPlayer from '../hooks/showVideoPlayer';
 
@@ -69,7 +69,9 @@ function Tutorial({ data, songId }) {
         {data.title}
         <div className="tutorial__heading_buttons">{buttonsToShow}</div>
       </div>
-      {lyricsList[data.id] && showLyricsFlag && showLyrics(lyricsList[data.id])}
+      {lyricsList[data.id] &&
+        showLyricsFlag &&
+        ContainerLyrics(lyricsList[data.id])}
       {showAudioPlayerFlag && showAudioPlayer(data.id)}
       {showVideoPlayerFlag && showVideoPlayer(data.id)}
     </div>

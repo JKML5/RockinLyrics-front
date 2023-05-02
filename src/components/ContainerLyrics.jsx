@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux';
 function ContainerLyrics({ songId, tutorialId }) {
   const [lyrics, setLyrics] = useState('');
 
+  const theme = useSelector((state) => state.theme);
+  const fontSize = useSelector((state) => state.fontSize);
+
   useEffect(() => {
     fetch(`./lyrics/${songId}/${tutorialId}.html`).then((response) =>
       response
@@ -15,19 +18,17 @@ function ContainerLyrics({ songId, tutorialId }) {
     );
   }, []);
 
-  const fontSize = useSelector((state) => state.fontSize);
-
   const StyledContainerLyrics = styled.div`
     background-color: white;
     padding: 10px 0;
     font-size: ${() => `${fontSize}px`};
 
     .info {
-      color: #aaaaaa;
+      color: ${() => (theme === 'light' ? '#AAAAAA' : '#999999')};
     }
 
     .disabled {
-      color: #dddddd;
+      color: ${() => (theme === 'light' ? '#DDDDDD' : '#CCCCCC')};
     }
 
     strong {

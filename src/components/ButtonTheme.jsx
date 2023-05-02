@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../store';
 import darkImgSrc from '../assets/dark.svg';
 import lightImgSrc from '../assets/light.svg';
-import StyledButton from './shared/StyledButton';
+import FooterButton from './shared/FooterButton';
 
 function ButtonTheme() {
   const theme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
 
-  const StyledButtonTheme = styled(StyledButton)`
+  const ThemeButton = styled(FooterButton)`
     background-color: ${() => (theme === 'light' ? '#F39F18' : '#0F056B')};
   `;
 
@@ -24,7 +24,7 @@ function ButtonTheme() {
   };
 
   return (
-    <StyledButtonTheme
+    <ThemeButton
       type="button"
       className="footer__button footer__button--theme selected"
       onClick={handleClick}
@@ -42,7 +42,7 @@ function ButtonTheme() {
           className="footer__button__img"
         />
       )}
-    </StyledButtonTheme>
+    </ThemeButton>
   );
 }
 

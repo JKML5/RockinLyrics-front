@@ -8,30 +8,38 @@ import ButtonZoom from './ButtonZoom';
 function Footer() {
   const StyledFooter = styled.footer`
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: black;
     padding: 10px;
     position: fixed;
     bottom: 0;
   `;
 
-  const StyledSeparator = styled.div`
-    width: 1px;
-    height: 40px;
-    margin: 0 10px;
-    background-color: #555555;
+  const Container = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+  `;
+
+  const Side = styled.div`
+    display: flex;
   `;
 
   return (
     <StyledFooter>
-      <ButtonGender />
-      <ButtonRole />
-      <StyledSeparator />
-      <ButtonTheme />
-      <ButtonZoom increment />
-      <ButtonZoom increment={false} />
+      <Container>
+        <Side>
+          <ButtonGender />
+          <ButtonRole />
+        </Side>
+        <Side>
+          <ButtonTheme />
+          <ButtonZoom increment />
+          <ButtonZoom increment={false} />
+        </Side>
+      </Container>
     </StyledFooter>
   );
 }

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryLead, setCategoryBV1, setCategoryBV2 } from '../store';
-import StyledButton from './shared/StyledButton';
+import FooterButton from './shared/FooterButton';
 
 function ButtonCategory() {
   const category = useSelector((state) => state.category);
   const dispatch = useDispatch();
 
-  const StyledButtonCategory = styled(StyledButton)`
+  const CategoryButton = styled(FooterButton)`
     font-size: 16px;
     color: white;
     background-color: #2a2a2a;
@@ -28,9 +28,9 @@ function ButtonCategory() {
   };
 
   return (
-    <StyledButtonCategory type="button" onClick={handleClick}>
+    <CategoryButton type="button" onClick={handleClick}>
       {category}
-    </StyledButtonCategory>
+    </CategoryButton>
   );
 }
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import StyledButton from './shared/StyledButton';
+import FooterButton from './shared/FooterButton';
 import { incrementFontSize, decrementFontSize } from '../store';
 import zoomInImgSrc from '../assets/zoom-in.svg';
 import zoomOutImgSrc from '../assets/zoom-out.svg';
@@ -9,10 +9,11 @@ import zoomOutImgSrc from '../assets/zoom-out.svg';
 function ButtonZoom({ increment }) {
   const dispatch = useDispatch();
 
-  const Button = styled(StyledButton)`
+  const Button = styled(FooterButton)`
     font-size: 16px;
     color: white;
     background-color: #2a2a2a;
+    padding: 10px;
   `;
 
   const Img = styled.img`

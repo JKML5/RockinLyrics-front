@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleGender } from '../store';
 import maleImgSrc from '../assets/male.svg';
 import femaleImgSrc from '../assets/female.svg';
-import StyledButton from './shared/StyledButton';
+import FooterButton from './shared/FooterButton';
 
 function ButtonGender() {
   const dispatch = useDispatch();
   const selectedGender = useSelector((state) => state.gender);
 
-  const StyledButtonGender = styled(StyledButton)`
+  const GenderButton = styled(FooterButton)`
     background-color: ${selectedGender === 'M' ? '#3b5998' : '#dd4b39'};
   `;
 
@@ -24,9 +24,9 @@ function ButtonGender() {
   const imgSrc = selectedGender === 'M' ? maleImgSrc : femaleImgSrc;
 
   return (
-    <StyledButtonGender type="button" onClick={handleClick}>
+    <GenderButton type="button" onClick={handleClick}>
       <StyledImg src={imgSrc} alt={selectedGender} />
-    </StyledButtonGender>
+    </GenderButton>
   );
 }
 

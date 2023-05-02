@@ -7,17 +7,19 @@ function Header() {
   const theme = useSelector((state) => state.theme);
 
   const StyledHeader = styled.header`
+    background-color: ${theme === 'light' ? 'none' : '#000000;'};
     height: 80px;
-    background-color: #ffffff;
+    padding: 15px 0 5px 0;
+    margin-bottom: 30px;
     text-align: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #000000;
-    filter: ${theme === 'dark' ? 'invert(1)' : 'none'};
+    border-bottom: ${theme === 'dark' ? 'none' : '1px solid #000000;'};
+    box-shadow: ${theme === 'dark' ? '0 0 10px 10px #000000' : 'none'};
   `;
 
   const LogoImg = styled.img`
     width: auto;
     height: 100%;
+    filter: ${theme === 'dark' ? 'invert(1)' : 'none'};
   `;
 
   return (

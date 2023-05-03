@@ -1,15 +1,13 @@
-/**
- * Player video
- */
+import styled from 'styled-components';
+
 export default function showVideoPlayer(googleId) {
+  const Video = styled.video`
+    width: 100%;
+  `;
+
   return (
-    <video
-      className="player__video"
-      controls
-      autoPlay
-      src={`https://drive.google.com/uc?id=${googleId}`}
-    >
+    <Video controls autoPlay src={`https://drive.google.com/uc?id=${googleId}`}>
       Your browser does not support the video element.
-    </video>
+    </Video>
   );
 }

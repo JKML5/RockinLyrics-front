@@ -1,20 +1,24 @@
 import React from 'react';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import imageSrc from '../assets/drive.png';
+import TutoLink from './shared/TutoLink';
 
 function ButtonDrive({ googleId }) {
+  const theme = useSelector((state) => state.theme);
+
+  const Image = styled.img`
+    height: 18px;
+    filter: ${() => (theme === 'light' ? 'none' : 'invert(1);')};
+  `;
+
   return (
-    <Link
+    <TutoLink
       to={`https://drive.google.com/file/d/${googleId}/view?usp=sharing`}
-      className="btn btn-download-tutorial"
     >
-      <img
-        src={imageSrc}
-        alt="Drive"
-        className="tutorial__heading__icon tutorial__heading__icon--download"
-      />
-    </Link>
+      <Image src={imageSrc} alt="Drive" />
+    </TutoLink>
   );
 }
 

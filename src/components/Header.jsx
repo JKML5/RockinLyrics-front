@@ -12,11 +12,11 @@ function Header() {
   const StyledHeader = styled.header`
     background-color: ${theme === 'light' ? 'none' : '#000000;'};
     height: 80px;
-    padding: 15px 0 5px 0;
-    margin-bottom: 30px;
+    padding: 10px 0;
+    margin-bottom: 20px;
     text-align: center;
     border-bottom: ${theme === 'dark' ? 'none' : '1px solid #000000;'};
-    box-shadow: ${theme === 'dark' ? '0 0 10px 10px #000000' : 'none'};
+    box-shadow: ${theme === 'dark' ? '0 0 5px 5px #000000' : 'none'};
   `;
 
   const LogoImg = styled.img`

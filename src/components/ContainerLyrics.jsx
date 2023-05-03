@@ -1,31 +1,14 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { addLyrics } from '../store';
 
-function ContainerLyrics({ songId, tutorialId }) {
-  const dispatch = useDispatch();
-
-  const [lyrics, setLyrics] = useState('');
-
+function ContainerLyrics({ tutorialId }) {
   const theme = useSelector((state) => state.theme);
+  const lyricsList = useSelector((state) => state.lyricsList);
+  const lyrics = lyricsList[tutorialId];
   const fontSize = useSelector((state) => state.fontSize);
 
-  useEffect(() => {
-    fetch(`./lyrics/${songId}/${tutorialId}.html`).then((response) =>
-      response
-        .text()
-        .then((loadedData) => {
-          setLyrics(loadedData);
-          dispatch(addLyrics(tutorialId, loadedData));
-        })
-        .catch((error) => console.log(error))
-    );
-  }, [dispatch, tutorialId]);
-
   const StyledContainerLyrics = styled.div`
-    background-color: white;
     padding: 10px 0;
     font-size: ${() => `${fontSize}px`};
 
@@ -50,7 +33,6 @@ function ContainerLyrics({ songId, tutorialId }) {
 }
 
 ContainerLyrics.propTypes = {
-  songId: PropTypes.number.isRequired,
   tutorialId: PropTypes.string.isRequired,
 };
 

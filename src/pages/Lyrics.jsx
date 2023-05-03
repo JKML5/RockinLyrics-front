@@ -15,7 +15,7 @@ function Lyrics() {
   const [currentLineIndex, setCurrentLineIndex] = useState(1);
 
   const Container = styled.div`
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: ${() => `${fontSize}px`};
 
     text-align: center;
@@ -47,6 +47,11 @@ function Lyrics() {
     height: 40px;
     margin: 0 10px;
     padding: 10px;
+    color: #000000;
+
+    &:disabled {
+      color: #000000;
+    }
   `;
 
   function handleNextLine() {
@@ -56,7 +61,7 @@ function Lyrics() {
   }
 
   function handlePreviousLine() {
-    if (currentLineIndex > 0) {
+    if (currentLineIndex > 1) {
       setCurrentLineIndex(currentLineIndex - 1);
     }
   }
@@ -77,14 +82,19 @@ function Lyrics() {
     };
   }, [currentLineIndex]);
 
-  const isFirstLine = currentLineIndex === 0;
+  const isFirstLine = currentLineIndex === 1;
   const isLastLine = currentLineIndex === songLyricsLines.length - 1;
+
+  let line = songLyricsLines[currentLineIndex];
+  if (isFirstLine) {
+    line = 'Début';
+  } else if (isLastLine) {
+    line = 'Fin';
+  }
 
   return (
     <Container>
-      <Line
-        dangerouslySetInnerHTML={{ __html: songLyricsLines[currentLineIndex] }}
-      />
+      <Line dangerouslySetInnerHTML={{ __html: line }} />
       <div>
         <Button
           type="button"

@@ -15,32 +15,20 @@ function ButtonTheme() {
 
   const StyledImg = styled.img`
     filter: invert(1);
+    width: 50px;
   `;
 
   const handleClick = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
-    document.body.classList = newTheme;
     dispatch(toggleTheme(newTheme));
   };
 
   return (
-    <ThemeButton
-      type="button"
-      className="footer__button footer__button--theme selected"
-      onClick={handleClick}
-    >
+    <ThemeButton type="button" onClick={handleClick}>
       {theme === 'light' ? (
-        <StyledImg
-          src={lightImgSrc}
-          alt="Light"
-          className="footer__button__img"
-        />
+        <StyledImg src={lightImgSrc} alt="Light" />
       ) : (
-        <StyledImg
-          src={darkImgSrc}
-          alt="Dark"
-          className="footer__button__img"
-        />
+        <StyledImg src={darkImgSrc} alt="Dark" />
       )}
     </ThemeButton>
   );

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
@@ -12,6 +13,21 @@ import ButtonTest from './ButtonTest';
 function Tutorial({ data, songId }) {
   const gender = useSelector((state) => state.gender);
   const category = useSelector((state) => state.category);
+  const theme = useSelector((state) => state.theme);
+
+  const StyledTutorial = styled.div`
+    font-size: 16px;
+    border-top: 1px solid ${() => (theme === 'light' ? '#eeeeee' : '#111111')};
+    padding: 10px 0;
+  `;
+
+  const TutorialHeading = styled.div`
+    color: ${() => (theme === 'light' ? '#333333' : '#cccccc')};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+  `;
 
   const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
   const [showVideoPlayerFlag, setShowVideoPlayerFlag] = useState(false);
@@ -50,26 +66,32 @@ function Tutorial({ data, songId }) {
     );
   }
 
-  const hideClass =
-    (data.gender && data.gender !== gender) ||
-    (data.category && !data.category.includes(category))
-      ? 'hide'
-      : '';
+  let show = true;
+
+  if (data.gender) {
+    show = data.gender === gender;
+  }
+
+  if (show && data.category) {
+    show = data.category.includes(category);
+  }
 
   return (
-    <div className={`tutorial ${hideClass}`} id={data.id}>
-      <div className="tutorial__heading">
-        {data.title}
-        <div className="tutorial__heading_buttons">{buttonsToShow}</div>
-      </div>
+    show && (
+      <StyledTutorial>
+        <TutorialHeading>
+          {data.title}
+          <div>{buttonsToShow}</div>
+        </TutorialHeading>
 
-      {showAudioPlayerFlag && showAudioPlayer(data.id)}
-      {showVideoPlayerFlag && showVideoPlayer(data.id)}
+        {showAudioPlayerFlag && showAudioPlayer(data.id)}
+        {showVideoPlayerFlag && showVideoPlayer(data.id)}
 
-      {data.type === 'lyrics' && (
-        <ContainerLyrics songId={songId} tutorialId={data.id} />
-      )}
-    </div>
+        {data.type === 'lyrics' && (
+          <ContainerLyrics songId={songId} tutorialId={data.id} />
+        )}
+      </StyledTutorial>
+    )
   );
 }
 

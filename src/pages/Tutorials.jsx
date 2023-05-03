@@ -1,10 +1,18 @@
-import styled from 'styled-components';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import songs from '../data/songs';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import songs from '../data/songs-riv2';
 import Tutorial from '../components/Tutorial';
 
 function Tutorials() {
   const theme = useSelector((state) => state.theme);
+
+  const [activeAccordionIndex, setActiveAccordionIndex] = useState(null);
+
+  const toggleAccordion = (index) => {
+    setActiveAccordionIndex(activeAccordionIndex === index ? null : index);
+  };
 
   const Section = styled.section`
     background-color: ${theme === 'light' ? '#ffffff' : '#000000'};
@@ -17,7 +25,7 @@ function Tutorials() {
     }
   `;
 
-  const Li = styled.li`
+  const Item = styled.div`
     border-top: ${theme === 'light'
       ? '1px solid #dddddd'
       : '1px solid #222222'};
@@ -36,30 +44,43 @@ function Tutorials() {
     font-size: 20px;
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 700;
-    color: ${theme === 'light' ? '#344960' : '#cccccc'};
+    color: ${theme === 'light' ? '#505050' : '#cccccc'};
     cursor: pointer;
     text-decoration: none;
     display: block;
   `;
 
+  const AccordionContent = styled.div`
+    max-height: ${(props) => (props.open ? '100%' : '0')};
+    overflow: hidden;
+  `;
+
   return (
     <Section>
       <ul>
-        {songs.map((song) => (
-          <Li key={song.id}>
-            <SongTitle href={`#song_${song.id}`}>
+        {songs.map((song, index) => (
+          <Item key={song.id}>
+            <SongTitle onClick={() => toggleAccordion(index)}>
               {song.title} - {song.artist}
             </SongTitle>
-            <div className="song__content" id={`song_${song.id}`}>
+            <AccordionContent open={activeAccordionIndex === index}>
               {song.tutorials.map((tutorial) => (
                 <Tutorial key={tutorial.id} data={tutorial} songId={song.id} />
               ))}
-            </div>
-          </Li>
+            </AccordionContent>
+          </Item>
         ))}
       </ul>
     </Section>
   );
 }
+
+Tutorials.defaultProps = {
+  open: false,
+};
+
+Tutorials.propTypes = {
+  open: PropTypes.bool,
+};
 
 export default Tutorials;

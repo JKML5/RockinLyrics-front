@@ -14,6 +14,8 @@ function ButtonGender() {
   `;
 
   const StyledImg = styled.img`
+    width: 100%;
+    height: auto;
     filter: invert(1);
   `;
 

@@ -8,7 +8,7 @@ import ButtonZoom from './ButtonZoom';
 function Footer() {
   const StyledFooter = styled.footer`
     width: 100%;
-    background-color: black;
+    background-color: #000000;
     padding: 10px;
     position: fixed;
     bottom: 0;

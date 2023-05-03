@@ -32,8 +32,12 @@ body {
 
 .dark {
   background-color: #000000;
-  background-image: linear-gradient(to right, #181818, #000000, #181818);
+}
 
+@media screen and (min-width: 984px) { /* 1024 - padding 40 */
+  .dark {
+    background-image: linear-gradient(to right, #181818, #000000, #181818);
+  }
 }
 
 .light {
@@ -86,14 +90,6 @@ strong {
 
 
 
-.footer {
-  font-size: 16px;
-  background-color: #000000;
-  width: 100%;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-}
 
 .footer__content {
   display: flex;

@@ -7,6 +7,7 @@ import ButtonDrive from './ButtonDrive';
 import ContainerLyrics from './ContainerLyrics';
 import showAudioPlayer from '../hooks/showAudioPlayer';
 import showVideoPlayer from '../hooks/showVideoPlayer';
+import ButtonTest from './ButtonTest';
 
 function Tutorial({ data, songId }) {
   const gender = useSelector((state) => state.gender);
@@ -44,6 +45,7 @@ function Tutorial({ data, songId }) {
       <>
         <ButtonLyrics />
         <ButtonDrive googleId={data.id} />
+        <ButtonTest id={data.id} />
       </>
     );
   }

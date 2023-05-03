@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const FooterButton = styled.button`
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border: none;
   border-radius: 10px;
   display: flex;

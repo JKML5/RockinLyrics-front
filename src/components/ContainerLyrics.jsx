@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { addLyrics } from '../store';
 
 function ContainerLyrics({ songId, tutorialId }) {
+  const dispatch = useDispatch();
+
   const [lyrics, setLyrics] = useState('');
 
   const theme = useSelector((state) => state.theme);
@@ -13,10 +16,13 @@ function ContainerLyrics({ songId, tutorialId }) {
     fetch(`./lyrics/${songId}/${tutorialId}.html`).then((response) =>
       response
         .text()
-        .then((loadedData) => setLyrics(loadedData))
+        .then((loadedData) => {
+          setLyrics(loadedData);
+          dispatch(addLyrics(tutorialId, loadedData));
+        })
         .catch((error) => console.log(error))
     );
-  }, []);
+  }, [dispatch, tutorialId]);
 
   const StyledContainerLyrics = styled.div`
     background-color: white;

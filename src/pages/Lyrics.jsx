@@ -3,6 +3,46 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+const Container = styled.div`
+  font-family: 'Roboto', sans-serif;
+  font-size: ${({ fontSize }) => `${fontSize}px`};
+
+  text-align: center;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .info {
+    display: none;
+  }
+
+  .disabled {
+    color: ${({ theme }) => (theme === 'light' ? '#DDDDDD' : '#333333')};
+  }
+
+  strong {
+    font-weight: 400;
+  }
+`;
+
+const Line = styled.p`
+  text-align: center;
+  margin-bottom: 50px;
+  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#EEEEEE')};
+`;
+
+const Button = styled.button`
+  height: 40px;
+  margin: 0 10px;
+  padding: 10px;
+  color: #000000;
+
+  &:disabled {
+    color: #000000;
+  }
+`;
+
 function Lyrics() {
   const { id } = useParams();
   const theme = useSelector((state) => state.theme);
@@ -13,46 +53,6 @@ function Lyrics() {
   const songLyricsLines = songLyrics.split('\n');
 
   const [currentLineIndex, setCurrentLineIndex] = useState(1);
-
-  const Container = styled.div`
-    font-family: 'Roboto', sans-serif;
-    font-size: ${() => `${fontSize}px`};
-
-    text-align: center;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .info {
-      display: none;
-    }
-
-    .disabled {
-      color: ${() => (theme === 'light' ? '#DDDDDD' : '#333333')};
-    }
-
-    strong {
-      font-weight: 400;
-    }
-  `;
-
-  const Line = styled.p`
-    text-align: center;
-    margin-bottom: 50px;
-    color: ${() => (theme === 'light' ? '#000000' : '#EEEEEE')};
-  `;
-
-  const Button = styled.button`
-    height: 40px;
-    margin: 0 10px;
-    padding: 10px;
-    color: #000000;
-
-    &:disabled {
-      color: #000000;
-    }
-  `;
 
   function handleNextLine() {
     if (currentLineIndex < songLyricsLines.length - 1) {
@@ -93,8 +93,8 @@ function Lyrics() {
   }
 
   return (
-    <Container>
-      <Line dangerouslySetInnerHTML={{ __html: line }} />
+    <Container theme={theme} fontSize={fontSize}>
+      <Line theme={theme} dangerouslySetInnerHTML={{ __html: line }} />
       <div>
         <Button
           type="button"

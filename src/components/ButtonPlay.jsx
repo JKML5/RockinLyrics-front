@@ -5,19 +5,19 @@ import { useSelector } from 'react-redux';
 import playImgSrc from '../assets/play.svg';
 import TutoLink from './shared/TutoLink';
 
+const Image = styled.img`
+  height: 17px;
+  width: auto;
+  margin-right: 5px;
+  filter: ${({ theme }) => (theme === 'light' ? 'none' : 'invert(1);')};
+`;
+
 function ButtonPlay({ onClick }) {
   const theme = useSelector((state) => state.theme);
 
-  const Image = styled.img`
-    height: 17px;
-    width: auto;
-    margin-right: 5px;
-    filter: ${() => (theme === 'light' ? 'none' : 'invert(1);')};
-  `;
-
   return (
     <TutoLink type="button" onClick={onClick}>
-      <Image src={playImgSrc} alt="Jouer" />
+      <Image theme={theme} src={playImgSrc} alt="Jouer" />
     </TutoLink>
   );
 }

@@ -5,28 +5,28 @@ import ButtonRole from './ButtonCategory';
 import ButtonTheme from './ButtonTheme';
 import ButtonZoom from './ButtonZoom';
 
+const StyledFooter = styled.footer`
+  width: 100%;
+  background-color: #000000;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const Side = styled.div`
+  display: flex;
+`;
+
 function Footer() {
-  const StyledFooter = styled.footer`
-    width: 100%;
-    background-color: #000000;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-  `;
-
-  const Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1024px;
-    margin-left: auto;
-    margin-right: auto;
-  `;
-
-  const Side = styled.div`
-    display: flex;
-  `;
-
   return (
     <StyledFooter>
       <Container>

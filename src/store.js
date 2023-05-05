@@ -20,16 +20,8 @@ export function toggleGender() {
   return { type: 'toggleGender' };
 }
 
-export function setCategoryLead() {
-  return { type: 'setCategoryLead' };
-}
-
-export function setCategoryBV1() {
-  return { type: 'setCategoryBV1' };
-}
-
-export function setCategoryBV2() {
-  return { type: 'setCategoryBV2' };
+export function switchCategory() {
+  return { type: 'switchCategory' };
 }
 
 export function toggleTheme(theme) {
@@ -56,12 +48,16 @@ const reducer = (state = initialState, action = null) => {
       };
     case 'toggleGender':
       return { ...state, gender: state.gender === 'M' ? 'F' : 'M' };
-    case 'setCategoryLead':
-      return { ...state, category: 'LEAD' };
-    case 'setCategoryBV1':
-      return { ...state, category: 'BV1' };
-    case 'setCategoryBV2':
-      return { ...state, category: 'BV2' };
+    case 'switchCategory':
+      switch (state.category) {
+        case 'BV1':
+          return { ...state, category: 'BV2' };
+        case 'BV2':
+          return { ...state, category: 'LEAD' };
+        case 'LEAD':
+        default:
+          return { ...state, category: 'BV1' };
+      }
     case 'toggleTheme':
       return {
         ...state,

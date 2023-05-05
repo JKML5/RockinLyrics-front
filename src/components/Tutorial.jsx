@@ -10,24 +10,25 @@ import showAudioPlayer from '../hooks/showAudioPlayer';
 import showVideoPlayer from '../hooks/showVideoPlayer';
 import ButtonTest from './ButtonTest';
 
+const StyledTutorial = styled.div`
+  font-size: 16px;
+  border-top: 1px solid
+    ${({ theme }) => (theme === 'light' ? '#eeeeee' : '#111111')};
+  padding: 10px 0;
+`;
+
+const TutorialHeading = styled.div`
+  color: ${({ theme }) => (theme === 'light' ? '#333333' : '#cccccc')};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+`;
+
 function Tutorial({ data, songId }) {
   const gender = useSelector((state) => state.gender);
   const category = useSelector((state) => state.category);
   const theme = useSelector((state) => state.theme);
-
-  const StyledTutorial = styled.div`
-    font-size: 16px;
-    border-top: 1px solid ${() => (theme === 'light' ? '#eeeeee' : '#111111')};
-    padding: 10px 0;
-  `;
-
-  const TutorialHeading = styled.div`
-    color: ${() => (theme === 'light' ? '#333333' : '#cccccc')};
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
-  `;
 
   const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
   const [showVideoPlayerFlag, setShowVideoPlayerFlag] = useState(false);
@@ -78,8 +79,8 @@ function Tutorial({ data, songId }) {
 
   return (
     show && (
-      <StyledTutorial>
-        <TutorialHeading>
+      <StyledTutorial theme={theme}>
+        <TutorialHeading theme={theme}>
           {data.title}
           <div>{buttonsToShow}</div>
         </TutorialHeading>

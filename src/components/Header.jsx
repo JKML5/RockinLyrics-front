@@ -5,40 +5,58 @@ import logoAll from '../assets/logo-rockin1000.png';
 import logoRivLight from '../assets/logo-riv-light.png';
 import logoRivDark from '../assets/logo-riv-dark.png';
 
+const StyledHeader = styled.header`
+  background-color: ${({ theme }) => (theme === 'light' ? 'none' : '#000000;')};
+
+  height: 80px;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: ${({ theme }) =>
+    theme === 'dark' ? 'none' : '1px solid #000000;'};
+  box-shadow: ${({ theme }) =>
+    theme === 'dark' ? '0 0 5px 5px #000000' : 'none'};
+`;
+
+const LogoImg = styled.img`
+  width: auto;
+  height: 100%;
+  filter: ${({ theme, name }) =>
+    theme === 'dark' && name === 'all' ? 'invert(1)' : 'none'};
+`;
+
 function Header() {
   const theme = useSelector((state) => state.theme);
   const name = useSelector((state) => state.name);
-
-  const StyledHeader = styled.header`
-    background-color: ${theme === 'light' ? 'none' : '#000000;'};
-    height: 80px;
-    padding: 10px 0;
-    margin-bottom: 20px;
-    text-align: center;
-    border-bottom: ${theme === 'dark' ? 'none' : '1px solid #000000;'};
-    box-shadow: ${theme === 'dark' ? '0 0 5px 5px #000000' : 'none'};
-  `;
-
-  const LogoImg = styled.img`
-    width: auto;
-    height: 100%;
-    filter: ${theme === 'dark' && name === 'all' ? 'invert(1)' : 'none'};
-  `;
 
   let logoImg;
 
   if (name === 'riv') {
     if (theme === 'light') {
-      logoImg = <LogoImg src={logoRivLight} alt="Logo Rock'in Villages" />;
+      logoImg = (
+        <LogoImg
+          theme={theme}
+          name={name}
+          src={logoRivLight}
+          alt="Logo Rock'in Villages"
+        />
+      );
     } else {
-      logoImg = <LogoImg src={logoRivDark} alt="Logo Rock'in Villages" />;
+      logoImg = (
+        <LogoImg
+          theme={theme}
+          name={name}
+          src={logoRivDark}
+          alt="Logo Rock'in Villages"
+        />
+      );
     }
   } else {
-    logoImg = <LogoImg src={logoAll} alt="Logo Rockin'1000" />;
+    logoImg = <LogoImg theme={theme} src={logoAll} alt="Logo Rockin'1000" />;
   }
 
   return (
-    <StyledHeader>
+    <StyledHeader theme={theme}>
       <Link to="/">{logoImg}</Link>
     </StyledHeader>
   );

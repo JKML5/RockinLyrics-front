@@ -14,6 +14,8 @@ const Button = styled(FooterButton)`
 `;
 
 const Image = styled.img`
+  width: 100%;
+  height: auto;
   filter: invert(1);
 `;
 

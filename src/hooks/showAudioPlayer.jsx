@@ -22,7 +22,6 @@ export default function showAudioPlayer(googleId) {
           'settings',
         ],
         settings: ['speed'],
-        autoplay: true,
         speed: { selected: 1, options: [0.5, 0.75, 1] },
       }}
     />

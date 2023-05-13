@@ -43,7 +43,7 @@ const Button = styled.button`
   }
 `;
 
-function Lyrics() {
+function QuizLyrics() {
   const { id } = useParams();
   const theme = useSelector((state) => state.theme);
   const fontSize = useSelector((state) => state.fontSize);
@@ -88,8 +88,6 @@ function Lyrics() {
   let line = songLyricsLines[currentLineIndex];
   if (isFirstLine) {
     line = 'Début';
-  } else if (isLastLine) {
-    line = 'Fin';
   }
 
   return (
@@ -115,4 +113,4 @@ function Lyrics() {
   );
 }
 
-export default Lyrics;
+export default QuizLyrics;

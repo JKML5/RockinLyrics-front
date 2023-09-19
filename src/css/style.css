@@ -445,4 +445,9 @@ strong {
   display: block;
   height: 30px;
 }
-/*# sourceMappingURL=main.css.map */
+
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer
+}

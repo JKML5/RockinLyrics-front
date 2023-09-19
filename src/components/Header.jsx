@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import logoAll from '../assets/logo-rockin1000.png';
 import logoRivLight from '../assets/logo-riv-light.png';
 import logoRivDark from '../assets/logo-riv-dark.png';
+import logoFestirock from '../assets/logo-festirock.svg';
 
 const StyledHeader = styled.header`
   background-color: ${({ theme }) => (theme === 'light' ? 'none' : '#000000;')};
@@ -51,6 +52,10 @@ function Header() {
         />
       );
     }
+  } else if (name === 'festirock') {
+    logoImg = (
+      <LogoImg theme={theme} src={logoFestirock} alt="Logo Festirock" />
+    );
   } else {
     logoImg = <LogoImg theme={theme} src={logoAll} alt="Logo Rockin'1000" />;
   }

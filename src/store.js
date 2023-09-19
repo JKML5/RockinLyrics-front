@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
   lyricsList: {},
-  name: 'riv', // riv, all
+  name: 'festirock', // riv, festirock, all
   gender: 'F',
   category: 'LEAD',
   theme: 'light',

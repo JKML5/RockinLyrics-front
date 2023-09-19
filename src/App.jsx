@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import QuizLyrics from './pages/QuizLyrics';
 import Tutorials from './pages/Tutorials';
 import Error from './pages/Error';
-import songs from './data/songs-riv2';
+import songs from './data/songs-festirock2';
 import { addLyrics } from './store';
 import './css/reset.css';
 

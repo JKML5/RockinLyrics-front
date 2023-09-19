@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import songs from '../data/songs-riv2';
+import songs from '../data/songs-festirock2';
 import Tutorial from '../components/Tutorial';
 
 const Section = styled.section`

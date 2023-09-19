@@ -25,10 +25,16 @@ const TutorialHeading = styled.div`
   padding: 0 25px;
 `;
 
+const StyledMessage = styled.div`
+  font-size: ${({ fontSize }) => `${fontSize}px`};
+  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#FFFFFF')};
+`;
+
 function Tutorial({ data, songId }) {
   const gender = useSelector((state) => state.gender);
   const category = useSelector((state) => state.category);
   const theme = useSelector((state) => state.theme);
+  const fontSize = useSelector((state) => state.fontSize);
 
   const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
   const [showVideoPlayerFlag, setShowVideoPlayerFlag] = useState(false);
@@ -91,6 +97,12 @@ function Tutorial({ data, songId }) {
         {data.type === 'lyrics' && (
           <ContainerLyrics songId={songId} tutorialId={data.id} />
         )}
+
+        {data.type === 'message' && (
+          <StyledMessage theme={theme} fontSize={fontSize}>
+            {data.message}
+          </StyledMessage>
+        )}
       </StyledTutorial>
     )
   );
@@ -104,6 +116,7 @@ Tutorial.propTypes = {
     gender: PropTypes.string,
     category: PropTypes.arrayOf(PropTypes.string),
     lyrics: PropTypes.string,
+    message: PropTypes.string,
   }).isRequired,
   songId: PropTypes.number.isRequired,
 };

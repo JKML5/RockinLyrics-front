@@ -5,7 +5,9 @@ import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import QuizLyrics from './pages/QuizLyrics';
+import SongForm from './pages/SongForm';
 import Tutorials from './pages/Tutorials';
+import Test from './pages/Test';
 import Error from './pages/Error';
 import songs from './data/songs-festirock2';
 import { addLyrics } from './store';
@@ -51,7 +53,7 @@ function App() {
               .then((lyrics) => {
                 dispatch(addLyrics(tutorial.id, lyrics));
               })
-              .catch((error) => console.error(error))
+              .catch((error) => console.error(error)),
           );
         }
       });
@@ -66,6 +68,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Tutorials />} />
           <Route path="/lyrics/:id" element={<QuizLyrics />} />
+          <Route path="/song/add" element={<SongForm />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/*" element={<Error />} />
         </Routes>
       </main>

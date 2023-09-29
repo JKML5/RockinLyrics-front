@@ -10,7 +10,7 @@ import Tutorials from './pages/Tutorials';
 import Test from './pages/Test';
 import Error from './pages/Error';
 import songs from './data/songs-festirock2';
-import { addLyrics } from './store';
+import { addLyrics, addTitlesMongoDB } from './store';
 import './css/reset.css';
 
 const GlobalStyle = createGlobalStyle`
@@ -58,6 +58,14 @@ function App() {
         }
       });
     });
+
+    // Chargement des titres depuis MongoDB
+    fetch(`http://localhost:3000/api/songs`)
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(addTitlesMongoDB(data));
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (

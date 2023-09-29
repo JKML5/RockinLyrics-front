@@ -53,9 +53,20 @@ function Tutorials() {
     setActiveAccordionIndex(activeAccordionIndex === index ? null : index);
   };
 
+  // Titres récupérées depuis MongoDB
+  const titlesFromMongoDB = useSelector((state) => state.titles);
+
   return (
     <Section theme={theme}>
       <ul>
+        {titlesFromMongoDB.map((song, index) => (
+          <Item theme={theme} key={song._id}>
+            <SongTitle theme={theme} onClick={() => toggleAccordion(index)}>
+              {song.title} - {song.artist}
+            </SongTitle>
+          </Item>
+        ))}
+
         {songs.map((song, index) => (
           <Item theme={theme} key={song.id}>
             <SongTitle theme={theme} onClick={() => toggleAccordion(index)}>

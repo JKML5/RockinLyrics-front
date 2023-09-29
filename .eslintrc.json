@@ -34,6 +34,7 @@
             "required": {
                 "some": ["nesting", "id"]
             }
-        }]
+        }],
+        "no-underscore-dangle": ["error", { "allow": ["_id"] }]
     }
 }

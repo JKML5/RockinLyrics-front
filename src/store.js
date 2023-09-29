@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
   lyricsList: {},
+  titles: [],
   name: 'festirock', // riv, festirock, all
   gender: 'F',
   category: 'LEAD',
@@ -14,6 +15,11 @@ export const addLyrics = (id, lyrics) => ({
   type: 'addLyrics',
   id,
   lyrics,
+});
+
+export const addTitlesMongoDB = (data) => ({
+  type: 'addTitlesMongoDB',
+  payload: data, // Utilisez "payload" pour transmettre les données
 });
 
 export function toggleGender() {
@@ -45,6 +51,15 @@ const reducer = (state = initialState, action = null) => {
           ...state.lyricsList,
           [action.id]: action.lyrics,
         },
+      };
+    case 'addTitlesMongoDB':
+      return {
+        ...state,
+        titles: action.payload.map((item) => ({
+          id: item._id,
+          title: item.title,
+          artist: item.artist,
+        })),
       };
     case 'toggleGender':
       return { ...state, gender: state.gender === 'M' ? 'F' : 'M' };

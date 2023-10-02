@@ -1,80 +1,9 @@
 const songs = [
   {
-    id: 32,
-    title: 'Nos mains',
-    artist: 'Jean-Jacques Goldman',
-    tutorials: [
-      {
-        id: '1iIp2MVnhcRFOqCCKrDj3LDQVKMswlGTE',
-        title: 'Chanson originale',
-        type: 'audio',
-      },
-      {
-        id: '1uTEFkd-KaiHvS7xu1mgoxKKfDPgxD3k2',
-        title: 'Click Track - Full',
-        type: 'audio',
-      },
-      {
-        id: '17YZGRsSGWW_qCI5A4i7UxcEhY2JRJpDk',
-        title: 'Paroles (provisoire)',
-        type: 'lyrics',
-      },
-    ],
-  }, // 32 - Nos mains - Jean-Jacques Goldman
-  {
-    id: 34,
-    title: "I Was Made For Lovin' You",
-    artist: 'Kiss',
-    tutorials: [
-      {
-        id: '1C3h6s7egZb4QZIhL0wzEd9hG5L00tshF',
-        title: 'Chanson originale',
-        type: 'audio',
-      },
-      {
-        id: '1xdeQ61e5DAi7rlBq_dPyGEzXUdTPh-NO',
-        title: 'Click Track - Full',
-        type: 'audio',
-      },
-      {
-        id: '1IYN7uWM_vnE9XVhp3KXl-uHluyHBbu6V',
-        title: 'Paroles (provisoire)',
-        type: 'lyrics',
-      },
-    ],
-  }, // 34 - I Was Made For Loving You - Kiss
-  {
-    id: 19,
-    title: 'Un autre Monde',
-    artist: 'Téléphone',
-    tutorials: [
-      {
-        id: '12BizcH-zWaPe-SJ_roD2F3dyCm9bl05X',
-        title: 'Chanson originale',
-        type: 'audio',
-      },
-      {
-        id: '1i5If0-bPpc4C7l87gjJ4aBQgK2iNJBAi',
-        title: 'Click Track - VOX',
-        type: 'audio',
-      },
-      {
-        id: '1VB-omxIbUkVTi6FsMgSWal41pR8iqvCz',
-        title: 'Paroles ALL',
-        type: 'lyrics',
-      },
-    ],
-  }, // 19 - Un autre Monde - Téléphone
-  {
     id: 28,
     title: 'Gold on the Ceiling',
     artist: 'The Black Keys',
     tutorials: [
-      {
-        id: '1CoqMQaJHW6S43lj8fZBzy_SQ271IOqGc',
-        title: 'Chanson originale',
-        type: 'audio',
-      },
       {
         id: '1Xl_GCU3AEr1L4CpUz7aHbzjGGyF-fCyR',
         title: 'Click Track - VOX',

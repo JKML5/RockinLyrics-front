@@ -19,7 +19,7 @@ export const addLyrics = (id, lyrics) => ({
 
 export const addTitlesMongoDB = (data) => ({
   type: 'addTitlesMongoDB',
-  payload: data, // Utilisez "payload" pour transmettre les données
+  payload: data,
 });
 
 export function toggleGender() {
@@ -59,6 +59,7 @@ const reducer = (state = initialState, action = null) => {
           id: item._id,
           title: item.title,
           artist: item.artist,
+          tutorials: item.tutorials,
         })),
       };
     case 'toggleGender':

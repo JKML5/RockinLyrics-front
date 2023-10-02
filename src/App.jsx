@@ -5,9 +5,9 @@ import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import QuizLyrics from './pages/QuizLyrics';
-import SongForm from './pages/SongForm';
+import FormTutorial from './pages/admin/FormTutorial';
 import Tutorials from './pages/Tutorials';
-import Test from './pages/Test';
+import Song from './pages/admin/Song';
 import Error from './pages/Error';
 import songs from './data/songs-festirock2';
 import { addLyrics, addTitlesMongoDB } from './store';
@@ -76,8 +76,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Tutorials />} />
           <Route path="/lyrics/:id" element={<QuizLyrics />} />
-          <Route path="/song/add" element={<SongForm />} />
-          <Route path="/test" element={<Test />} />
+          <Route path="/admin/song" element={<Song />} />
+          <Route path="/admin/song/:id/add" element={<FormTutorial />} />
           <Route path="/*" element={<Error />} />
         </Routes>
       </main>

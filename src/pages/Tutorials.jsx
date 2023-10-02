@@ -59,11 +59,22 @@ function Tutorials() {
   return (
     <Section theme={theme}>
       <ul>
-        {titlesFromMongoDB.map((song, index) => (
-          <Item theme={theme} key={song._id}>
-            <SongTitle theme={theme} onClick={() => toggleAccordion(index)}>
+        {titlesFromMongoDB.map((song) => (
+          <Item theme={theme} key={song.id}>
+            <SongTitle theme={theme} onClick={() => toggleAccordion(song.id)}>
               {song.title} - {song.artist}
             </SongTitle>
+            {Array.isArray(song.tutorials) && song.tutorials.length > 0 && (
+              <AccordionContent open={activeAccordionIndex === song.id}>
+                {song.tutorials.map((tutorial) => (
+                  <Tutorial
+                    key={tutorial.googleId}
+                    data={tutorial}
+                    songId={song.id}
+                  />
+                ))}
+              </AccordionContent>
+            )}
           </Item>
         ))}
 

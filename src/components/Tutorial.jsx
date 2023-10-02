@@ -31,6 +31,7 @@ const StyledMessage = styled.div`
 `;
 
 function Tutorial({ data, songId }) {
+  const id = data.googleId || data.id;
   const gender = useSelector((state) => state.gender);
   const category = useSelector((state) => state.category);
   const theme = useSelector((state) => state.theme);
@@ -52,23 +53,23 @@ function Tutorial({ data, songId }) {
   if (data.type === 'audio') {
     buttonsToShow = (
       <>
-        <ButtonPlay googleId={data.id} onClick={handleClickAudioPlayer} />
-        <ButtonDrive googleId={data.id} />
+        <ButtonPlay googleId={id} onClick={handleClickAudioPlayer} />
+        <ButtonDrive googleId={id} />
       </>
     );
   } else if (data.type === 'video') {
     buttonsToShow = (
       <>
-        <ButtonPlay googleId={data.id} onClick={handleClickVideoPlayer} />
-        <ButtonDrive googleId={data.id} />
+        <ButtonPlay googleId={id} onClick={handleClickVideoPlayer} />
+        <ButtonDrive googleId={id} />
       </>
     );
   } else if (data.type === 'lyrics') {
     buttonsToShow = (
       <>
         <ButtonLyrics />
-        <ButtonDrive googleId={data.id} />
-        <ButtonTest id={data.id} />
+        <ButtonDrive googleId={id} />
+        <ButtonTest id={id} />
       </>
     );
   }
@@ -91,11 +92,11 @@ function Tutorial({ data, songId }) {
           <div>{buttonsToShow}</div>
         </TutorialHeading>
 
-        {showAudioPlayerFlag && showAudioPlayer(data.id)}
-        {showVideoPlayerFlag && showVideoPlayer(data.id)}
+        {showAudioPlayerFlag && showAudioPlayer(id)}
+        {showVideoPlayerFlag && showVideoPlayer(id)}
 
         {data.type === 'lyrics' && (
-          <ContainerLyrics songId={songId} tutorialId={data.id} />
+          <ContainerLyrics tutorialId={id} lyrics={data.lyrics} />
         )}
 
         {data.type === 'message' && (
@@ -110,7 +111,8 @@ function Tutorial({ data, songId }) {
 
 Tutorial.propTypes = {
   data: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    googleId: PropTypes.string,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     gender: PropTypes.string,
@@ -118,7 +120,7 @@ Tutorial.propTypes = {
     lyrics: PropTypes.string,
     message: PropTypes.string,
   }).isRequired,
-  songId: PropTypes.number.isRequired,
+  songId: PropTypes.string.isRequired,
 };
 
 export default Tutorial;

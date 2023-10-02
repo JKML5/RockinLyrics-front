@@ -20,10 +20,8 @@ const StyledContainerLyrics = styled.div`
   }
 `;
 
-function ContainerLyrics({ tutorialId }) {
+function ContainerLyrics({ lyrics }) {
   const theme = useSelector((state) => state.theme);
-  const lyricsList = useSelector((state) => state.lyricsList);
-  const lyrics = lyricsList[tutorialId];
   const fontSize = useSelector((state) => state.fontSize);
 
   return (
@@ -38,7 +36,7 @@ function ContainerLyrics({ tutorialId }) {
 }
 
 ContainerLyrics.propTypes = {
-  tutorialId: PropTypes.string.isRequired,
+  lyrics: PropTypes.string.isRequired,
 };
 
 export default ContainerLyrics;

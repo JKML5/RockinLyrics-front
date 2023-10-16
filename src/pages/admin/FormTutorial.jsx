@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import FormButton from '../../components/shared/FormButton';
 
@@ -43,6 +44,21 @@ const StyledTextarea = styled.textarea`
   height: 100px;
 `;
 
+const StyledCheckboxGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledCheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const StyledCheckbox = styled.input`
+  margin-right: 5px;
+`;
+
 const StyledValidationMessage = styled.p`
   background-color: #b4eab4;
   color: black;
@@ -52,27 +68,36 @@ const StyledValidationMessage = styled.p`
 `;
 
 function FormTutorial() {
-  const [songsBackend, setSongsBackend] = useState();
+  const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('');
   const [googleId, setGoogleId] = useState('');
   const [type, setType] = useState('audio');
   const [lyrics, setLyrics] = useState('');
   const [formError, setFormError] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [gender, setGender] = useState('');
 
-  const { id } = useParams();
+  const { songId, tutorialId } = useParams();
+
+  // Récupération des infos sur le tuto
+  const songs = useSelector((state) => state.songs);
+  const song = songs.find((data) => data.id.toString() === songId);
+  const tutorial = song?.tutorials.find(
+    (data) => data._id.toString() === tutorialId,
+  );
 
   useEffect(() => {
-    console.log(id);
-
-    // Chargement des paroles de chansons
-    fetch(`http://localhost:3000/api/songs/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSongsBackend(data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+    if (tutorial && !isEditing) {
+      setIsEditing(true);
+      setTitle(tutorial.title);
+      setGoogleId(tutorial.googleId);
+      setType(tutorial.type);
+      setLyrics(tutorial.lyrics);
+      setCategories(tutorial.categories || []);
+      setGender(tutorial.gender || '');
+    }
+  }, [tutorial, isEditing]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -82,10 +107,21 @@ function FormTutorial() {
       title,
       googleId,
       lyrics,
+      categories,
     };
 
-    fetch(`http://localhost:3000/api/songs/${id}`, {
-      method: 'POST',
+    if (gender !== '') {
+      requestData.gender = gender;
+    }
+
+    const url = isEditing
+      ? `http://localhost:3000/api/song/${songId}/${tutorialId}`
+      : `http://localhost:3000/api/song/${songId}`;
+
+    const method = isEditing ? 'PUT' : 'POST';
+
+    fetch(url, {
+      method,
       body: JSON.stringify(requestData),
       headers: {
         'Content-Type': 'application/json',
@@ -101,9 +137,12 @@ function FormTutorial() {
       })
       .then((data) => {
         if (data.status === 201) {
-          setValidationMessage('Tutoriel ajouté avec succes');
+          // Message de validation et réinitialisation des champs
+          setValidationMessage('Tutoriel ajouté/modifié avec succès');
           setTitle('');
           setGoogleId('');
+          setLyrics('');
+          setCategories([]);
         } else {
           throw new Error('Problème avec le formulaire');
         }
@@ -116,7 +155,7 @@ function FormTutorial() {
 
   return (
     <div>
-      {!songsBackend ? (
+      {!song ? (
         <p>Chargement en cours...</p>
       ) : (
         <StyledContainer>
@@ -126,7 +165,7 @@ function FormTutorial() {
             </StyledValidationMessage>
           )}
 
-          <StyledTitle>Ajouter un tuto pour : {songsBackend.title}</StyledTitle>
+          <StyledTitle>Ajouter un tuto pour : {song.title}</StyledTitle>
           <form onSubmit={handleSubmit}>
             <StyledGroup>
               <StyledLabel htmlFor="type">Type</StyledLabel>
@@ -172,7 +211,76 @@ function FormTutorial() {
               </StyledGroup>
             )}
 
-            {formError !== '' && <p className="error">{formError}</p>}
+            <StyledGroup>
+              <StyledLabel>Catégories</StyledLabel>
+              <StyledCheckboxGroup>
+                <StyledCheckboxLabel>
+                  <StyledCheckbox
+                    type="checkbox"
+                    value="LEAD"
+                    checked={categories.includes('LEAD')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setCategories([...categories, 'LEAD']);
+                      } else {
+                        setCategories(
+                          categories.filter((cat) => cat !== 'LEAD'),
+                        );
+                      }
+                    }}
+                  />
+                  LEAD
+                </StyledCheckboxLabel>
+                <StyledCheckboxLabel>
+                  <StyledCheckbox
+                    type="checkbox"
+                    value="BV1"
+                    checked={categories.includes('BV1')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setCategories([...categories, 'BV1']);
+                      } else {
+                        setCategories(
+                          categories.filter((cat) => cat !== 'BV1'),
+                        );
+                      }
+                    }}
+                  />
+                  BV1
+                </StyledCheckboxLabel>
+                <StyledCheckboxLabel>
+                  <StyledCheckbox
+                    type="checkbox"
+                    value="BV2"
+                    checked={categories.includes('BV2')}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setCategories([...categories, 'BV2']);
+                      } else {
+                        setCategories(
+                          categories.filter((cat) => cat !== 'BV2'),
+                        );
+                      }
+                    }}
+                  />
+                  BV2
+                </StyledCheckboxLabel>
+              </StyledCheckboxGroup>
+            </StyledGroup>
+
+            <StyledGroup>
+              <StyledLabel>Genre</StyledLabel>
+              <StyledSelect
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option value="" />
+                <option value="M">Masculin</option>
+                <option value="F">Féminin</option>
+              </StyledSelect>
+            </StyledGroup>
+
+            {formError === '' && <p className="error">{formError}</p>}
             <StyledGroup className="alignright">
               <FormButton type="submit">Ajouter</FormButton>
             </StyledGroup>

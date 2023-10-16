@@ -84,6 +84,15 @@ function Tutorial({ data, songId }) {
     show = data.category.includes(category);
   }
 
+  // TODO JK supprimer category
+  if (show && data.categories) {
+    if (data.categories.length === 0) {
+      show = true;
+    } else {
+      show = data.categories.includes(category);
+    }
+  }
+
   return (
     show && (
       <StyledTutorial theme={theme}>

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
   lyricsList: {},
-  titles: [],
+  songs: [], // from MongoDB
   name: 'festirock', // riv, festirock, all
   gender: 'F',
   category: 'LEAD',
@@ -17,8 +17,8 @@ export const addLyrics = (id, lyrics) => ({
   lyrics,
 });
 
-export const addTitlesMongoDB = (data) => ({
-  type: 'addTitlesMongoDB',
+export const addSongsMongoDB = (data) => ({
+  type: 'addSongsMongoDB',
   payload: data,
 });
 
@@ -52,10 +52,10 @@ const reducer = (state = initialState, action = null) => {
           [action.id]: action.lyrics,
         },
       };
-    case 'addTitlesMongoDB':
+    case 'addSongsMongoDB':
       return {
         ...state,
-        titles: action.payload.map((item) => ({
+        songs: action.payload.map((item) => ({
           id: item._id,
           title: item.title,
           artist: item.artist,

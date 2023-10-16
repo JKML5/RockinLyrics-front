@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Tutorial from '../../components/Tutorial';
 import FormButton from '../../components/shared/FormButton';
 
 const Section = styled.section`
@@ -17,33 +16,13 @@ const Section = styled.section`
   }
 `;
 
-const Item = styled.div`
-  border-top: ${({ theme }) =>
-    theme === 'light' ? '1px solid #dddddd' : '1px solid #222222'};
-
-  &:first-child {
-    border-top: none;
-  }
-`;
-
 const SongTitle = styled.a`
-  width: 100%;
-  padding: 15px 0;
-  border: none;
-  outline: none;
-  text-align: left;
+  padding: 15px 0 0 0;
   font-size: 20px;
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 700;
   color: ${({ theme }) => (theme === 'light' ? '#505050' : '#cccccc')};
-  cursor: pointer;
-  text-decoration: none;
   display: block;
-`;
-
-const AccordionContent = styled.div`
-  max-height: ${(props) => (props.open ? '100%' : '0')};
-  overflow: hidden;
 `;
 
 /* Form */
@@ -86,20 +65,15 @@ function Song() {
   const theme = useSelector((state) => state.theme);
 
   const [songsBackend, setSongsBackend] = useState([]);
-  const [activeAccordionIndex, setActiveAccordionIndex] = useState(null);
 
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const toggleAccordion = (index) => {
-    setActiveAccordionIndex(activeAccordionIndex === index ? null : index);
-  };
-
   useEffect(() => {
     // Récupération des titres existants
-    fetch(`http://localhost:3000/api/songs`)
+    fetch(`http://localhost:3000/api/song`)
       .then((response) => response.json())
       .then((data) => {
         setSongsBackend(data);
@@ -116,7 +90,7 @@ function Song() {
       artist,
     };
 
-    fetch('http://localhost:3000/api/songs', {
+    fetch('http://localhost:3000/api/song', {
       method: 'POST',
       body: JSON.stringify(requestData),
       headers: {
@@ -157,26 +131,29 @@ function Song() {
       <Section theme={theme}>
         <ul>
           {songsBackend.map((song) => (
-            <Item theme={theme} key={song._id}>
-              <SongTitle
-                theme={theme}
-                onClick={() => toggleAccordion(song._id)}
-              >
-                {song.title} - {song.artist}
+            <li key={song._id}>
+              <SongTitle theme={theme}>
+                {song._id} - {song.title} - {song.artist}
               </SongTitle>
+
               {Array.isArray(song.tutorials) && song.tutorials.length > 0 && (
-                <AccordionContent open={activeAccordionIndex === song._id}>
+                <div>
                   {song.tutorials.map((tutorial) => (
-                    <Tutorial
-                      key={tutorial.googleId}
-                      data={tutorial}
-                      songId={song._id}
-                    />
+                    <p>
+                      {tutorial._id} - {tutorial.title} -{' '}
+                      <Link to={`/admin/song/${song._id}/${tutorial._id}/edit`}>
+                        Editer
+                      </Link>
+                      -{' '}
+                      <Link to={`/admin/song/${song._id}/${tutorial._id}/edit`}>
+                        Supprimer
+                      </Link>
+                    </p>
                   ))}
-                </AccordionContent>
+                </div>
               )}
               <Link to={`/admin/song/${song._id}/add`}>Ajouter un tuto</Link>
-            </Item>
+            </li>
           ))}
         </ul>
       </Section>

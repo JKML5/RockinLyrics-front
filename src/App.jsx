@@ -9,8 +9,7 @@ import FormTutorial from './pages/admin/FormTutorial';
 import Tutorials from './pages/Tutorials';
 import Song from './pages/admin/Song';
 import Error from './pages/Error';
-import songs from './data/songs-festirock2';
-import { addLyrics, addTitlesMongoDB } from './store';
+import { addSongsMongoDB } from './store';
 import './css/reset.css';
 
 const GlobalStyle = createGlobalStyle`
@@ -42,28 +41,12 @@ function App() {
 
   const theme = useSelector((state) => state.theme);
 
-  // Chargement des paroles de chansons
   useEffect(() => {
-    songs.forEach((song) => {
-      song.tutorials.forEach((tutorial) => {
-        if (tutorial.type === 'lyrics') {
-          fetch(`./lyrics/${song.id}/${tutorial.id}.html`).then((response) =>
-            response
-              .text()
-              .then((lyrics) => {
-                dispatch(addLyrics(tutorial.id, lyrics));
-              })
-              .catch((error) => console.error(error)),
-          );
-        }
-      });
-    });
-
     // Chargement des titres depuis MongoDB
-    fetch(`http://localhost:3000/api/songs`)
+    fetch(`http://localhost:3000/api/song`)
       .then((response) => response.json())
       .then((data) => {
-        dispatch(addTitlesMongoDB(data));
+        dispatch(addSongsMongoDB(data));
       })
       .catch((error) => console.error(error));
   }, []);
@@ -77,7 +60,11 @@ function App() {
           <Route path="/" element={<Tutorials />} />
           <Route path="/lyrics/:id" element={<QuizLyrics />} />
           <Route path="/admin/song" element={<Song />} />
-          <Route path="/admin/song/:id/add" element={<FormTutorial />} />
+          <Route path="/admin/song/:songId/add" element={<FormTutorial />} />
+          <Route
+            path="/admin/song/:songId/:tutorialId/edit"
+            element={<FormTutorial />}
+          />
           <Route path="/*" element={<Error />} />
         </Routes>
       </main>

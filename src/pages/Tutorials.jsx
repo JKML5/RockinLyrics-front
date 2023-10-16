@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import songs from '../data/songs-festirock2';
 import Tutorial from '../components/Tutorial';
 
 const Section = styled.section`
@@ -54,42 +53,30 @@ function Tutorials() {
   };
 
   // Titres récupérées depuis MongoDB
-  const titlesFromMongoDB = useSelector((state) => state.titles);
+  const titlesFromMongoDB = useSelector((state) => state.songs);
 
   return (
     <Section theme={theme}>
       <ul>
-        {titlesFromMongoDB.map((song) => (
-          <Item theme={theme} key={song.id}>
-            <SongTitle theme={theme} onClick={() => toggleAccordion(song.id)}>
-              {song.title} - {song.artist}
-            </SongTitle>
-            {Array.isArray(song.tutorials) && song.tutorials.length > 0 && (
-              <AccordionContent open={activeAccordionIndex === song.id}>
-                {song.tutorials.map((tutorial) => (
-                  <Tutorial
-                    key={tutorial.googleId}
-                    data={tutorial}
-                    songId={song.id}
-                  />
-                ))}
-              </AccordionContent>
-            )}
-          </Item>
-        ))}
-
-        {songs.map((song, index) => (
-          <Item theme={theme} key={song.id}>
-            <SongTitle theme={theme} onClick={() => toggleAccordion(index)}>
-              {song.title} - {song.artist}
-            </SongTitle>
-            <AccordionContent open={activeAccordionIndex === index}>
-              {song.tutorials.map((tutorial) => (
-                <Tutorial key={tutorial.id} data={tutorial} songId={song.id} />
-              ))}
-            </AccordionContent>
-          </Item>
-        ))}
+        {titlesFromMongoDB &&
+          titlesFromMongoDB.map((song) => (
+            <Item theme={theme} key={song.id}>
+              <SongTitle theme={theme} onClick={() => toggleAccordion(song.id)}>
+                {song.title} - {song.artist}
+              </SongTitle>
+              {Array.isArray(song.tutorials) && song.tutorials.length > 0 && (
+                <AccordionContent open={activeAccordionIndex === song.id}>
+                  {song.tutorials.map((tutorial) => (
+                    <Tutorial
+                      key={tutorial.googleId}
+                      data={tutorial}
+                      songId={song.id}
+                    />
+                  ))}
+                </AccordionContent>
+              )}
+            </Item>
+          ))}
       </ul>
     </Section>
   );

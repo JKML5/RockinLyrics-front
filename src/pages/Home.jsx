@@ -44,7 +44,7 @@ const AccordionContent = styled.div`
   overflow: hidden;
 `;
 
-function Tutorials() {
+function Home() {
   const theme = useSelector((state) => state.theme);
   const [activeAccordionIndex, setActiveAccordionIndex] = useState(null);
 
@@ -82,4 +82,4 @@ function Tutorials() {
   );
 }
 
-export default Tutorials;
+export default Home;

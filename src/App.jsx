@@ -6,7 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import QuizLyrics from './pages/QuizLyrics';
 import FormTutorial from './pages/admin/FormTutorial';
-import Tutorials from './pages/Tutorials';
+import Home from './pages/Home';
 import Song from './pages/admin/Song';
 import Error from './pages/Error';
 import { addSongsMongoDB } from './store';
@@ -57,7 +57,7 @@ function App() {
       <Header />
       <main>
         <Routes>
-          <Route path="/" element={<Tutorials />} />
+          <Route path="/" element={<Home />} />
           <Route path="/lyrics/:id" element={<QuizLyrics />} />
           <Route path="/admin/song" element={<Song />} />
           <Route path="/admin/song/:songId/add" element={<FormTutorial />} />

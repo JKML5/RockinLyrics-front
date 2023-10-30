@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Tutorial from '../components/Tutorial';
+import AudioPlayer from '../components/AudioPlayer';
 
 const Section = styled.section`
   background-color: ${({ theme }) =>
@@ -56,29 +57,37 @@ function Home() {
   const titlesFromMongoDB = useSelector((state) => state.songs);
 
   return (
-    <Section theme={theme}>
-      <ul>
-        {titlesFromMongoDB &&
-          titlesFromMongoDB.map((song) => (
-            <Item theme={theme} key={song.id}>
-              <SongTitle theme={theme} onClick={() => toggleAccordion(song.id)}>
-                {song.title} - {song.artist}
-              </SongTitle>
-              {Array.isArray(song.tutorials) && song.tutorials.length > 0 && (
-                <AccordionContent open={activeAccordionIndex === song.id}>
-                  {song.tutorials.map((tutorial) => (
-                    <Tutorial
-                      key={tutorial.googleId}
-                      data={tutorial}
-                      songId={song.id}
-                    />
-                  ))}
-                </AccordionContent>
-              )}
-            </Item>
-          ))}
-      </ul>
-    </Section>
+    <>
+      <Section theme={theme}>
+        <ul>
+          {titlesFromMongoDB &&
+            titlesFromMongoDB.map((song) => (
+              <Item theme={theme} key={song.id}>
+                <SongTitle
+                  theme={theme}
+                  onClick={() => toggleAccordion(song.id)}
+                >
+                  {song.title} - {song.artist}
+                </SongTitle>
+                {Array.isArray(song.tutorials) && song.tutorials.length > 0 && (
+                  <AccordionContent open={activeAccordionIndex === song.id}>
+                    {song.tutorials.map((tutorial) => (
+                      <Tutorial
+                        key={tutorial.googleId}
+                        data={tutorial}
+                        songId={song.id}
+                      />
+                    ))}
+                  </AccordionContent>
+                )}
+              </Item>
+            ))}
+        </ul>
+      </Section>
+      <Section>
+        <AudioPlayer />
+      </Section>
+    </>
   );
 }
 

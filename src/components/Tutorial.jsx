@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
 import ContainerLyrics from './ContainerLyrics';
-import showAudioPlayer from '../hooks/showAudioPlayer';
-import showVideoPlayer from '../hooks/showVideoPlayer';
 import ButtonTest from './ButtonTest';
+import { launchAudio } from '../store';
 
 const StyledTutorial = styled.div`
   font-size: 16px;
@@ -30,37 +28,26 @@ const StyledMessage = styled.div`
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#FFFFFF')};
 `;
 
-function Tutorial({ data, songId }) {
-  const id = data.googleId || data.id;
+// -------------------------------------------------------------------------
+function Tutorial({ data }) {
+  const dispatch = useDispatch();
+
+  const id = data.googleId;
   const gender = useSelector((state) => state.gender);
   const category = useSelector((state) => state.category);
   const theme = useSelector((state) => state.theme);
   const fontSize = useSelector((state) => state.fontSize);
 
-  const [showAudioPlayerFlag, setShowAudioPlayerFlag] = useState(false);
-  const [showVideoPlayerFlag, setShowVideoPlayerFlag] = useState(false);
-
-  const handleClickAudioPlayer = () => {
-    setShowAudioPlayerFlag(!showAudioPlayerFlag);
-  };
-
-  const handleClickVideoPlayer = () => {
-    setShowVideoPlayerFlag(!showVideoPlayerFlag);
+  const handleClickAudioPlayer = (googleId) => {
+    dispatch(launchAudio(googleId));
   };
 
   let buttonsToShow = null;
 
-  if (data.type === 'audio') {
+  if (data.type === 'audio' || data.type === 'audio') {
     buttonsToShow = (
       <>
-        <ButtonPlay googleId={id} onClick={handleClickAudioPlayer} />
-        <ButtonDrive googleId={id} />
-      </>
-    );
-  } else if (data.type === 'video') {
-    buttonsToShow = (
-      <>
-        <ButtonPlay googleId={id} onClick={handleClickVideoPlayer} />
+        <ButtonPlay googleId={id} onClick={() => handleClickAudioPlayer(id)} />
         <ButtonDrive googleId={id} />
       </>
     );
@@ -101,9 +88,6 @@ function Tutorial({ data, songId }) {
           <div>{buttonsToShow}</div>
         </TutorialHeading>
 
-        {showAudioPlayerFlag && showAudioPlayer(id)}
-        {showVideoPlayerFlag && showVideoPlayer(id)}
-
         {data.type === 'lyrics' && (
           <ContainerLyrics tutorialId={id} lyrics={data.lyrics} />
         )}
@@ -129,7 +113,6 @@ Tutorial.propTypes = {
     lyrics: PropTypes.string,
     message: PropTypes.string,
   }).isRequired,
-  songId: PropTypes.string.isRequired,
 };
 
 export default Tutorial;

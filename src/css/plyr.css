@@ -1,0 +1,7 @@
+:root {
+	--plyr-control-icon-size: 26px;
+	--plyr-audio-controls-background: #000000;
+	--plyr-audio-control-color: #bbbbbb;
+	--plyr-audio-control-color-hover: #ffffff;
+	--plyr-audio-control-background-hover: none;
+}

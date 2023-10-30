@@ -8,6 +8,8 @@ const initialState = {
   category: 'LEAD',
   theme: 'light',
   fontSize: 18,
+  playerGoogleId: '',
+  playerVisible: false,
 };
 
 // actions creators
@@ -40,6 +42,20 @@ export function incrementFontSize() {
 
 export function decrementFontSize() {
   return { type: 'decrementFontSize' };
+}
+
+export function launchAudio(googleId) {
+  console.log(`launch audio : ${googleId}`);
+
+  return { type: 'launchAudio', googleId };
+}
+
+export function showPlayer() {
+  return { type: 'showPlayer' };
+}
+
+export function hidePlayer() {
+  return { type: 'hidePlayer' };
 }
 
 const reducer = (state = initialState, action = null) => {
@@ -89,6 +105,12 @@ const reducer = (state = initialState, action = null) => {
         ...state,
         fontSize: state.fontSize - 1,
       };
+    case 'showPlayer':
+      return { ...state, playerVisible: true };
+    case 'hidePlayer':
+      return { ...state, playerVisible: false };
+    case 'launchAudio':
+      return { ...state, playerGoogleId: action.googleId, playerVisible: true };
     default:
       return state;
   }

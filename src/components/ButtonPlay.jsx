@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import playImgSrc from '../assets/play.svg';
 import TutoLink from './shared/TutoLink';
+import { launchAudio } from '../store';
 
 const Image = styled.img`
   height: 17px;
@@ -12,18 +13,24 @@ const Image = styled.img`
   filter: ${({ theme }) => (theme === 'light' ? 'none' : 'invert(1);')};
 `;
 
-function ButtonPlay({ onClick }) {
+function ButtonPlay({ googleId }) {
+  const dispatch = useDispatch();
+
   const theme = useSelector((state) => state.theme);
 
+  const handleClickAudioPlayer = () => {
+    dispatch(launchAudio(googleId));
+  };
+
   return (
-    <TutoLink type="button" onClick={onClick}>
+    <TutoLink type="button" onClick={() => handleClickAudioPlayer()}>
       <Image theme={theme} src={playImgSrc} alt="Jouer" />
     </TutoLink>
   );
 }
 
 ButtonPlay.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  googleId: PropTypes.string.isRequired,
 };
 
 export default ButtonPlay;

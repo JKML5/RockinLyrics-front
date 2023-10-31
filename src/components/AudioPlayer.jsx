@@ -9,13 +9,12 @@ const StyledAudioPlayer = styled.div`
   background-color: #000000;
   padding: 10px;
   position: fixed;
-  bottom: 80px;
+  bottom: 0;
   left: 0;
 `;
 
 function AudioPlayer() {
-  const playerVisible = useSelector((state) => state.playerVisible);
-  const googleId = useSelector((state) => state.playerGoogleId);
+  const { googleId, isVisible } = useSelector((state) => state.audioPlayer);
 
   const plyrOptions = {
     preload: 'none',
@@ -33,7 +32,7 @@ function AudioPlayer() {
   };
 
   return (
-    playerVisible && (
+    isVisible && (
       <StyledAudioPlayer>
         <Plyr
           source={{

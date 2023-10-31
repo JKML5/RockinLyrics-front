@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
 import ContainerLyrics from './ContainerLyrics';
 import ButtonTest from './ButtonTest';
-import { launchAudio } from '../store';
 
 const StyledTutorial = styled.div`
   font-size: 16px;
@@ -23,79 +22,48 @@ const TutorialHeading = styled.div`
   padding: 0 25px;
 `;
 
-const StyledMessage = styled.div`
-  font-size: ${({ fontSize }) => `${fontSize}px`};
-  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#FFFFFF')};
-`;
-
-// -------------------------------------------------------------------------
 function Tutorial({ data }) {
-  const dispatch = useDispatch();
+  const { categories, gender, googleId, lyrics, title, type } = data;
 
-  const id = data.googleId;
-  const gender = useSelector((state) => state.gender);
-  const category = useSelector((state) => state.category);
   const theme = useSelector((state) => state.theme);
-  const fontSize = useSelector((state) => state.fontSize);
-
-  const handleClickAudioPlayer = (googleId) => {
-    dispatch(launchAudio(googleId));
-  };
+  const selectedGender = useSelector((state) => state.gender);
+  const selectedCategory = useSelector((state) => state.category);
 
   let buttonsToShow = null;
 
-  if (data.type === 'audio' || data.type === 'audio') {
+  if (type === 'audio' || type === 'video') {
     buttonsToShow = (
       <>
-        <ButtonPlay googleId={id} onClick={() => handleClickAudioPlayer(id)} />
-        <ButtonDrive googleId={id} />
+        <ButtonPlay googleId={googleId} />
+        <ButtonDrive googleId={googleId} />
       </>
     );
-  } else if (data.type === 'lyrics') {
+  } else if (type === 'lyrics') {
     buttonsToShow = (
       <>
         <ButtonLyrics />
-        <ButtonDrive googleId={id} />
-        <ButtonTest id={id} />
+        <ButtonDrive googleId={googleId} />
+        <ButtonTest id={googleId} />
       </>
     );
   }
 
-  let show = true;
-
-  if (data.gender) {
-    show = data.gender === gender;
-  }
-
-  if (show && data.category) {
-    show = data.category.includes(category);
-  }
-
-  // TODO JK supprimer category
-  if (show && data.categories) {
-    if (data.categories.length === 0) {
-      show = true;
-    } else {
-      show = data.categories.includes(category);
-    }
-  }
+  const isVisible =
+    (!gender || gender === selectedGender) &&
+    (!categories ||
+      categories.length === 0 ||
+      categories.includes(selectedCategory));
 
   return (
-    show && (
+    isVisible && (
       <StyledTutorial theme={theme}>
         <TutorialHeading theme={theme}>
-          {data.title}
+          {title}
           <div>{buttonsToShow}</div>
         </TutorialHeading>
 
-        {data.type === 'lyrics' && (
-          <ContainerLyrics tutorialId={id} lyrics={data.lyrics} />
-        )}
-
-        {data.type === 'message' && (
-          <StyledMessage theme={theme} fontSize={fontSize}>
-            {data.message}
-          </StyledMessage>
+        {type === 'lyrics' && (
+          <ContainerLyrics tutorialId={googleId} lyrics={lyrics} />
         )}
       </StyledTutorial>
     )
@@ -104,12 +72,11 @@ function Tutorial({ data }) {
 
 Tutorial.propTypes = {
   data: PropTypes.shape({
-    id: PropTypes.string,
     googleId: PropTypes.string,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     gender: PropTypes.string,
-    category: PropTypes.arrayOf(PropTypes.string),
+    categories: PropTypes.arrayOf(PropTypes.string),
     lyrics: PropTypes.string,
     message: PropTypes.string,
   }).isRequired,

@@ -10,7 +10,7 @@ const StyledFooter = styled.footer`
   background-color: #000000;
   padding: 10px;
   position: fixed;
-  bottom: 0;
+  bottom: 80px;
 `;
 
 const Container = styled.div`

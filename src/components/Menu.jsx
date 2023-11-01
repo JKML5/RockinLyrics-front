@@ -5,12 +5,9 @@ import ButtonRole from './ButtonCategory';
 import ButtonTheme from './ButtonTheme';
 import ButtonZoom from './ButtonZoom';
 
-const StyledFooter = styled.footer`
-  width: 100%;
+const StyledMenu = styled.div`
   background-color: #000000;
-  padding: 10px;
-  position: fixed;
-  bottom: 80px;
+  padding: 8px;
 `;
 
 const Container = styled.div`
@@ -26,9 +23,9 @@ const Side = styled.div`
   display: flex;
 `;
 
-function Footer() {
+function Menu() {
   return (
-    <StyledFooter>
+    <StyledMenu>
       <Container>
         <Side>
           <ButtonGender />
@@ -40,8 +37,8 @@ function Footer() {
           <ButtonZoom increment={false} />
         </Side>
       </Container>
-    </StyledFooter>
+    </StyledMenu>
   );
 }
 
-export default Footer;
+export default Menu;

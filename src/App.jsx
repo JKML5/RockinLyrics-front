@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, styled } from 'styled-components';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import QuizLyrics from './pages/QuizLyrics';
 import FormTutorial from './pages/admin/FormTutorial';
 import Home from './pages/Home';
@@ -36,6 +35,10 @@ body {
 }
 `;
 
+const StyledMain = styled.main`
+  padding-top: 150px;
+`;
+
 function App() {
   const dispatch = useDispatch();
 
@@ -55,7 +58,7 @@ function App() {
     <>
       <GlobalStyle theme={theme} />
       <Header />
-      <main>
+      <StyledMain>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/lyrics/:id" element={<QuizLyrics />} />
@@ -67,8 +70,7 @@ function App() {
           />
           <Route path="/*" element={<Error />} />
         </Routes>
-      </main>
-      <Footer />
+      </StyledMain>
     </>
   );
 }

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-const FooterButton = styled.button`
-  width: 50px;
-  height: 50px;
+const MenuButton = styled.button`
+  width: 40px;
+  height: 40px;
   border: none;
   border-radius: 10px;
   display: flex;
@@ -19,4 +19,4 @@ const FooterButton = styled.button`
   }
 `;
 
-export default FooterButton;
+export default MenuButton;

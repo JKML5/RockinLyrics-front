@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../store';
 import darkImgSrc from '../assets/dark.svg';
 import lightImgSrc from '../assets/light.svg';
-import FooterButton from './shared/FooterButton';
+import MenuButton from './shared/MenuButton';
 
-const Button = styled(FooterButton)`
+const Button = styled(MenuButton)`
   background-color: ${({ theme }) =>
     theme === 'light' ? '#F39F18' : '#0F056B'};
 `;

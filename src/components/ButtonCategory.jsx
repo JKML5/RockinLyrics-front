@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { switchCategory } from '../store';
-import FooterButton from './shared/FooterButton';
+import MenuButton from './shared/MenuButton';
 
-const CategoryButton = styled(FooterButton)`
+const CategoryButton = styled(MenuButton)`
   font-size: 16px;
   color: white;
   background-color: #2a2a2a;

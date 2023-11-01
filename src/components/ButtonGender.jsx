@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleGender } from '../store';
 import maleImgSrc from '../assets/male.svg';
 import femaleImgSrc from '../assets/female.svg';
-import FooterButton from './shared/FooterButton';
+import MenuButton from './shared/MenuButton';
 
-const Button = styled(FooterButton)`
+const Button = styled(MenuButton)`
   background-color: ${({ gender }) => (gender === 'M' ? '#3b5998' : '#dd4b39')};
 `;
 

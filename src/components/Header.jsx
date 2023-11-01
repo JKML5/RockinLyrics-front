@@ -1,16 +1,13 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import logoAll from '../assets/logo-rockin1000.png';
-import logoRivLight from '../assets/logo-riv-light.png';
-import logoRivDark from '../assets/logo-riv-dark.png';
-import logoFestirock from '../assets/logo-festirock.svg';
+import logo from '../assets/logo.png';
 
 const StyledHeader = styled.header`
   background-color: ${({ theme }) => (theme === 'light' ? 'none' : '#000000;')};
 
   height: 80px;
-  padding: 10px 0;
+  padding: 15px 0;
   margin-bottom: 20px;
   text-align: center;
   border-bottom: ${({ theme }) =>
@@ -20,6 +17,8 @@ const StyledHeader = styled.header`
 `;
 
 const LogoImg = styled.img`
+  margin-left: 50px;
+  margin-right: 50px;
   width: auto;
   height: 100%;
   filter: ${({ theme, name }) =>
@@ -28,41 +27,12 @@ const LogoImg = styled.img`
 
 function Header() {
   const theme = useSelector((state) => state.theme);
-  const name = useSelector((state) => state.name);
-
-  let logoImg;
-
-  if (name === 'riv') {
-    if (theme === 'light') {
-      logoImg = (
-        <LogoImg
-          theme={theme}
-          name={name}
-          src={logoRivLight}
-          alt="Logo Rock'in Villages"
-        />
-      );
-    } else {
-      logoImg = (
-        <LogoImg
-          theme={theme}
-          name={name}
-          src={logoRivDark}
-          alt="Logo Rock'in Villages"
-        />
-      );
-    }
-  } else if (name === 'festirock') {
-    logoImg = (
-      <LogoImg theme={theme} src={logoFestirock} alt="Logo Festirock" />
-    );
-  } else {
-    logoImg = <LogoImg theme={theme} src={logoAll} alt="Logo Rockin'1000" />;
-  }
 
   return (
     <StyledHeader theme={theme}>
-      <Link to="/">{logoImg}</Link>
+      <Link to="/">
+        <LogoImg theme={theme} src={logo} alt="Logo Rockin'Lyrics" />
+      </Link>
     </StyledHeader>
   );
 }

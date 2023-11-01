@@ -126,6 +126,64 @@ function Song() {
       });
   }
 
+  function handleMoveUp(songId, tutorialId) {
+    fetch(`http://localhost:3000/api/song/${songId}/move-up/${tutorialId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.message);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        // Mise à jour de l'état des chansons après avoir déplacé le tutoriel vers le bas.
+        fetch(`http://localhost:3000/api/song`)
+          .then((response) => response.json())
+          .then((data) => {
+            setSongsBackend(data);
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function handleMoveDown(songId, tutorialId) {
+    fetch(`http://localhost:3000/api/song/${songId}/move-down/${tutorialId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.message);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        // Mise à jour de l'état des chansons après avoir déplacé le tutoriel vers le bas.
+        fetch(`http://localhost:3000/api/song`)
+          .then((response) => response.json())
+          .then((data) => {
+            setSongsBackend(data);
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <>
       <Section theme={theme}>
@@ -147,7 +205,21 @@ function Song() {
                       -{' '}
                       <Link to={`/admin/song/${song._id}/${tutorial._id}/edit`}>
                         Supprimer
-                      </Link>
+                      </Link>{' '}
+                      -{' '}
+                      <button
+                        type="button"
+                        onClick={() => handleMoveDown(song._id, tutorial._id)}
+                      >
+                        Descendre
+                      </button>
+                      -{' '}
+                      <button
+                        type="button"
+                        onClick={() => handleMoveUp(song._id, tutorial._id)}
+                      >
+                        Monter
+                      </button>
                     </p>
                   ))}
                 </div>

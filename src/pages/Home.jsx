@@ -1,5 +1,9 @@
+// Home.jsx
+/* eslint-disable react/jsx-props-no-spreading */
+
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useEffect, useRef } from 'react';
 import AudioPlayer from '../components/AudioPlayer';
 import Song from '../components/Song';
 
@@ -14,10 +18,52 @@ const Section = styled.section`
     margin: 0 auto;
   }
 `;
-
 function Home() {
   const theme = useSelector((state) => state.theme);
   const songs = useSelector((state) => state.songs);
+  const { googleId } = useSelector((state) => state.audioPlayer);
+
+  const AudioPlayerRef = useRef();
+
+  const plyrProps = {
+    source: {
+      type: 'audio',
+      sources: [
+        {
+          src: `https://drive.google.com/uc?id=${googleId}`,
+        },
+      ],
+    },
+    options: {
+      controls: [
+        'play',
+        'progress',
+        'current-time',
+        'mute',
+        'volume',
+        'settings',
+      ],
+      settings: ['speed'],
+      speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5] },
+    },
+  };
+
+  useEffect(() => {
+    console.log('internal plyr instance:', AudioPlayerRef.current.plyr);
+
+    if (googleId === '') return;
+    if (AudioPlayerRef.current.plyr.source === null) return;
+
+    AudioPlayerRef.current.plyr?.play();
+  });
+
+  const handlePlayAudio = () => {
+    AudioPlayerRef.current.plyr?.play();
+  };
+
+  const handlePauseAudio = () => {
+    AudioPlayerRef.current.plyr?.pause();
+  };
 
   return (
     <>
@@ -28,12 +74,14 @@ function Home() {
               key={id}
               title={`${title} - ${artist}`}
               tutorials={tutorials}
+              onPlayAudio={handlePlayAudio}
+              onPauseAudio={handlePauseAudio}
             />
           ))}
       </Section>
 
       <Section>
-        <AudioPlayer />
+        <AudioPlayer {...plyrProps} ref={AudioPlayerRef} />
       </Section>
     </>
   );

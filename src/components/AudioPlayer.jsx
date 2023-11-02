@@ -1,7 +1,9 @@
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import Plyr from 'plyr-react';
+// @see https://github.com/chintan9/plyr-react
+
+import React, { forwardRef } from 'react';
+import { usePlyr } from 'plyr-react';
 import 'plyr-react/plyr.css';
+import styled from 'styled-components';
 import '../css/plyr.css';
 
 const StyledAudioPlayer = styled.div`
@@ -13,37 +15,29 @@ const StyledAudioPlayer = styled.div`
   left: 0;
 `;
 
-function AudioPlayer() {
-  const { googleId, isVisible } = useSelector((state) => state.audioPlayer);
+const AudioPlayer = forwardRef((props, ref) => {
+  // eslint-disable-next-line react/prop-types
+  const { source, options = null } = props;
+  const raptorRef = usePlyr(ref, { options, source });
 
-  const plyrOptions = {
-    preload: 'none',
-    autoplay: true,
-    controls: [
-      'play',
-      'progress',
-      'current-time',
-      'mute',
-      'volume',
-      'settings',
-    ],
-    settings: ['speed'],
-    speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5] },
-  };
+  React.useEffect(() => {
+    const { current } = ref;
+    if (current.plyr.source === null) return;
 
+    const api = current;
+    api.plyr.on('ready', () => console.log("I'm ready"));
+    api.plyr.on('canplay', () => {
+      api.plyr.play();
+    });
+    api.plyr.on('ended', () => console.log("I'm Ended"));
+  });
+
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return (
-    isVisible && (
-      <StyledAudioPlayer>
-        <Plyr
-          source={{
-            type: 'audio',
-            sources: [{ src: `https://drive.google.com/uc?id=${googleId}` }],
-          }}
-          options={plyrOptions}
-        />
-      </StyledAudioPlayer>
-    )
+    <StyledAudioPlayer>
+      <video ref={raptorRef} className="plyr-react plyr" />
+    </StyledAudioPlayer>
   );
-}
+});
 
 export default AudioPlayer;

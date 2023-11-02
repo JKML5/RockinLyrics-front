@@ -11,6 +11,7 @@ const initialState = {
   audioPlayer: {
     googleId: '',
     isVisible: false,
+    isPlaying: false,
   },
 };
 
@@ -46,8 +47,8 @@ export function decrementFontSize() {
   return { type: 'decrementFontSize' };
 }
 
-export function launchAudio(googleId) {
-  return { type: 'launchAudio', googleId };
+export function toggleAudioPlayer(googleId) {
+  return { type: 'toggleAudioPlayer', googleId };
 }
 
 export function showPlayer() {
@@ -105,14 +106,27 @@ const reducer = (state = initialState, action = null) => {
         ...state,
         fontSize: state.fontSize - 1,
       };
-    case 'launchAudio':
+    case 'toggleAudioPlayer':
+      if (state.audioPlayer.googleId === action.googleId) {
+        return {
+          ...state,
+          audioPlayer: {
+            ...state.audioPlayer,
+            isPlaying: !state.audioPlayer.isPlaying,
+            isVisible: true,
+          },
+        };
+      }
+
       return {
         ...state,
         audioPlayer: {
           googleId: action.googleId,
+          isPlaying: true,
           isVisible: true,
         },
       };
+
     default:
       return state;
   }

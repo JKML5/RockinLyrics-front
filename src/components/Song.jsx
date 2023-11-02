@@ -28,7 +28,7 @@ const SongTitle = styled.a`
   display: block;
 `;
 
-function Song({ title, tutorials }) {
+function Song({ title, tutorials, onPlayAudio, onPauseAudio }) {
   const theme = useSelector((state) => state.theme);
 
   const [isActive, setIsActive] = useState(false);
@@ -46,6 +46,8 @@ function Song({ title, tutorials }) {
             key={tutorial._id}
             data={tutorial}
             songId={tutorial.googleId}
+            onPlayAudio={onPlayAudio}
+            onPauseAudio={onPauseAudio}
           />
         ))}
     </SongWrapper>
@@ -56,8 +58,8 @@ Song.propTypes = {
   title: PropTypes.string.isRequired,
   tutorials: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      googleId: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      googleId: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       gender: PropTypes.string,
@@ -66,6 +68,8 @@ Song.propTypes = {
       message: PropTypes.string,
     }),
   ).isRequired,
+  onPlayAudio: PropTypes.func.isRequired,
+  onPauseAudio: PropTypes.func.isRequired,
 };
 
 export default Song;

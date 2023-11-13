@@ -22,7 +22,7 @@ const TutorialHeading = styled.div`
   padding: 0 25px;
 `;
 
-function Tutorial({ data, onPlayAudio, onPauseAudio }) {
+function Tutorial({ data, onPlayClick }) {
   const { categories, gender, googleId, lyrics, title, type } = data;
 
   const theme = useSelector((state) => state.theme);
@@ -31,13 +31,24 @@ function Tutorial({ data, onPlayAudio, onPauseAudio }) {
 
   let buttonsToShow = null;
 
-  if (type === 'audio' || type === 'video') {
+  if (type === 'audio') {
     buttonsToShow = (
       <>
         <ButtonPlay
+          onPlayClick={onPlayClick}
           googleId={googleId}
-          onPlayAudio={onPlayAudio}
-          onPauseAudio={onPauseAudio}
+          type="audio"
+        />
+        <ButtonDrive googleId={googleId} />
+      </>
+    );
+  } else if (type === 'video') {
+    buttonsToShow = (
+      <>
+        <ButtonPlay
+          onPlayClick={onPlayClick}
+          googleId={googleId}
+          type="video"
         />
         <ButtonDrive googleId={googleId} />
       </>
@@ -84,8 +95,7 @@ Tutorial.propTypes = {
     lyrics: PropTypes.string,
     message: PropTypes.string,
   }).isRequired,
-  onPlayAudio: PropTypes.func.isRequired,
-  onPauseAudio: PropTypes.func.isRequired,
+  onPlayClick: PropTypes.func.isRequired,
 };
 
 export default Tutorial;

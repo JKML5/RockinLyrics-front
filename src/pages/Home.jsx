@@ -1,11 +1,11 @@
 // Home.jsx
 /* eslint-disable react/jsx-props-no-spreading */
-
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useEffect, useRef } from 'react';
-import AudioPlayer from '../components/AudioPlayer';
+import { useRef } from 'react';
+import PlyrInstance from '../components/PlyrInstance';
 import Song from '../components/Song';
+import { launchAudioPlayer } from '../store';
 
 const Section = styled.section`
   background-color: ${({ theme }) =>
@@ -19,50 +19,45 @@ const Section = styled.section`
   }
 `;
 function Home() {
+  const dispatch = useDispatch();
+
   const theme = useSelector((state) => state.theme);
   const songs = useSelector((state) => state.songs);
-  const { googleId } = useSelector((state) => state.audioPlayer);
 
-  const AudioPlayerRef = useRef();
+  const AudioPlayerRef = useRef(null);
 
-  const plyrProps = {
-    source: {
-      type: 'audio',
-      sources: [
-        {
-          src: `https://drive.google.com/uc?id=${googleId}`,
-        },
-      ],
-    },
-    options: {
-      controls: [
-        'play',
-        'progress',
-        'current-time',
-        'mute',
-        'volume',
-        'settings',
-      ],
-      settings: ['speed'],
-      speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5] },
-    },
-  };
-
-  useEffect(() => {
-    console.log('internal plyr instance:', AudioPlayerRef.current.plyr);
-
+  const handlePlayClick = (type, action, googleId) => {
     if (googleId === '') return;
     if (AudioPlayerRef.current.plyr.source === null) return;
 
-    AudioPlayerRef.current.plyr?.play();
-  });
-
-  const handlePlayAudio = () => {
-    AudioPlayerRef.current.plyr?.play();
+    if (
+      AudioPlayerRef.current.plyr.source !==
+      `https://drive.google.com/uc?id=${googleId}`
+    ) {
+      AudioPlayerRef.current.plyr.source = {
+        type: 'audio', // TODO JK A changer
+        sources: [
+          {
+            src: `https://drive.google.com/uc?id=${googleId}`,
+          },
+        ],
+      };
+    }
+    AudioPlayerRef.current.plyr?.togglePlay();
+    dispatch(launchAudioPlayer(googleId));
   };
 
-  const handlePauseAudio = () => {
-    AudioPlayerRef.current.plyr?.pause();
+  const options = {
+    controls: [
+      'play',
+      'progress',
+      'current-time',
+      'mute',
+      'volume',
+      'settings',
+    ],
+    settings: ['speed'],
+    speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5] },
   };
 
   return (
@@ -74,14 +69,14 @@ function Home() {
               key={id}
               title={`${title} - ${artist}`}
               tutorials={tutorials}
-              onPlayAudio={handlePlayAudio}
-              onPauseAudio={handlePauseAudio}
+              onPlayClick={(playerType, playerAction, googleId) =>
+                handlePlayClick(playerType, playerAction, googleId)
+              }
             />
           ))}
       </Section>
-
       <Section>
-        <AudioPlayer {...plyrProps} ref={AudioPlayerRef} />
+        <PlyrInstance ref={AudioPlayerRef} source={null} options={options} />
       </Section>
     </>
   );

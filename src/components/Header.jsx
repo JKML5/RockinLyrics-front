@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+// import logo from '../assets/logo.png';
+import logoFestirock from '../assets/logo-festirock.svg';
 import Menu from './Menu';
 
 const StyledHeader = styled.header`
@@ -38,7 +39,7 @@ function Header() {
   return (
     <StyledHeader theme={theme}>
       <StyledLink to="/">
-        <LogoImg theme={theme} src={logo} alt="Logo Rockin'Lyrics" />
+        <LogoImg theme={theme} src={logoFestirock} alt="Logo Rockin'Lyrics" />
       </StyledLink>
       <Menu />
     </StyledHeader>

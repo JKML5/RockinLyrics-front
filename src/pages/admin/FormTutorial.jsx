@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -115,8 +116,8 @@ function FormTutorial() {
     }
 
     const url = isEditing
-      ? `http://localhost:3000/api/song/${songId}/${tutorialId}`
-      : `http://localhost:3000/api/song/${songId}`;
+      ? `http://${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`
+      : `http://${import.meta.env.VITE_API_URL}/song/${songId}`;
 
     const method = isEditing ? 'PUT' : 'POST';
 

@@ -73,7 +73,7 @@ function Song() {
 
   useEffect(() => {
     // Récupération des titres existants
-    fetch(`http://localhost:3000/api/song`)
+    fetch(`http://${import.meta.env.VITE_API_URL}/song`)
       .then((response) => response.json())
       .then((data) => {
         setSongsBackend(data);
@@ -90,7 +90,7 @@ function Song() {
       artist,
     };
 
-    fetch('http://localhost:3000/api/song', {
+    fetch(`http://${import.meta.env.VITE_API_URL}/song`, {
       method: 'POST',
       body: JSON.stringify(requestData),
       headers: {
@@ -127,12 +127,17 @@ function Song() {
   }
 
   function handleMoveUp(songId, tutorialId) {
-    fetch(`http://localhost:3000/api/song/${songId}/move-up/${tutorialId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
+    fetch(
+      `http://${
+        import.meta.env.VITE_API_URL
+      }/song/${songId}/move-up/${tutorialId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
       .then((response) => {
         if (!response.ok) {
           return response.json().then((error) => {
@@ -143,7 +148,7 @@ function Song() {
       })
       .then(() => {
         // Mise à jour de l'état des chansons après avoir déplacé le tutoriel vers le bas.
-        fetch(`http://localhost:3000/api/song`)
+        fetch(`http://${import.meta.env.VITE_API_URL}/song`)
           .then((response) => response.json())
           .then((data) => {
             setSongsBackend(data);
@@ -156,12 +161,17 @@ function Song() {
   }
 
   function handleMoveDown(songId, tutorialId) {
-    fetch(`http://localhost:3000/api/song/${songId}/move-down/${tutorialId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
+    fetch(
+      `http://${
+        import.meta.env.VITE_API_URL
+      }/song/${songId}/move-down/${tutorialId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
       .then((response) => {
         if (!response.ok) {
           return response.json().then((error) => {
@@ -172,7 +182,7 @@ function Song() {
       })
       .then(() => {
         // Mise à jour de l'état des chansons après avoir déplacé le tutoriel vers le bas.
-        fetch(`http://localhost:3000/api/song`)
+        fetch(`http://${import.meta.env.VITE_API_URL}/song`)
           .then((response) => response.json())
           .then((data) => {
             setSongsBackend(data);

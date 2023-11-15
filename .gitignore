@@ -32,3 +32,6 @@ dist-ssr
 /public/lyrics
 /src/data/songs.js
 /src/data/songs-riv2.js
+
+# variables d'environnment
+.env

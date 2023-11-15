@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     // Chargement des titres depuis MongoDB
-    fetch(`http://localhost:3000/api/song`)
+    fetch(`${import.meta.env.VITE_API_URL}/song`)
       .then((response) => response.json())
       .then((data) => {
         dispatch(addSongsMongoDB(data));

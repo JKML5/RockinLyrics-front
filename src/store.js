@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+// Récupérer le genre depuis localStorage (s'il existe)
+const savedGender = localStorage.getItem('gender');
+const savedCategory = localStorage.getItem('category');
+
 const initialState = {
   lyricsList: {},
   songs: [], // from MongoDB
   name: 'festirock', // riv, festirock, all
-  gender: 'F',
-  category: 'LEAD',
+  gender: savedGender || 'F',
+  category: savedCategory || 'LEAD',
   theme: 'light',
   fontSize: 18,
   audioPlayer: {
@@ -79,15 +83,19 @@ const reducer = (state = initialState, action = null) => {
         })),
       };
     case 'toggleGender':
+      localStorage.setItem('gender', state.gender === 'M' ? 'F' : 'M');
       return { ...state, gender: state.gender === 'M' ? 'F' : 'M' };
     case 'switchCategory':
       switch (state.category) {
         case 'BV1':
+          localStorage.setItem('category', 'BV2');
           return { ...state, category: 'BV2' };
         case 'BV2':
+          localStorage.setItem('category', 'LEAD');
           return { ...state, category: 'LEAD' };
         case 'LEAD':
         default:
+          localStorage.setItem('category', 'BV1');
           return { ...state, category: 'BV1' };
       }
     case 'toggleTheme':

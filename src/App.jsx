@@ -35,10 +35,6 @@ body {
 }
 `;
 
-const StyledMain = styled.main`
-  padding-top: 150px;
-`;
-
 function App() {
   const dispatch = useDispatch();
 
@@ -58,7 +54,7 @@ function App() {
     <>
       <GlobalStyle theme={theme} />
       <Header />
-      <StyledMain>
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/lyrics/:id" element={<QuizLyrics />} />
@@ -70,7 +66,7 @@ function App() {
           />
           <Route path="/*" element={<Error />} />
         </Routes>
-      </StyledMain>
+      </main>
     </>
   );
 }

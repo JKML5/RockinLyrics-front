@@ -116,8 +116,8 @@ function FormTutorial() {
     }
 
     const url = isEditing
-      ? `http://${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`
-      : `http://${import.meta.env.VITE_API_URL}/song/${songId}`;
+      ? `${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`
+      : `${import.meta.env.VITE_API_URL}/song/${songId}`;
 
     const method = isEditing ? 'PUT' : 'POST';
 

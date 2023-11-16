@@ -73,7 +73,7 @@ function Song() {
 
   useEffect(() => {
     // Récupération des titres existants
-    fetch(`http://${import.meta.env.VITE_API_URL}/song`)
+    fetch(`${import.meta.env.VITE_API_URL}/song`)
       .then((response) => response.json())
       .then((data) => {
         setSongsBackend(data);
@@ -90,7 +90,7 @@ function Song() {
       artist,
     };
 
-    fetch(`http://${import.meta.env.VITE_API_URL}/song`, {
+    fetch(`${import.meta.env.VITE_API_URL}/song`, {
       method: 'POST',
       body: JSON.stringify(requestData),
       headers: {
@@ -128,9 +128,7 @@ function Song() {
 
   function handleMoveUp(songId, tutorialId) {
     fetch(
-      `http://${
-        import.meta.env.VITE_API_URL
-      }/song/${songId}/move-up/${tutorialId}`,
+      `${import.meta.env.VITE_API_URL}/song/${songId}/move-up/${tutorialId}`,
       {
         method: 'PUT',
         headers: {
@@ -148,7 +146,7 @@ function Song() {
       })
       .then(() => {
         // Mise à jour de l'état des chansons après avoir déplacé le tutoriel vers le bas.
-        fetch(`http://${import.meta.env.VITE_API_URL}/song`)
+        fetch(`${import.meta.env.VITE_API_URL}/song`)
           .then((response) => response.json())
           .then((data) => {
             setSongsBackend(data);
@@ -162,9 +160,7 @@ function Song() {
 
   function handleMoveDown(songId, tutorialId) {
     fetch(
-      `http://${
-        import.meta.env.VITE_API_URL
-      }/song/${songId}/move-down/${tutorialId}`,
+      `${import.meta.env.VITE_API_URL}/song/${songId}/move-down/${tutorialId}`,
       {
         method: 'PUT',
         headers: {
@@ -182,7 +178,7 @@ function Song() {
       })
       .then(() => {
         // Mise à jour de l'état des chansons après avoir déplacé le tutoriel vers le bas.
-        fetch(`http://${import.meta.env.VITE_API_URL}/song`)
+        fetch(`${import.meta.env.VITE_API_URL}/song`)
           .then((response) => response.json())
           .then((data) => {
             setSongsBackend(data);

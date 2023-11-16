@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -23,6 +24,31 @@ const StyledContainerLyrics = styled.div`
 function ContainerLyrics({ lyrics }) {
   const theme = useSelector((state) => state.theme);
   const fontSize = useSelector((state) => state.fontSize);
+
+  useEffect(() => {
+    const handleClick = (googleId) => {
+      console.log(googleId);
+    };
+
+    const handleClickOnWord = (event) => {
+      const { googleId } = event.target.dataset;
+
+      if (googleId) {
+        handleClick(googleId);
+      }
+    };
+
+    const elements = document.querySelectorAll('.clickable');
+    elements.forEach((element) => {
+      element.addEventListener('click', handleClickOnWord);
+    });
+
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('click', handleClickOnWord);
+      });
+    };
+  }, [lyrics]);
 
   return (
     lyrics && (

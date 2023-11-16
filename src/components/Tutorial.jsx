@@ -78,7 +78,11 @@ function Tutorial({ data, onPlayClick }) {
         </TutorialHeading>
 
         {type === 'lyrics' && (
-          <ContainerLyrics tutorialId={googleId} lyrics={lyrics} />
+          <ContainerLyrics
+            tutorialId={googleId}
+            lyrics={lyrics}
+            onPlayClick={onPlayClick}
+          />
         )}
       </StyledTutorial>
     )

@@ -21,12 +21,13 @@ const StyledContainerLyrics = styled.div`
   }
 `;
 
-function ContainerLyrics({ lyrics }) {
+function ContainerLyrics({ lyrics, onPlayClick }) {
   const theme = useSelector((state) => state.theme);
   const fontSize = useSelector((state) => state.fontSize);
 
   useEffect(() => {
     const handleClick = (googleId) => {
+      onPlayClick('audio', 'play', googleId);
       console.log(googleId);
     };
 
@@ -63,6 +64,7 @@ function ContainerLyrics({ lyrics }) {
 
 ContainerLyrics.propTypes = {
   lyrics: PropTypes.string.isRequired,
+  onPlayClick: PropTypes.func.isRequired,
 };
 
 export default ContainerLyrics;

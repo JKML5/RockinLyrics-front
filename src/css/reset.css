@@ -46,3 +46,17 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+
+.clickable {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.icon-speaker {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	position: relative;
+	top: 6px;
+}

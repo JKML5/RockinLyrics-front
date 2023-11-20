@@ -1,11 +1,11 @@
 // Home.jsx
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useRef } from 'react';
 import PlyrInstance from '../components/PlyrInstance';
 import Song from '../components/Song';
-import { launchAudioPlayer } from '../store';
+import { addSongsMongoDB, launchAudioPlayer } from '../store';
 
 const Section = styled.section`
   background-color: ${({ theme }) =>
@@ -25,6 +25,16 @@ function Home() {
   const songs = useSelector((state) => state.songs);
 
   const AudioPlayerRef = useRef(null);
+
+  useEffect(() => {
+    // Chargement des titres depuis MongoDB
+    fetch(`${import.meta.env.VITE_API_URL}/song`)
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(addSongsMongoDB(data));
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const handlePlayClick = (type, action, googleId) => {
     if (googleId === '') return;

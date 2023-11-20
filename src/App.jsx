@@ -1,14 +1,12 @@
-import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { createGlobalStyle, styled } from 'styled-components';
+import { useSelector } from 'react-redux';
+import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import QuizLyrics from './pages/QuizLyrics';
 import FormTutorial from './pages/admin/FormTutorial';
 import Home from './pages/Home';
 import Song from './pages/admin/Song';
 import Error from './pages/Error';
-import { addSongsMongoDB } from './store';
 import './css/reset.css';
 
 const GlobalStyle = createGlobalStyle`
@@ -36,19 +34,7 @@ body {
 `;
 
 function App() {
-  const dispatch = useDispatch();
-
   const theme = useSelector((state) => state.theme);
-
-  useEffect(() => {
-    // Chargement des titres depuis MongoDB
-    fetch(`${import.meta.env.VITE_API_URL}/song`)
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(addSongsMongoDB(data));
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   return (
     <>

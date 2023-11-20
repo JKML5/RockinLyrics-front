@@ -126,7 +126,91 @@ function Song() {
       });
   }
 
-  function handleMoveUp(songId, tutorialId) {
+  function handleSongMoveUp(songId) {
+    fetch(`${import.meta.env.VITE_API_URL}/song/move-up/${songId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to move song up');
+        }
+        // Rafraîchir la liste des chansons après la montée
+        return fetch(`${import.meta.env.VITE_API_URL}/song`);
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to fetch songs');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSongsBackend(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  function handleSongMoveDown(songId) {
+    fetch(`${import.meta.env.VITE_API_URL}/song/move-down/${songId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to move song down');
+        }
+        // Rafraîchir la liste des chansons après la descente
+        return fetch(`${import.meta.env.VITE_API_URL}/song`);
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to fetch songs');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSongsBackend(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  function handleTutoDelete(songId, tutorialId) {
+    fetch(`${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to delete tuto');
+        }
+        // Rafraîchir la liste des chansons après la suppression
+        return fetch(`${import.meta.env.VITE_API_URL}/song`);
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to fetch songs');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSongsBackend(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  function handleTutoMoveUp(songId, tutorialId) {
     fetch(
       `${import.meta.env.VITE_API_URL}/song/${songId}/move-up/${tutorialId}`,
       {
@@ -158,7 +242,7 @@ function Song() {
       });
   }
 
-  function handleMoveDown(songId, tutorialId) {
+  function handleTutoMoveDown(songId, tutorialId) {
     fetch(
       `${import.meta.env.VITE_API_URL}/song/${songId}/move-down/${tutorialId}`,
       {
@@ -197,7 +281,19 @@ function Song() {
           {songsBackend.map((song) => (
             <li key={song._id}>
               <SongTitle theme={theme}>
-                {song._id} - {song.title} - {song.artist}
+                {song._id} - {song.title} - {song.artist} -{' '}
+                <button
+                  type="button"
+                  onClick={() => handleSongMoveUp(song._id)}
+                >
+                  Monter
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSongMoveDown(song._id)}
+                >
+                  Descendre
+                </button>
               </SongTitle>
 
               {Array.isArray(song.tutorials) && song.tutorials.length > 0 && (
@@ -209,20 +305,25 @@ function Song() {
                         Editer
                       </Link>
                       -{' '}
-                      <Link to={`/admin/song/${song._id}/${tutorial._id}/edit`}>
+                      <button
+                        type="button"
+                        onClick={() => handleTutoDelete(song._id, tutorial._id)}
+                      >
                         Supprimer
-                      </Link>{' '}
+                      </button>{' '}
                       -{' '}
                       <button
                         type="button"
-                        onClick={() => handleMoveDown(song._id, tutorial._id)}
+                        onClick={() =>
+                          handleTutoMoveDown(song._id, tutorial._id)
+                        }
                       >
                         Descendre
                       </button>
                       -{' '}
                       <button
                         type="button"
-                        onClick={() => handleMoveUp(song._id, tutorial._id)}
+                        onClick={() => handleTutoMoveUp(song._id, tutorial._id)}
                       >
                         Monter
                       </button>

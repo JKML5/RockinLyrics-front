@@ -7,7 +7,7 @@ import store from './store';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/festirock2">
       <Provider store={store}>
         <App />
       </Provider>

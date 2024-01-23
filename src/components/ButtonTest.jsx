@@ -24,12 +24,8 @@ function ButtonTest({ id }) {
   );
 }
 
-ButtonTest.defaultProps = {
-  id: '',
-};
-
 ButtonTest.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
 };
 
 export default ButtonTest;

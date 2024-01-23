@@ -5,7 +5,6 @@ const savedGender = localStorage.getItem('gender');
 const savedCategory = localStorage.getItem('category');
 
 const initialState = {
-  lyricsList: {},
   songs: [], // from MongoDB
   name: 'festirock', // riv, festirock, all
   gender: savedGender || 'F',
@@ -19,12 +18,6 @@ const initialState = {
 };
 
 // actions creators
-export const addLyrics = (id, lyrics) => ({
-  type: 'addLyrics',
-  id,
-  lyrics,
-});
-
 export const addSongsMongoDB = (data) => ({
   type: 'addSongsMongoDB',
   payload: data,
@@ -64,14 +57,6 @@ export function hidePlayer() {
 
 const reducer = (state = initialState, action = null) => {
   switch (action.type) {
-    case 'addLyrics':
-      return {
-        ...state,
-        lyricsList: {
-          ...state.lyricsList,
-          [action.id]: action.lyrics,
-        },
-      };
     case 'addSongsMongoDB':
       return {
         ...state,

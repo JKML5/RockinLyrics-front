@@ -43,15 +43,30 @@ const Button = styled.button`
   }
 `;
 
+// La fonction pour récupérer un tutoriel à partir de son googleId
+const getTutorialByGoogleId = (songs, googleId) => {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const song of songs) {
+    const tutorial = song.tutorials.find((tut) => tut.googleId === googleId);
+
+    if (tutorial) {
+      return tutorial;
+    }
+  }
+
+  return null;
+};
+
 function QuizLyrics() {
   const { id } = useParams();
   const theme = useSelector((state) => state.theme);
   const fontSize = useSelector((state) => state.fontSize);
+  const songs = useSelector((state) => state.songs);
 
-  const lyricsList = useSelector((state) => state.lyricsList);
-  const songLyrics = lyricsList[id];
+  const selectedSong = getTutorialByGoogleId(songs, id);
+
+  const songLyrics = selectedSong.lyrics;
   const songLyricsLines = songLyrics.split('\n');
-
   const [currentLineIndex, setCurrentLineIndex] = useState(1);
 
   function handleNextLine() {

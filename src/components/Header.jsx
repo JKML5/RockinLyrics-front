@@ -41,7 +41,7 @@ function Header() {
       </StyledHeader>
       <StyledTitle>
         <StyledLink theme={theme} to="/">
-          Festirock 2
+          Rock'in Villages 3
         </StyledLink>
       </StyledTitle>
     </>

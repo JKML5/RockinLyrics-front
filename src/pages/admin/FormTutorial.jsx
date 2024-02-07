@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FormButton from '../../components/shared/FormButton';
+import Editor from '../../components/SlideEditor';
 
 const StyledContainer = styled.div`
   margin: 50px 50px 0 50px;
@@ -227,6 +228,13 @@ function FormTutorial() {
                 value={lyrics}
                 onChange={(e) => setLyrics(e.target.value)}
               />
+            </StyledGroup>
+          )}
+
+          {type === 'lyrics' && (
+            <StyledGroup>
+              <StyledLabel htmlFor="lyrics">Paroles</StyledLabel>
+              <Editor />
             </StyledGroup>
           )}
 

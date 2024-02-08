@@ -60,3 +60,12 @@ table {
 	position: relative;
 	top: 6px;
 }
+
+pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  font-family: monospace;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}

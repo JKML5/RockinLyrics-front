@@ -5,6 +5,43 @@ import { useState, useCallback } from 'react';
 import { Editor, Transforms, createEditor, Element } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 
+// Define our own custom set of helpers.
+const CustomEditor = {
+  isBoldMarkActive(editor) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.bold === true : false;
+  },
+
+  isCodeBlockActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.type === 'code',
+    });
+
+    return !!match;
+  },
+
+  toggleBoldMark(editor) {
+    const isActive = CustomEditor.isBoldMarkActive(editor);
+    if (isActive) {
+      Editor.removeMark(editor, 'bold');
+    } else {
+      Editor.addMark(editor, 'bold', true);
+    }
+  },
+
+  toggleCodeBlock(editor) {
+    const isActive = CustomEditor.isCodeBlockActive(editor);
+
+    Transforms.setNodes(
+      editor,
+      { type: isActive ? 'paragraph' : 'code' },
+      {
+        match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+      },
+    );
+  },
+};
+
 const initialValue = [
   {
     type: 'paragraph',
@@ -52,32 +89,40 @@ function SlideEditor() {
 
   return (
     <Slate editor={editor} initialValue={initialValue}>
+      <div>
+        <button
+          type="button"
+          onMouseDown={(event) => {
+            event.preventDefault();
+            CustomEditor.toggleBoldMark(editor);
+          }}
+        >
+          Bold
+        </button>
+        <button
+          type="button"
+          onMouseDown={(event) => {
+            event.preventDefault();
+            CustomEditor.toggleCodeBlock(editor);
+          }}
+        >
+          Code Block
+        </button>
+      </div>
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         onKeyDown={(event) => {
           // Switch normal / code mode
           if (event.key === 'c' && event.ctrlKey && event.altKey) {
-            // Prevent the "`" from being inserted by default.
             event.preventDefault();
-            const [match] = Editor.nodes(editor, {
-              match: (n) => n.type === 'code',
-            });
-            // Toggle the block type depending on whether there's already a match.
-            Transforms.setNodes(
-              editor,
-              { type: match ? 'paragraph' : 'code' },
-              {
-                match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
-              },
-            );
+            CustomEditor.toggleCodeBlock(editor);
           }
 
           // Bold
           else if (event.key === 'b' && event.ctrlKey) {
-            console.log('bold');
             event.preventDefault();
-            Editor.addMark(editor, 'bold', true);
+            CustomEditor.toggleBoldMark(editor);
           }
         }}
       />

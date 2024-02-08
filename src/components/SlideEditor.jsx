@@ -24,6 +24,17 @@ function CodeElement(props) {
   );
 }
 
+function Leaf(props) {
+  return (
+    <span
+      {...props.attributes}
+      style={{ fontWeight: props.leaf.bold ? 'bold' : 'normal' }}
+    >
+      {props.children}
+    </span>
+  );
+}
+
 function SlideEditor() {
   const [editor] = useState(() => withReact(createEditor()));
 
@@ -36,11 +47,16 @@ function SlideEditor() {
     }
   }, []);
 
+  // Define a leaf rendering function that is memoized with `useCallback`.
+  const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
+
   return (
     <Slate editor={editor} initialValue={initialValue}>
       <Editable
         renderElement={renderElement}
+        renderLeaf={renderLeaf}
         onKeyDown={(event) => {
+          // Switch normal / code mode
           if (event.key === 'c' && event.ctrlKey && event.altKey) {
             // Prevent the "`" from being inserted by default.
             event.preventDefault();
@@ -55,6 +71,13 @@ function SlideEditor() {
                 match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
               },
             );
+          }
+
+          // Bold
+          else if (event.key === 'b' && event.ctrlKey) {
+            console.log('bold');
+            event.preventDefault();
+            Editor.addMark(editor, 'bold', true);
           }
         }}
       />

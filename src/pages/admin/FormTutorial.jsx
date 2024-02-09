@@ -15,6 +15,18 @@ const StyledGroup = styled.div`
   &.alignright {
     text-align: right;
   }
+
+  .info {
+    color: ${({ theme }) => (theme === 'light' ? '#AAAAAA' : '#AAAAAA')};
+  }
+
+  .disabled {
+    color: ${({ theme }) => (theme === 'light' ? '#DDDDDD' : '#444444')};
+  }
+
+  strong {
+    font-weight: 400;
+  }
 `;
 
 const StyledTitle = styled.h1`

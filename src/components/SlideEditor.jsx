@@ -10,9 +10,19 @@ import escapeHtml from 'escape-html';
 const serializeNodeToHtml = (node) => {
   if (Text.isText(node)) {
     let string = escapeHtml(node.text);
+
     if (node.bold) {
       string = `<strong>${string}</strong>`;
     }
+
+    if (node.info) {
+      string = `<span class="info">${string}</span>`;
+    }
+
+    if (node.disabled) {
+      string = `<span class="disabled">${string}</span>`;
+    }
+
     return string;
   }
 
@@ -42,6 +52,15 @@ const deserialize = (el, markAttributes = {}) => {
   }
 
   const nodeAttributes = { ...markAttributes };
+
+  // Gérer les informations de mise en forme
+  if (el.classList.contains('info')) {
+    nodeAttributes.info = true;
+  }
+
+  if (el.classList.contains('disabled')) {
+    nodeAttributes.disabled = true;
+  }
 
   // Define attributes for different types of elements
   switch (el.nodeName) {
@@ -94,12 +113,51 @@ const CustomEditor = {
       Editor.addMark(editor, 'bold', true);
     }
   },
+
+  // span info
+  toggleInfoMark(editor) {
+    const isActive = CustomEditor.isInfoMarkActive(editor);
+    if (isActive) {
+      Editor.removeMark(editor, 'info');
+    } else {
+      Editor.addMark(editor, 'info', true);
+    }
+  },
+
+  isInfoMarkActive(editor) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.info === true : false;
+  },
+
+  // span disabled
+  isDisabledMarkActive(editor) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.disabled === true : false;
+  },
+
+  toggleDisabledMark(editor) {
+    const isActive = CustomEditor.isDisabledMarkActive(editor);
+    if (isActive) {
+      Editor.removeMark(editor, 'disabled');
+    } else {
+      Editor.addMark(editor, 'disabled', true);
+    }
+  },
 };
 
 function Leaf(props) {
+  let className = '';
+  if (props.leaf.info) {
+    className += 'info ';
+  }
+  if (props.leaf.disabled) {
+    className += 'disabled ';
+  }
+
   return (
     <span
       {...props.attributes}
+      className={className}
       style={{ fontWeight: props.leaf.bold ? 'bold' : 'normal' }}
     >
       {props.children}
@@ -116,7 +174,6 @@ function SlideEditor({ contentValue, handleChange }) {
 
   const initialValue = [
     {
-      type: 'paragraph',
       children: convertedText,
     },
   ];
@@ -147,6 +204,24 @@ function SlideEditor({ contentValue, handleChange }) {
           }}
         >
           Bold
+        </button>
+        <button
+          type="button"
+          onMouseDown={(event) => {
+            event.preventDefault();
+            CustomEditor.toggleInfoMark(editor);
+          }}
+        >
+          Info
+        </button>
+        <button
+          type="button"
+          onMouseDown={(event) => {
+            event.preventDefault();
+            CustomEditor.toggleDisabledMark(editor);
+          }}
+        >
+          Désactivé
         </button>
       </div>
       <Editable

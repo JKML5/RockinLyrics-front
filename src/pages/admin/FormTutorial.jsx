@@ -223,18 +223,7 @@ function FormTutorial() {
           {type === 'lyrics' && (
             <StyledGroup>
               <StyledLabel htmlFor="lyrics">Paroles</StyledLabel>
-              <StyledTextarea
-                id="lyrics"
-                value={lyrics}
-                onChange={(e) => setLyrics(e.target.value)}
-              />
-            </StyledGroup>
-          )}
-
-          {type === 'lyrics' && (
-            <StyledGroup>
-              <StyledLabel htmlFor="lyrics">Paroles</StyledLabel>
-              <Editor />
+              <Editor contentValue={lyrics} handleChange={setLyrics} />{' '}
             </StyledGroup>
           )}
 

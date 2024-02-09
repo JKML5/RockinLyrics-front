@@ -107,11 +107,11 @@ function Leaf(props) {
   );
 }
 
-function SlideEditor() {
+function SlideEditor({ contentValue, handleChange }) {
   const [editor] = useState(() => withReact(createEditor()));
-  const initialText = 'A line of <strong>text</strong> in a paragraph.';
+
   const convertedText = deserialize(
-    new DOMParser().parseFromString(initialText, 'text/html').body,
+    new DOMParser().parseFromString(contentValue, 'text/html').body,
   );
 
   const initialValue = [
@@ -132,8 +132,9 @@ function SlideEditor() {
         const isAstChange = editor.operations.some(
           (op) => op.type !== 'set_selection',
         );
+
         if (isAstChange) {
-          console.log(serialize(value));
+          handleChange(serialize(value));
         }
       }}
     >

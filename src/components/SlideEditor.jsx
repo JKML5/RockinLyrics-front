@@ -2,9 +2,36 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState, useCallback } from 'react';
-import { Editor, createEditor } from 'slate';
+import { Editor, createEditor, Text } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
+import escapeHtml from 'escape-html';
+
+const serializeNodeToHtml = (node) => {
+  if (Text.isText(node)) {
+    let string = escapeHtml(node.text);
+    if (node.bold) {
+      string = `<strong>${string}</strong>`;
+    }
+    return string;
+  }
+
+  const children = node.children.map((n) => serializeNodeToHtml(n)).join('');
+
+  switch (node.type) {
+    case 'quote':
+      return `<blockquote>${children}</blockquote>`;
+    case 'paragraph':
+      return `<p>${children}</p>`;
+    case 'link':
+      return `<a href="${escapeHtml(node.url)}">${children}</a>`;
+    default:
+      return children;
+  }
+};
+
+const serialize = (nodes) =>
+  nodes.map((node) => serializeNodeToHtml(node)).join('\n');
 
 const deserialize = (el, markAttributes = {}) => {
   if (el.nodeType === Node.TEXT_NODE) {
@@ -98,7 +125,18 @@ function SlideEditor() {
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
 
   return (
-    <Slate editor={editor} initialValue={initialValue}>
+    <Slate
+      editor={editor}
+      initialValue={initialValue}
+      onChange={(value) => {
+        const isAstChange = editor.operations.some(
+          (op) => op.type !== 'set_selection',
+        );
+        if (isAstChange) {
+          console.log(serialize(value));
+        }
+      }}
+    >
       <div>
         <button
           type="button"

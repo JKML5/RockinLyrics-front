@@ -4,6 +4,54 @@
 import { useState, useCallback } from 'react';
 import { Editor, createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
+
+const deserialize = (el, markAttributes = {}) => {
+  if (el.nodeType === Node.TEXT_NODE) {
+    return jsx('text', markAttributes, el.textContent);
+  }
+  if (el.nodeType !== Node.ELEMENT_NODE) {
+    return null;
+  }
+
+  const nodeAttributes = { ...markAttributes };
+
+  // Define attributes for different types of elements
+  switch (el.nodeName) {
+    case 'STRONG':
+      nodeAttributes.bold = true;
+      break;
+    default:
+      break;
+  }
+
+  const children = Array.from(el.childNodes)
+    .map((node) => deserialize(node, nodeAttributes))
+    .flat();
+
+  if (children.length === 0) {
+    children.push(jsx('text', nodeAttributes, ''));
+  }
+
+  switch (el.nodeName) {
+    case 'BODY':
+      return jsx('fragment', {}, children);
+    case 'BR':
+      return '\n';
+    case 'BLOCKQUOTE':
+      return jsx('element', { type: 'quote' }, children);
+    case 'P':
+      return jsx('element', { type: 'paragraph' }, children);
+    case 'A':
+      return jsx(
+        'element',
+        { type: 'link', url: el.getAttribute('href') },
+        children,
+      );
+    default:
+      return children;
+  }
+};
 
 const CustomEditor = {
   isBoldMarkActive(editor) {
@@ -34,12 +82,15 @@ function Leaf(props) {
 
 function SlideEditor() {
   const [editor] = useState(() => withReact(createEditor()));
-  const initialText = 'A line of text in a paragraph.';
+  const initialText = 'A line of <strong>text</strong> in a paragraph.';
+  const convertedText = deserialize(
+    new DOMParser().parseFromString(initialText, 'text/html').body,
+  );
 
   const initialValue = [
     {
       type: 'paragraph',
-      children: [{ text: initialText }],
+      children: convertedText,
     },
   ];
 

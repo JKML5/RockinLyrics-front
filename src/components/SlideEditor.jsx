@@ -9,7 +9,7 @@ import escapeHtml from 'escape-html';
 
 const serializeNodeToHtml = (node) => {
   if (Text.isText(node)) {
-    let string = escapeHtml(node.text);
+    let string = escapeHtml(node.text).replace(/\n/g, '<br>');
 
     if (node.bold) {
       string = `<strong>${string}</strong>`;

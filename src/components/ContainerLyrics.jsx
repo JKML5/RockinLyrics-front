@@ -7,6 +7,7 @@ const StyledContainerLyrics = styled.div`
   padding: 10px 0;
   font-size: ${({ fontSize }) => `${fontSize}px`};
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#FFFFFF')};
+  white-space: pre-wrap;
 
   .info {
     color: ${({ theme }) => (theme === 'light' ? '#AAAAAA' : '#AAAAAA')};

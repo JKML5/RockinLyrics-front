@@ -19,6 +19,10 @@ const StyledContainerLyrics = styled.div`
   strong {
     font-weight: 400;
   }
+
+  p:empty {
+    min-height: 1em;
+  }
 `;
 
 function ContainerLyrics({ lyrics, onPlayClick }) {

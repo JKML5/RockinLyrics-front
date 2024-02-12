@@ -13,6 +13,7 @@ const StyledHeader = styled.header`
     theme === 'dark' ? '0 0 5px 5px #000000' : 'none'};
   position: fixed;
   top: 0;
+  z-index: 999;
 `;
 
 const StyledTitle = styled.h1`

@@ -14,9 +14,7 @@ function ButtonDrive({ googleId }) {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <TutoLink
-      to={`https://drive.google.com/file/d/${googleId}/view?usp=sharing`}
-    >
+    <TutoLink to={googleId}>
       <Image theme={theme} src={imageSrc} alt="Drive" />
     </TutoLink>
   );

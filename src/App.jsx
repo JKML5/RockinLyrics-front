@@ -25,7 +25,7 @@ body {
     theme === 'light' ? '#FFFFFF' : '#000000'};
 
   @media screen and (min-width: 984px) { /* 1024 - padding 40 */
-  background-image: ${({ theme }) =>
+  background-color: ${({ theme }) =>
     theme === 'light'
       ? '#FFFFFF'
       : 'linear-gradient(to right, #181818, #000000, #181818)'};

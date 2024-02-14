@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import songsExtracts from '../data/songsExtracts';
 
 const StyledContainerLyrics = styled.div`
   padding: 10px 0;
@@ -17,10 +18,6 @@ const StyledContainerLyrics = styled.div`
     color: ${({ theme }) => (theme === 'light' ? '#DDDDDD' : '#444444')};
   }
 
-  strong {
-    font-weight: 400;
-  }
-
   p:empty {
     min-height: 1em;
   }
@@ -33,14 +30,13 @@ function ContainerLyrics({ lyrics, onPlayClick }) {
   useEffect(() => {
     const handleClick = (googleId) => {
       onPlayClick('audio', 'play', googleId);
-      console.log(googleId);
     };
 
     const handleClickOnWord = (event) => {
-      const { googleId } = event.target.dataset;
+      const { id } = event.target.dataset;
 
-      if (googleId) {
-        handleClick(googleId);
+      if (id) {
+        handleClick(songsExtracts[id]);
       }
     };
 
@@ -56,12 +52,18 @@ function ContainerLyrics({ lyrics, onPlayClick }) {
     };
   }, [lyrics]);
 
+  const renderLyrics = () =>
+    lyrics.replace(
+      /{([^#]+)#(\d+)}/g,
+      '<a class="clickable" data-id="$2">$1 <img class="icon-speaker" src="/img/speaker.svg" alt="click" /></a>',
+    );
+
   return (
     lyrics && (
       <StyledContainerLyrics
         theme={theme}
         fontSize={fontSize}
-        dangerouslySetInnerHTML={{ __html: lyrics }}
+        dangerouslySetInnerHTML={{ __html: renderLyrics() }}
       />
     )
   );

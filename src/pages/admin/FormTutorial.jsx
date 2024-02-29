@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import FormButton from '../../components/shared/FormButton';
+import Editor from '../../components/SlideEditor';
 
 const StyledContainer = styled.div`
   margin: 50px 50px 0 50px;
@@ -13,6 +15,14 @@ const StyledGroup = styled.div`
 
   &.alignright {
     text-align: right;
+  }
+
+  .info {
+    color: ${({ theme }) => (theme === 'light' ? '#AAAAAA' : '#AAAAAA')};
+  }
+
+  .disabled {
+    color: ${({ theme }) => (theme === 'light' ? '#DDDDDD' : '#444444')};
   }
 `;
 
@@ -37,12 +47,6 @@ const StyledInputText = styled.input`
 const StyledSelect = styled.select`
   width: 100%;
   height: 35px;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 100%;
-  height: 500px;
-  font-size: 14px;
 `;
 
 const StyledCheckboxGroup = styled.div`
@@ -80,6 +84,8 @@ function FormTutorial() {
   const [gender, setGender] = useState('');
   const { songId, tutorialId } = useParams();
   const navigate = useNavigate();
+
+  const theme = useSelector((state) => state.theme);
 
   const fetchTutorialData = async () => {
     try {
@@ -186,7 +192,7 @@ function FormTutorial() {
 
         <StyledTitle>{pageTitle}</StyledTitle>
         <form onSubmit={handleSubmit}>
-          <StyledGroup>
+          <StyledGroup theme={theme}>
             <StyledLabel htmlFor="type">Type</StyledLabel>
             <StyledSelect
               id="type"
@@ -222,11 +228,7 @@ function FormTutorial() {
           {type === 'lyrics' && (
             <StyledGroup>
               <StyledLabel htmlFor="lyrics">Paroles</StyledLabel>
-              <StyledTextarea
-                id="lyrics"
-                value={lyrics}
-                onChange={(e) => setLyrics(e.target.value)}
-              />
+              <Editor contentValue={lyrics} handleChange={setLyrics} />{' '}
             </StyledGroup>
           )}
 

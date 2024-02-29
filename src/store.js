@@ -6,7 +6,7 @@ const savedCategory = localStorage.getItem('category');
 
 const initialState = {
   songs: [], // from MongoDB
-  name: 'festirock', // riv, festirock, all
+  name: 'riv', // riv, festirock, all
   gender: savedGender || 'F',
   category: savedCategory || 'LEAD',
   theme: 'light',

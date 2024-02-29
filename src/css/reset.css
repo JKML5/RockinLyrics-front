@@ -47,7 +47,18 @@ table {
 	border-spacing: 0;
 }
 
+* {
+	box-sizing: border-box; /* Opera/IE 8+ */
+	-moz-box-sizing: border-box; /* Firefox, autres Gecko */
+	-webkit-box-sizing: border-box; /* Safari/Chrome, autres WebKit */
+}
 
+strong {
+	font-weight: 700;
+}
+
+/***************************************************************************************/
+/* TODO JK Pas ici */
 .clickable {
 	cursor: pointer;
 	text-decoration: underline;
@@ -55,8 +66,17 @@ table {
 
 .icon-speaker {
 	display: inline-block;
-	width: 25px;
-	height: 25px;
+	width: 20px;
+	height: 20px;
 	position: relative;
-	top: 6px;
+	top: 4px;
+}
+
+pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  font-family: monospace;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
 }

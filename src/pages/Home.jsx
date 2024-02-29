@@ -40,15 +40,12 @@ function Home() {
     if (googleId === '') return;
     if (AudioPlayerRef.current.plyr.source === null) return;
 
-    if (
-      AudioPlayerRef.current.plyr.source !==
-      `https://drive.google.com/uc?id=${googleId}`
-    ) {
+    if (AudioPlayerRef.current.plyr.source !== googleId) {
       AudioPlayerRef.current.plyr.source = {
         type: 'audio', // TODO JK A changer
         sources: [
           {
-            src: `https://drive.google.com/uc?id=${googleId}`,
+            src: googleId,
           },
         ],
       };

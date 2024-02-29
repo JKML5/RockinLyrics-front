@@ -55,7 +55,7 @@ function ContainerLyrics({ lyrics, onPlayClick }) {
   const renderLyrics = () =>
     lyrics.replace(
       /{([^#]+)#(\d+)}/g,
-      '<a class="clickable" data-id="$2">$1 <img class="icon-speaker" src="/img/speaker.svg" alt="click" /></a>',
+      '<a class="clickable" data-id="$2">$1 <img class="icon-speaker" src="./img/speaker.svg" alt="click" /></a>',
     );
 
   return (

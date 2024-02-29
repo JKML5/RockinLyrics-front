@@ -20,10 +20,6 @@ const Container = styled.div`
   .disabled {
     color: ${({ theme }) => (theme === 'light' ? '#DDDDDD' : '#333333')};
   }
-
-  strong {
-    font-weight: 400;
-  }
 `;
 
 const Line = styled.p`

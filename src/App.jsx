@@ -43,7 +43,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/lyrics/:id" element={<QuizLyrics />} />
+          <Route path="/lyrics/:songId/:tutorialId" element={<QuizLyrics />} />
           <Route path="/admin/song" element={<Song />} />
           <Route path="/admin/song/:songId/add" element={<FormTutorial />} />
           <Route

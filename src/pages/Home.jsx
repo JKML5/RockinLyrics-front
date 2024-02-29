@@ -1,11 +1,10 @@
-// Home.jsx
-/* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PlyrInstance from '../components/PlyrInstance';
 import Song from '../components/Song';
-import { addSongsMongoDB, launchAudioPlayer } from '../store';
+import { launchAudioPlayer } from '../store';
+import useFetchSongs from '../hooks/useImportSongs';
 
 const Section = styled.section`
   background-color: ${({ theme }) =>
@@ -18,23 +17,16 @@ const Section = styled.section`
     margin: 0 auto;
   }
 `;
+
 function Home() {
   const dispatch = useDispatch();
+
+  useFetchSongs(); // Récupération des chansons depuis MongoDB
 
   const theme = useSelector((state) => state.theme);
   const songs = useSelector((state) => state.songs);
 
   const AudioPlayerRef = useRef(null);
-
-  useEffect(() => {
-    // Chargement des titres depuis MongoDB
-    fetch(`${import.meta.env.VITE_API_URL}/song`)
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(addSongsMongoDB(data));
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   const handlePlayClick = (type, action, googleId) => {
     if (googleId === '') return;
@@ -74,6 +66,7 @@ function Home() {
           songs.map(({ id, title, artist, tutorials }) => (
             <Song
               key={id}
+              id={id}
               title={`${title} - ${artist}`}
               tutorials={tutorials}
               onPlayClick={(playerType, playerAction, googleId) =>

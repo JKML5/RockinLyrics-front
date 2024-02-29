@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import ButtonLyrics from './ButtonLyrics';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
 import ContainerLyrics from './ContainerLyrics';
@@ -22,7 +21,7 @@ const TutorialHeading = styled.div`
   padding: 0 25px;
 `;
 
-function Tutorial({ data, onPlayClick }) {
+function Tutorial({ data, songId, onPlayClick }) {
   const { categories, gender, googleId, lyrics, title, type } = data;
 
   const theme = useSelector((state) => state.theme);
@@ -56,9 +55,8 @@ function Tutorial({ data, onPlayClick }) {
   } else if (type === 'lyrics') {
     buttonsToShow = (
       <>
-        <ButtonLyrics />
+        <ButtonTest songId={songId} tutorialId={data._id} />
         <ButtonDrive googleId={googleId} />
-        <ButtonTest id={googleId} />
       </>
     );
   }
@@ -91,6 +89,7 @@ function Tutorial({ data, onPlayClick }) {
 
 Tutorial.propTypes = {
   data: PropTypes.shape({
+    _id: PropTypes.string,
     googleId: PropTypes.string,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -99,6 +98,7 @@ Tutorial.propTypes = {
     lyrics: PropTypes.string,
     message: PropTypes.string,
   }).isRequired,
+  songId: PropTypes.string.isRequired,
   onPlayClick: PropTypes.func.isRequired,
 };
 

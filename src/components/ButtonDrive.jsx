@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import imageSrc from '../assets/drive.png';
+import imageSrc from '../assets/url.png';
 import TutoLink from './shared/TutoLink';
 
 const Image = styled.img`
@@ -15,7 +15,7 @@ function ButtonDrive({ googleId }) {
 
   return (
     <TutoLink to={googleId}>
-      <Image theme={theme} src={imageSrc} alt="Drive" />
+      <Image theme={theme} src={imageSrc} alt="URL" />
     </TutoLink>
   );
 }

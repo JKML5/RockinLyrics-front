@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import useFetchSongs from '../hooks/useImportSongs';
 
 const Container = styled.div`
   font-family: 'Roboto', sans-serif;
@@ -39,30 +40,24 @@ const Button = styled.button`
   }
 `;
 
-// La fonction pour récupérer un tutoriel à partir de son googleId
-const getTutorialByGoogleId = (songs, googleId) => {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const song of songs) {
-    const tutorial = song.tutorials.find((tut) => tut.googleId === googleId);
-
-    if (tutorial) {
-      return tutorial;
-    }
-  }
-
-  return null;
-};
-
 function QuizLyrics() {
-  const { id } = useParams();
+  useFetchSongs();
+
+  const { songId, tutorialId } = useParams();
   const theme = useSelector((state) => state.theme);
   const fontSize = useSelector((state) => state.fontSize);
   const songs = useSelector((state) => state.songs);
 
-  const selectedSong = getTutorialByGoogleId(songs, id);
+  const findItemById = (idToFind) => songs.find((item) => item.id === idToFind);
 
-  const songLyrics = selectedSong.lyrics;
-  const songLyricsLines = songLyrics.split('\n');
+  const selectedSong = findItemById(songId);
+
+  const findTutorialById = (idToFind) =>
+    selectedSong.tutorials.find((item) => item._id === idToFind);
+
+  const selectedTutorial = findTutorialById(tutorialId);
+  const songLyrics = selectedTutorial.lyrics;
+  const songLyricsLines = songLyrics.split('<br>');
   const [currentLineIndex, setCurrentLineIndex] = useState(1);
 
   function handleNextLine() {
@@ -100,6 +95,9 @@ function QuizLyrics() {
   if (isFirstLine) {
     line = 'Début';
   }
+
+  // Remove clickable URLs { ... #}
+  line = line.replace(/{([^#]+)#(\d+)}/g, '$1');
 
   return (
     <Container theme={theme} fontSize={fontSize}>

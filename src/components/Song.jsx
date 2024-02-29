@@ -28,7 +28,7 @@ const SongTitle = styled.a`
   display: block;
 `;
 
-function Song({ title, tutorials, onPlayClick }) {
+function Song({ id, title, tutorials, onPlayClick }) {
   const theme = useSelector((state) => state.theme);
 
   const [isActive, setIsActive] = useState(false);
@@ -45,7 +45,7 @@ function Song({ title, tutorials, onPlayClick }) {
           <Tutorial
             key={tutorial._id}
             data={tutorial}
-            songId={tutorial.googleId}
+            songId={id}
             onPlayClick={(playerAction, type, googleId) =>
               onPlayClick(playerAction, type, googleId)
             }
@@ -56,6 +56,7 @@ function Song({ title, tutorials, onPlayClick }) {
 }
 
 Song.propTypes = {
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   tutorials: PropTypes.arrayOf(
     PropTypes.shape({

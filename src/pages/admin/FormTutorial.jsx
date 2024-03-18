@@ -144,6 +144,9 @@ function FormTutorial() {
       gender,
     };
 
+    // Remplace <p></p> par <br>
+    requestData.lyrics = lyrics.replace(/<p>(.*?)<\/p>/g, '$1<br>');
+
     const url = isEditing
       ? `${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`
       : `${import.meta.env.VITE_API_URL}/song/${songId}`;

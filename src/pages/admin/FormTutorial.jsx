@@ -147,6 +147,16 @@ function FormTutorial() {
     // Remplace <p></p> par <br>
     requestData.lyrics = lyrics.replace(/<p>(.*?)<\/p>/g, '$1<br>');
 
+    requestData.lyrics = lyrics.replace(
+      /<p>(.*?)<\/p>|(\n)/g,
+      (match, pTagContent) => {
+        if (pTagContent) {
+          return `${pTagContent}<br>`;
+        }
+        return '<br>';
+      },
+    );
+
     const url = isEditing
       ? `${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`
       : `${import.meta.env.VITE_API_URL}/song/${songId}`;

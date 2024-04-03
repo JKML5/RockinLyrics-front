@@ -3,13 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 // Récupérer le genre depuis localStorage (s'il existe)
 const savedGender = localStorage.getItem('gender');
 const savedCategory = localStorage.getItem('category');
+const savedTheme = localStorage.getItem('theme');
 
 const initialState = {
   songs: [], // from MongoDB
   name: 'riv', // riv, festirock, all
   gender: savedGender || 'F',
   category: savedCategory || 'LEAD',
-  theme: 'light',
+  theme: savedTheme || 'light',
   fontSize: 18,
   audioPlayer: {
     googleId: '',
@@ -84,6 +85,7 @@ const reducer = (state = initialState, action = null) => {
           return { ...state, category: 'BV1' };
       }
     case 'toggleTheme':
+      localStorage.setItem('theme', action.theme);
       return {
         ...state,
         theme: action.theme,

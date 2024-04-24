@@ -58,7 +58,10 @@ function QuizLyrics() {
   const selectedTutorial = findTutorialById(tutorialId);
   const songLyrics = selectedTutorial.lyrics;
   const songLyricsLines = songLyrics.split('<br>');
-  const [currentLineIndex, setCurrentLineIndex] = useState(1);
+  songLyricsLines.unshift('Début');
+  songLyricsLines.push('Fin');
+
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
 
   function handleNextLine() {
     if (currentLineIndex < songLyricsLines.length - 1) {
@@ -67,7 +70,7 @@ function QuizLyrics() {
   }
 
   function handlePreviousLine() {
-    if (currentLineIndex > 1) {
+    if (currentLineIndex > 0) {
       setCurrentLineIndex(currentLineIndex - 1);
     }
   }
@@ -88,13 +91,10 @@ function QuizLyrics() {
     };
   }, [currentLineIndex]);
 
-  const isFirstLine = currentLineIndex === 1;
+  const isFirstLine = currentLineIndex === 0;
   const isLastLine = currentLineIndex === songLyricsLines.length - 1;
 
   let line = songLyricsLines[currentLineIndex];
-  if (isFirstLine) {
-    line = 'Début';
-  }
 
   // Remove clickable URLs { ... #}
   line = line.replace(/{([^#]+)#(\d+)}/g, '$1');

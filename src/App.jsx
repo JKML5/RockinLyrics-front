@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
@@ -7,6 +8,7 @@ import QuizLyrics from './pages/QuizLyrics';
 import FormTutorial from './pages/admin/FormTutorial';
 import Home from './pages/Home';
 import Song from './pages/admin/Song';
+import Concert from './pages/admin/Concert';
 import Error from './pages/Error';
 import './css/reset.css';
 
@@ -22,34 +24,34 @@ body {
   font-size: 18px;
   line-height: 1.2;
   padding-bottom: 95px;
-  background-color: ${({ theme }) =>
-    theme === 'light' ? '#FFFFFF' : '#000000'};
+  background-color: ${({ theme, isAdminRoute }) =>
+    isAdminRoute ? '#e3e6e9' : theme === 'light' ? '#FFFFFF' : '#000000'};
 
   @media screen and (min-width: 984px) { /* 1024 - padding 40 */
-  background-color: ${({ theme }) =>
-    theme === 'light'
-      ? '#FFFFFF'
-      : 'linear-gradient(to right, #181818, #000000, #181818)'};
-  }
+  background-color: ${({ theme, isAdminRoute }) =>
+    isAdminRoute
+      ? '#f3f6f9'
+      : theme === 'light'
+        ? '#FFFFFF'
+        : 'linear-gradient(to right, #181818, #000000, #181818)'};
 }
 `;
 
 function App() {
   const theme = useSelector((state) => state.theme);
   const location = useLocation();
-
-  // Vérifie si le chemin actuel est un chemin admin
-  const isAdminRoute = location.pathname.startsWith('/admin/song');
+  const isAdminRoute = location.pathname.startsWith('/admin/');
 
   return (
     <>
-      <GlobalStyle theme={theme} />
+      <GlobalStyle isAdminRoute={isAdminRoute} theme={theme} />
       {isAdminRoute ? <AdminHeader /> : <Header />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/lyrics/:songId/:tutorialId" element={<QuizLyrics />} />
           <Route path="/admin/song" element={<Song />} />
+          <Route path="/admin/concert" element={<Concert />} />
           <Route path="/admin/song/:songId/add" element={<FormTutorial />} />
           <Route
             path="/admin/song/:songId/:tutorialId/edit"

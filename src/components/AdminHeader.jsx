@@ -1,3 +1,4 @@
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledHeader = styled.header`
@@ -44,15 +45,21 @@ const MenuItem = styled.li`
 `;
 
 function AdminHeader() {
+  const location = useLocation();
+
   return (
     <StyledHeader>
       <StyledContainer className="container">
         <MenuNav>
-          <MenuItem className="active">
-            <a href="#">Chansons</a>
+          <MenuItem
+            className={location.pathname === '/admin/song' ? 'active' : ''}
+          >
+            <Link to="/admin/song">Chansons</Link>
           </MenuItem>
-          <MenuItem>
-            <a href="#">Concerts</a>
+          <MenuItem
+            className={location.pathname === '/admin/concert' ? 'active' : ''}
+          >
+            <Link to="/admin/concert">Concerts</Link>
           </MenuItem>
         </MenuNav>
       </StyledContainer>

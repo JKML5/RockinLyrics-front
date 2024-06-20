@@ -49,7 +49,7 @@ function AdminHeader() {
 
   return (
     <StyledHeader>
-      <StyledContainer className="container">
+      <StyledContainer>
         <MenuNav>
           <MenuItem
             className={location.pathname === '/admin/song' ? 'active' : ''}

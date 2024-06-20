@@ -5,10 +5,11 @@ import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import AdminHeader from './components/AdminHeader';
 import QuizLyrics from './pages/QuizLyrics';
-import FormTutorial from './pages/admin/FormTutorial';
 import Home from './pages/Home';
-import Song from './pages/admin/Song';
+import FormTutorial from './pages/admin/FormTutorial';
 import Concert from './pages/admin/Concert';
+import FormConcert from './pages/admin/FormConcert';
+import Song from './pages/admin/Song';
 import Error from './pages/Error';
 import './css/reset.css';
 
@@ -25,7 +26,7 @@ body {
   line-height: 1.2;
   padding-bottom: 95px;
   background-color: ${({ theme, isAdminRoute }) =>
-    isAdminRoute ? '#e3e6e9' : theme === 'light' ? '#FFFFFF' : '#000000'};
+    isAdminRoute ? '#f3f6f9' : theme === 'light' ? '#FFFFFF' : '#000000'};
 
   @media screen and (min-width: 984px) { /* 1024 - padding 40 */
   background-color: ${({ theme, isAdminRoute }) =>
@@ -57,6 +58,12 @@ function App() {
             path="/admin/song/:songId/:tutorialId/edit"
             element={<FormTutorial />}
           />
+          <Route path="/admin/concert/add" element={<FormConcert />} />
+          <Route
+            path="/admin/concert/edit/:concertId"
+            element={<FormConcert />}
+          />
+
           <Route path="/*" element={<Error />} />
         </Routes>
       </main>

@@ -197,124 +197,122 @@ function FormTutorial() {
   const pageTitle = isEditing ? 'Editer un tuto' : 'Ajouter un tuto';
 
   return (
-    <div>
-      <StyledContainer>
-        {validationMessage && (
-          <StyledValidationMessage>{validationMessage}</StyledValidationMessage>
+    <StyledContainer>
+      {validationMessage && (
+        <StyledValidationMessage>{validationMessage}</StyledValidationMessage>
+      )}
+
+      <StyledTitle>{pageTitle}</StyledTitle>
+      <form onSubmit={handleSubmit}>
+        <StyledGroup theme={theme}>
+          <StyledLabel htmlFor="type">Type</StyledLabel>
+          <StyledSelect
+            id="type"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          >
+            <option value="audio">Audio</option>
+            <option value="video">Vidéo</option>
+            <option value="lyrics">Texte (paroles)</option>
+          </StyledSelect>
+        </StyledGroup>
+
+        <StyledGroup>
+          <StyledLabel htmlFor="title">Titre</StyledLabel>
+          <StyledInputText
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </StyledGroup>
+
+        <StyledGroup>
+          <StyledLabel htmlFor="googleId">Google Id / URL</StyledLabel>
+          <StyledInputText
+            type="text"
+            id="googleId"
+            value={googleId}
+            onChange={(e) => setGoogleId(e.target.value)}
+          />
+        </StyledGroup>
+
+        {type === 'lyrics' && (
+          <StyledGroup>
+            <StyledLabel htmlFor="lyrics">Paroles</StyledLabel>
+            <Editor contentValue={lyrics} handleChange={setLyrics} />{' '}
+          </StyledGroup>
         )}
 
-        <StyledTitle>{pageTitle}</StyledTitle>
-        <form onSubmit={handleSubmit}>
-          <StyledGroup theme={theme}>
-            <StyledLabel htmlFor="type">Type</StyledLabel>
-            <StyledSelect
-              id="type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="audio">Audio</option>
-              <option value="video">Vidéo</option>
-              <option value="lyrics">Texte (paroles)</option>
-            </StyledSelect>
-          </StyledGroup>
+        <StyledGroup>
+          <StyledLabel>Catégories</StyledLabel>
+          <StyledCheckboxGroup>
+            <StyledCheckboxLabel>
+              <StyledCheckbox
+                type="checkbox"
+                value="LEAD"
+                checked={categories.includes('LEAD')}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setCategories([...categories, 'LEAD']);
+                  } else {
+                    setCategories(categories.filter((cat) => cat !== 'LEAD'));
+                  }
+                }}
+              />
+              LEAD
+            </StyledCheckboxLabel>
+            <StyledCheckboxLabel>
+              <StyledCheckbox
+                type="checkbox"
+                value="BV1"
+                checked={categories.includes('BV1')}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setCategories([...categories, 'BV1']);
+                  } else {
+                    setCategories(categories.filter((cat) => cat !== 'BV1'));
+                  }
+                }}
+              />
+              BV1
+            </StyledCheckboxLabel>
+            <StyledCheckboxLabel>
+              <StyledCheckbox
+                type="checkbox"
+                value="BV2"
+                checked={categories.includes('BV2')}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setCategories([...categories, 'BV2']);
+                  } else {
+                    setCategories(categories.filter((cat) => cat !== 'BV2'));
+                  }
+                }}
+              />
+              BV2
+            </StyledCheckboxLabel>
+          </StyledCheckboxGroup>
+        </StyledGroup>
 
-          <StyledGroup>
-            <StyledLabel htmlFor="title">Titre</StyledLabel>
-            <StyledInputText
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </StyledGroup>
+        <StyledGroup>
+          <StyledLabel>Genre</StyledLabel>
+          <StyledSelect
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="" />
+            <option value="M">Masculin</option>
+            <option value="F">Féminin</option>
+          </StyledSelect>
+        </StyledGroup>
 
-          <StyledGroup>
-            <StyledLabel htmlFor="googleId">Google Id / URL</StyledLabel>
-            <StyledInputText
-              type="text"
-              id="googleId"
-              value={googleId}
-              onChange={(e) => setGoogleId(e.target.value)}
-            />
-          </StyledGroup>
-
-          {type === 'lyrics' && (
-            <StyledGroup>
-              <StyledLabel htmlFor="lyrics">Paroles</StyledLabel>
-              <Editor contentValue={lyrics} handleChange={setLyrics} />{' '}
-            </StyledGroup>
-          )}
-
-          <StyledGroup>
-            <StyledLabel>Catégories</StyledLabel>
-            <StyledCheckboxGroup>
-              <StyledCheckboxLabel>
-                <StyledCheckbox
-                  type="checkbox"
-                  value="LEAD"
-                  checked={categories.includes('LEAD')}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setCategories([...categories, 'LEAD']);
-                    } else {
-                      setCategories(categories.filter((cat) => cat !== 'LEAD'));
-                    }
-                  }}
-                />
-                LEAD
-              </StyledCheckboxLabel>
-              <StyledCheckboxLabel>
-                <StyledCheckbox
-                  type="checkbox"
-                  value="BV1"
-                  checked={categories.includes('BV1')}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setCategories([...categories, 'BV1']);
-                    } else {
-                      setCategories(categories.filter((cat) => cat !== 'BV1'));
-                    }
-                  }}
-                />
-                BV1
-              </StyledCheckboxLabel>
-              <StyledCheckboxLabel>
-                <StyledCheckbox
-                  type="checkbox"
-                  value="BV2"
-                  checked={categories.includes('BV2')}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setCategories([...categories, 'BV2']);
-                    } else {
-                      setCategories(categories.filter((cat) => cat !== 'BV2'));
-                    }
-                  }}
-                />
-                BV2
-              </StyledCheckboxLabel>
-            </StyledCheckboxGroup>
-          </StyledGroup>
-
-          <StyledGroup>
-            <StyledLabel>Genre</StyledLabel>
-            <StyledSelect
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <option value="" />
-              <option value="M">Masculin</option>
-              <option value="F">Féminin</option>
-            </StyledSelect>
-          </StyledGroup>
-
-          {formError === '' && <p className="error">{formError}</p>}
-          <StyledGroup className="alignright">
-            <FormButton type="submit">Ajouter</FormButton>
-          </StyledGroup>
-        </form>
-      </StyledContainer>
-    </div>
+        {formError === '' && <p className="error">{formError}</p>}
+        <StyledGroup className="alignright">
+          <FormButton type="submit">Ajouter</FormButton>
+        </StyledGroup>
+      </form>
+    </StyledContainer>
   );
 }
 

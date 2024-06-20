@@ -8,7 +8,6 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "homepage": "/riv3",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "escape-html": "^1.0.3",

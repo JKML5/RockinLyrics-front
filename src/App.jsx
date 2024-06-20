@@ -1,7 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
+import AdminHeader from './components/AdminHeader';
 import QuizLyrics from './pages/QuizLyrics';
 import FormTutorial from './pages/admin/FormTutorial';
 import Home from './pages/Home';
@@ -35,11 +36,15 @@ body {
 
 function App() {
   const theme = useSelector((state) => state.theme);
+  const location = useLocation();
+
+  // Vérifie si le chemin actuel est un chemin admin
+  const isAdminRoute = location.pathname.startsWith('/admin/song');
 
   return (
     <>
       <GlobalStyle theme={theme} />
-      <Header />
+      {isAdminRoute ? <AdminHeader /> : <Header />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />

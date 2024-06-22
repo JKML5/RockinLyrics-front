@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import Menu from './Menu';
 
 const StyledHeader = styled.header`
@@ -16,36 +15,13 @@ const StyledHeader = styled.header`
   z-index: 999;
 `;
 
-const StyledTitle = styled.h1`
-  margin-top: 60px;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 30px;
-  text-align: center;
-`;
-
-const StyledLink = styled(Link)`
-  display: block;
-  height: 80px;
-  padding: 20px 0;
-  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
-  text-decoration: none;
-`;
-
 function Header() {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <>
-      <StyledHeader theme={theme}>
-        <Menu />
-      </StyledHeader>
-      <StyledTitle>
-        <StyledLink theme={theme} to="/">
-          Rock'in Villages 3
-        </StyledLink>
-      </StyledTitle>
-    </>
+    <StyledHeader theme={theme}>
+      <Menu />
+    </StyledHeader>
   );
 }
 

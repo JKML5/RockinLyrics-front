@@ -8,10 +8,13 @@ import QuizLyrics from './pages/QuizLyrics';
 import Home from './pages/Home';
 import FormTutorial from './pages/admin/FormTutorial';
 import Concert from './pages/admin/Concert';
-import FormConcert from './pages/admin/FormConcert';
+import FormConcert from './pages/admin/ConcertForm';
 import Song from './pages/admin/Song';
 import Error from './pages/Error';
 import './css/reset.css';
+import ConcertPage from './pages/ConcertPage';
+import Container from './components/shared/Container';
+import SongsAll from './pages/SongsAll';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -48,24 +51,31 @@ function App() {
       <GlobalStyle isAdminRoute={isAdminRoute} theme={theme} />
       {isAdminRoute ? <AdminHeader /> : <Header />}
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/lyrics/:songId/:tutorialId" element={<QuizLyrics />} />
-          <Route path="/admin/song" element={<Song />} />
-          <Route path="/admin/concert" element={<Concert />} />
-          <Route path="/admin/song/:songId/add" element={<FormTutorial />} />
-          <Route
-            path="/admin/song/:songId/:tutorialId/edit"
-            element={<FormTutorial />}
-          />
-          <Route path="/admin/concert/add" element={<FormConcert />} />
-          <Route
-            path="/admin/concert/edit/:concertId"
-            element={<FormConcert />}
-          />
+        <Container>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/lyrics/:songId/:tutorialId"
+              element={<QuizLyrics />}
+            />
+            <Route path="/concerts/:slug" element={<ConcertPage />} />
+            <Route path="/songAll" element={<SongsAll />} />
+            <Route path="/admin/song" element={<Song />} />
+            <Route path="/admin/concert" element={<Concert />} />
+            <Route path="/admin/song/:songId/add" element={<FormTutorial />} />
+            <Route
+              path="/admin/song/:songId/:tutorialId/edit"
+              element={<FormTutorial />}
+            />
+            <Route path="/admin/concert/add" element={<FormConcert />} />
+            <Route
+              path="/admin/concert/edit/:concertId"
+              element={<FormConcert />}
+            />
 
-          <Route path="/*" element={<Error />} />
-        </Routes>
+            <Route path="/*" element={<Error />} />
+          </Routes>
+        </Container>
       </main>
     </>
   );

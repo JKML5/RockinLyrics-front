@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import FormButton from '../../components/shared/FormButton';
+import Title1 from '../../components/shared/Title1';
 
 // TODO JK Doublons
 const StyledContainer = styled.div`
@@ -26,13 +27,6 @@ const StyledGroup = styled.div`
   }
 `;
 
-const StyledTitle = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 50px;
-`;
-
 const StyledLabel = styled.label`
   width: 100%;
   margin-bottom: 5px;
@@ -52,7 +46,7 @@ const StyledValidationMessage = styled.p`
   margin-bottom: 40px;
 `;
 
-function FormConcert() {
+function ConcertForm() {
   const navigate = useNavigate();
   const { concertId } = useParams();
 
@@ -147,7 +141,7 @@ function FormConcert() {
         <StyledValidationMessage>{validationMessage}</StyledValidationMessage>
       )}
 
-      <StyledTitle>{pageTitle}</StyledTitle>
+      <Title1 theme="light">{pageTitle}</Title1>
 
       <form onSubmit={handleSubmit}>
         <StyledGroup>
@@ -172,11 +166,13 @@ function FormConcert() {
 
         {formError === '' && <p className="error">{formError}</p>}
         <StyledGroup className="alignright">
-          <FormButton type="submit">Ajouter</FormButton>
+          <FormButton type="submit">
+            {concertId ? 'Editer' : 'Ajouter'}
+          </FormButton>
         </StyledGroup>
       </form>
     </StyledContainer>
   );
 }
 
-export default FormConcert;
+export default ConcertForm;

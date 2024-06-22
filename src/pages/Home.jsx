@@ -13,7 +13,6 @@ const Section = styled.section`
   padding: 0 20px;
 
   @media screen and (min-width: 992px) {
-    max-width: 1024px;
     margin: 0 auto;
     padding: 0;
   }

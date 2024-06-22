@@ -3,19 +3,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FormButton from '../../components/shared/FormButton';
+import Title1 from '../../components/shared/Title1';
 
 const StyledContainer = styled.div`
   margin: 50px 50px 0 50px;
   max-width: 1024px;
   margin: 0 auto;
-`;
-
-const StyledTitle = styled.h1`
-  margin-top: 60px;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 30px;
-  text-align: center;
 `;
 
 // TODO JK Doublon
@@ -42,7 +35,7 @@ function Concert() {
 
   return (
     <StyledContainer>
-      <StyledTitle>Concerts</StyledTitle>
+      <Title1 theme="light">Concerts</Title1>
 
       {concerts.map((concert) => (
         <p key={concert._id}>

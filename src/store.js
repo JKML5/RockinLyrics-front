@@ -13,7 +13,8 @@ const initialState = {
   theme: savedTheme || 'light',
   fontSize: 18,
   audioPlayer: {
-    googleId: '',
+    url: '',
+    isPlaying: false,
     isVisible: false,
   },
 };
@@ -44,8 +45,16 @@ export function decrementFontSize() {
   return { type: 'decrementFontSize' };
 }
 
-export function launchAudioPlayer(googleId) {
-  return { type: 'launchAudioPlayer', googleId };
+export function launchAudioPlayer(url) {
+  return { type: 'launchAudioPlayer', url };
+}
+
+export function pauseAudioPlayer() {
+  return { type: 'pauseAudioPlayer' };
+}
+
+export function stopAudioPlayer() {
+  return { type: 'stopAudioPlayer' };
 }
 
 export function showPlayer() {
@@ -104,8 +113,26 @@ const reducer = (state = initialState, action = null) => {
       return {
         ...state,
         audioPlayer: {
-          googleId: action.googleId,
+          url: action.url,
+          isPlaying: true,
           isVisible: true,
+        },
+      };
+    case 'pauseAudioPlayer':
+      return {
+        ...state,
+        audioPlayer: {
+          ...state.audioPlayer, // Copie toutes les clés existantes de audioPlayer
+          isPlaying: false,
+        },
+      };
+    case 'stopAudioPlayer':
+      return {
+        ...state,
+        audioPlayer: {
+          ...state.audioPlayer,
+          url: '',
+          isPlaying: false,
         },
       };
 

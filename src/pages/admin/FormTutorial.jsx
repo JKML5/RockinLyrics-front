@@ -76,7 +76,7 @@ function FormTutorial() {
   const [isEditing, setIsEditing] = useState(false);
   const [type, setType] = useState('audio');
   const [title, setTitle] = useState('');
-  const [googleId, setGoogleId] = useState('');
+  const [url, setUrl] = useState('');
   const [lyrics, setLyrics] = useState('');
   const [formError, setFormError] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
@@ -107,7 +107,7 @@ function FormTutorial() {
             if (tutorial) {
               setType(tutorial.type);
               setTitle(tutorial.title);
-              setGoogleId(tutorial.googleId);
+              setUrl(tutorial.url);
               setLyrics(tutorial.lyrics);
               setCategories(tutorial.categories || []);
               setGender(tutorial.gender || '');
@@ -138,7 +138,7 @@ function FormTutorial() {
     const requestData = {
       type,
       title,
-      googleId,
+      url,
       lyrics,
       categories,
       gender,
@@ -157,13 +157,13 @@ function FormTutorial() {
       },
     );
 
-    const url = isEditing
+    const audioUrl = isEditing
       ? `${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`
       : `${import.meta.env.VITE_API_URL}/song/${songId}`;
 
     const method = isEditing ? 'PUT' : 'POST';
 
-    fetch(url, {
+    fetch(audioUrl, {
       method,
       body: JSON.stringify(requestData),
       headers: {
@@ -228,12 +228,12 @@ function FormTutorial() {
         </StyledGroup>
 
         <StyledGroup>
-          <StyledLabel htmlFor="googleId">Google Id / URL</StyledLabel>
+          <StyledLabel htmlFor="url">URL</StyledLabel>
           <StyledInputText
             type="text"
-            id="googleId"
-            value={googleId}
-            onChange={(e) => setGoogleId(e.target.value)}
+            id="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           />
         </StyledGroup>
 

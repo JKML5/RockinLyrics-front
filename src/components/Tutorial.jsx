@@ -21,8 +21,8 @@ const TutorialHeading = styled.div`
   padding: 0 25px;
 `;
 
-function Tutorial({ data, songId, onPlayClick }) {
-  const { categories, gender, googleId, lyrics, title, type } = data;
+function Tutorial({ data, songId }) {
+  const { categories, gender, url, lyrics, title, type } = data;
 
   const theme = useSelector((state) => state.theme);
   const selectedGender = useSelector((state) => state.gender);
@@ -33,30 +33,22 @@ function Tutorial({ data, songId, onPlayClick }) {
   if (type === 'audio') {
     buttonsToShow = (
       <>
-        <ButtonPlay
-          onPlayClick={onPlayClick}
-          googleId={googleId}
-          type="audio"
-        />
-        <ButtonDrive googleId={googleId} />
+        <ButtonPlay url={url} type="audio" />
+        <ButtonDrive url={url} />
       </>
     );
   } else if (type === 'video') {
     buttonsToShow = (
       <>
-        <ButtonPlay
-          onPlayClick={onPlayClick}
-          googleId={googleId}
-          type="video"
-        />
-        <ButtonDrive googleId={googleId} />
+        <ButtonPlay url={url} type="video" />
+        <ButtonDrive url={url} />
       </>
     );
   } else if (type === 'lyrics') {
     buttonsToShow = (
       <>
         <ButtonTest songId={songId} tutorialId={data._id} />
-        <ButtonDrive googleId={googleId} />
+        <ButtonDrive url={url} />
       </>
     );
   }
@@ -76,11 +68,7 @@ function Tutorial({ data, songId, onPlayClick }) {
         </TutorialHeading>
 
         {type === 'lyrics' && (
-          <ContainerLyrics
-            tutorialId={googleId}
-            lyrics={lyrics}
-            onPlayClick={onPlayClick}
-          />
+          <ContainerLyrics tutorialId={url} lyrics={lyrics} />
         )}
       </StyledTutorial>
     )
@@ -90,7 +78,7 @@ function Tutorial({ data, songId, onPlayClick }) {
 Tutorial.propTypes = {
   data: PropTypes.shape({
     _id: PropTypes.string,
-    googleId: PropTypes.string,
+    url: PropTypes.string,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     gender: PropTypes.string,
@@ -99,7 +87,6 @@ Tutorial.propTypes = {
     message: PropTypes.string,
   }).isRequired,
   songId: PropTypes.string.isRequired,
-  onPlayClick: PropTypes.func.isRequired,
 };
 
 export default Tutorial;

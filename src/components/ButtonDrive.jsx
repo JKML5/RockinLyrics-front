@@ -10,22 +10,18 @@ const Image = styled.img`
   filter: ${({ theme }) => (theme === 'light' ? 'none' : 'invert(1);')};
 `;
 
-function ButtonDrive({ googleId }) {
+function ButtonDrive({ url = '' }) {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <TutoLink to={googleId}>
+    <TutoLink to={url}>
       <Image theme={theme} src={imageSrc} alt="URL" />
     </TutoLink>
   );
 }
 
-ButtonDrive.defaultProps = {
-  googleId: '',
-};
-
 ButtonDrive.propTypes = {
-  googleId: PropTypes.string,
+  url: PropTypes.string,
 };
 
 export default ButtonDrive;

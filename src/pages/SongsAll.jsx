@@ -61,9 +61,6 @@ function SongsAll() {
               id={id}
               title={`${title} - ${artist}`}
               tutorials={tutorials}
-              onPlayClick={(playerType, playerAction, googleId) =>
-                handlePlayClick(playerType, playerAction, googleId)
-              }
             />
           ))}
       </Section>

@@ -28,7 +28,7 @@ const SongTitle = styled.a`
   display: block;
 `;
 
-function Song({ id, title, tutorials, onPlayClick }) {
+function Song({ id, title, tutorials }) {
   const theme = useSelector((state) => state.theme);
 
   const [isActive, setIsActive] = useState(false);
@@ -42,14 +42,7 @@ function Song({ id, title, tutorials, onPlayClick }) {
       {isActive &&
         Array.isArray(tutorials) &&
         tutorials.map((tutorial) => (
-          <Tutorial
-            key={tutorial._id}
-            data={tutorial}
-            songId={id}
-            onPlayClick={(playerAction, type, googleId) =>
-              onPlayClick(playerAction, type, googleId)
-            }
-          />
+          <Tutorial key={tutorial._id} data={tutorial} songId={id} />
         ))}
     </SongWrapper>
   );
@@ -61,7 +54,7 @@ Song.propTypes = {
   tutorials: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      googleId: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       gender: PropTypes.string,
@@ -70,7 +63,6 @@ Song.propTypes = {
       message: PropTypes.string,
     }),
   ).isRequired,
-  onPlayClick: PropTypes.func.isRequired,
 };
 
 export default Song;

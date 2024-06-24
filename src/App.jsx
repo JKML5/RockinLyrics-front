@@ -11,10 +11,11 @@ import Concert from './pages/admin/Concert';
 import FormConcert from './pages/admin/ConcertForm';
 import Song from './pages/admin/Song';
 import Error from './pages/Error';
-import './css/reset.css';
 import ConcertPage from './pages/ConcertPage';
-import Container from './components/shared/Container';
 import SongsAll from './pages/SongsAll';
+import Container from './components/shared/Container';
+import PlyrComponent from './components/PlyrComponent';
+import './css/reset.css';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -75,6 +76,7 @@ function App() {
 
             <Route path="/*" element={<Error />} />
           </Routes>
+          <PlyrComponent />
         </Container>
       </main>
     </>

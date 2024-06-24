@@ -1,4 +1,4 @@
-// @see https://github.com/chintan9/plyr-react
+/* eslint-disable react/prop-types */
 import React, { forwardRef } from 'react';
 import { usePlyr } from 'plyr-react';
 import 'plyr-react/plyr.css';
@@ -16,13 +16,12 @@ const StyledAudioPlayer = styled.div`
 `;
 
 const PlyrInstance = forwardRef((props, ref) => {
-  // eslint-disable-next-line react/prop-types
   const { source, options = null } = props;
   const raptorRef = usePlyr(ref, { options, source });
 
   return (
     <StyledAudioPlayer>
-      <video ref={raptorRef} className="plyr-react plyr" />
+      <audio ref={raptorRef} className="plyr-react plyr" />
     </StyledAudioPlayer>
   );
 });

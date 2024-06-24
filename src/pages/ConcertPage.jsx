@@ -54,15 +54,12 @@ function ConcertPage() {
       <Title1 theme={theme}>{concert.name}</Title1>
       <Section theme={theme}>
         {concert.songs &&
-          concert.songs.map(({ id, title, artist, tutorials }) => (
+          concert.songs.map(({ _id, title, artist, tutorials }) => (
             <Song
-              key={id}
-              id={id}
+              key={_id}
+              id={_id}
               title={`${title} - ${artist}`}
               tutorials={tutorials}
-              onPlayClick={(playerType, playerAction, googleId) =>
-                handlePlayClick(playerType, playerAction, googleId)
-              }
             />
           ))}
       </Section>

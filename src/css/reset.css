@@ -58,20 +58,6 @@ strong {
 }
 
 /***************************************************************************************/
-/* TODO JK Pas ici */
-.clickable {
-	cursor: pointer;
-	text-decoration: underline;
-}
-
-.icon-speaker {
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	position: relative;
-	top: 4px;
-}
-
 pre {
   background-color: #f4f4f4;
   padding: 10px;

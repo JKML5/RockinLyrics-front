@@ -117,7 +117,7 @@ function ConcertForm() {
 
         const data = await response.json();
         setValidationMessage('Concert ajouté avec succès');
-        console.log(data);
+
         // Rediriger vers la page d'édition du concert ajouté
         if (data.concert._id) {
           navigate(`/admin/concert/edit/${data.concert._id}`);
@@ -128,7 +128,6 @@ function ConcertForm() {
       }
     } catch (error) {
       console.error('Error adding/editing concert:', error);
-      console.log('Failed to save concert');
       setFormError(error.message);
     }
   };

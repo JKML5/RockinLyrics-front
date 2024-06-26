@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import FormButton from '../../components/shared/FormButton';
 
 const Section = styled.section`
-  background-color: ${({ theme }) =>
-    theme === 'light' ? '#ffffff' : '#000000'};
+  background-color: '#ffffff';
   border-radius: 20px;
   padding: 0 20px;
 
@@ -22,7 +21,7 @@ const SongTitle = styled.a`
   font-size: 20px;
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 700;
-  color: ${({ theme }) => (theme === 'light' ? '#505050' : '#cccccc')};
+  color: '#505050';
   display: block;
 `;
 

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import useFetchSongs from '../hooks/useImportSongs';
 
 const Container = styled.div`
   font-family: 'Roboto', sans-serif;
@@ -40,24 +39,11 @@ const Button = styled.button`
   }
 `;
 
-function QuizLyrics() {
-  useFetchSongs();
-
-  const { songId, tutorialId } = useParams();
+function QuizLyrics({ lyrics }) {
   const theme = useSelector((state) => state.theme);
   const fontSize = useSelector((state) => state.fontSize);
-  const songs = useSelector((state) => state.songs);
 
-  const findItemById = (idToFind) => songs.find((item) => item.id === idToFind);
-
-  const selectedSong = findItemById(songId);
-
-  const findTutorialById = (idToFind) =>
-    selectedSong.tutorials.find((item) => item._id === idToFind);
-
-  const selectedTutorial = findTutorialById(tutorialId);
-  const songLyrics = selectedTutorial.lyrics;
-  const songLyricsLines = songLyrics.split('<br>');
+  const songLyricsLines = lyrics.split('<br>');
   songLyricsLines.unshift('Début');
   songLyricsLines.push('Fin');
 
@@ -121,5 +107,9 @@ function QuizLyrics() {
     </Container>
   );
 }
+
+QuizLyrics.propTypes = {
+  lyrics: PropTypes.string.isRequired,
+};
 
 export default QuizLyrics;

@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import imageSrc from '../assets/test.png';
 
 const Image = styled.img`
@@ -14,19 +13,26 @@ const Image = styled.img`
   filter: ${({ theme }) => (theme === 'light' ? 'none' : 'invert(1);')};
 `;
 
-function ButtonTest({ songId, tutorialId }) {
+const StyledButton = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+`;
+
+function ButtonQuiz({ onClick }) {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <Link to={`/lyrics/${songId}/${tutorialId}`}>
+    <StyledButton type="button" onClick={onClick}>
       <Image theme={theme} src={imageSrc} alt="Réviser" />
-    </Link>
+    </StyledButton>
   );
 }
 
-ButtonTest.propTypes = {
-  songId: PropTypes.string.isRequired,
-  tutorialId: PropTypes.string.isRequired,
+ButtonQuiz.propTypes = {
+  onClick: PropTypes.func.isRequired,
 };
 
-export default ButtonTest;
+export default ButtonQuiz;

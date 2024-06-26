@@ -66,7 +66,7 @@ function PlyrComponent() {
   }, [audioPlayer.isPlaying, audioPlayer.url, dispatch]);
 
   return (
-    <Section className={`wrapper ${audioPlayer.isVisible ? '' : 'hidden'}`}>
+    <Section className={`${audioPlayer.isVisible ? '' : 'hidden'}`}>
       <PlyrInstance ref={ref} options={options} />
     </Section>
   );

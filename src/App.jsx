@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import Header from './components/Header';
 import AdminHeader from './components/AdminHeader';
-import QuizLyrics from './pages/QuizLyrics';
 import Home from './pages/Home';
 import FormTutorial from './pages/admin/FormTutorial';
 import Concert from './pages/admin/Concert';
@@ -55,10 +54,6 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/lyrics/:songId/:tutorialId"
-              element={<QuizLyrics />}
-            />
             <Route path="/concerts/:slug" element={<ConcertPage />} />
             <Route path="/songAll" element={<SongsAll />} />
             <Route path="/admin/song" element={<Song />} />

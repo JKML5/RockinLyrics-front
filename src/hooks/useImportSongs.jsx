@@ -7,9 +7,10 @@ import { addSongsMongoDB } from '../store';
 
 const useFetchSongs = () => {
   const dispatch = useDispatch();
+  const url = `${import.meta.env.VITE_API_URL}/song`;
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/song`)
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         dispatch(addSongsMongoDB(data));

@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useState } from 'react';
 import ButtonPlay from './ButtonPlay';
 import ButtonDrive from './ButtonDrive';
 import ContainerLyrics from './ContainerLyrics';
-import ButtonTest from './ButtonTest';
+import ButtonQuiz from './ButtonQuiz';
+import QuizLyrics from './QuizLyrics';
 
 const StyledTutorial = styled.div`
   font-size: 16px;
@@ -21,12 +23,19 @@ const TutorialHeading = styled.div`
   padding: 0 25px;
 `;
 
-function Tutorial({ data, songId }) {
+function Tutorial({ data }) {
   const { categories, gender, url, lyrics, title, type } = data;
 
   const theme = useSelector((state) => state.theme);
   const selectedGender = useSelector((state) => state.gender);
   const selectedCategory = useSelector((state) => state.category);
+
+  const [showQuiz, setShowQuiz] = useState(false);
+
+  const handleToggle = () => {
+    console.log('coucou toggle');
+    setShowQuiz((prevShowQuiz) => !prevShowQuiz);
+  };
 
   let buttonsToShow = null;
 
@@ -47,7 +56,7 @@ function Tutorial({ data, songId }) {
   } else if (type === 'lyrics') {
     buttonsToShow = (
       <>
-        <ButtonTest songId={songId} tutorialId={data._id} />
+        <ButtonQuiz onClick={handleToggle} />
         <ButtonDrive url={url} />
       </>
     );
@@ -67,9 +76,12 @@ function Tutorial({ data, songId }) {
           <div>{buttonsToShow}</div>
         </TutorialHeading>
 
-        {type === 'lyrics' && (
-          <ContainerLyrics tutorialId={url} lyrics={lyrics} />
-        )}
+        {type === 'lyrics' &&
+          (showQuiz ? (
+            <QuizLyrics lyrics={lyrics} />
+          ) : (
+            <ContainerLyrics lyrics={lyrics} />
+          ))}
       </StyledTutorial>
     )
   );
@@ -86,7 +98,6 @@ Tutorial.propTypes = {
     lyrics: PropTypes.string,
     message: PropTypes.string,
   }).isRequired,
-  songId: PropTypes.string.isRequired,
 };
 
 export default Tutorial;

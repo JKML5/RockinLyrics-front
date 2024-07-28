@@ -1,81 +1,57 @@
-/* eslint-disable no-nested-ternary */
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { createGlobalStyle } from 'styled-components';
-import Header from './components/Header';
-import AdminHeader from './components/AdminHeader';
-import Home from './pages/Home';
-import FormTutorial from './pages/admin/FormTutorial';
-import Concert from './pages/admin/Concert';
-import FormConcert from './pages/admin/ConcertForm';
-import Song from './pages/admin/Song';
-import Error from './pages/Error';
-import ConcertPage from './pages/ConcertPage';
-import SongsAll from './pages/SongsAll';
-import Container from './components/shared/Container';
-import PlyrComponent from './components/PlyrComponent';
-import './css/reset.css';
+import { ThemeProvider } from 'styled-components';
+import themes from './assets/styles/theme';
+import Home from './components/pages/Home';
+import Error from './components/pages/Error';
+import Header from './components/layouts/Header';
+import PlyrComponent from './components/sections/PlyrComponent';
+import AdminHeader from './components/layouts/AdminHeader';
+import AdminSong from './components/pages/AdminSong';
+import AdminTutorialForm from './components/pages/admin/TutorialForm';
+import AdminConcert from './components/pages/admin/Concert';
+import AdminConcertForm from './components/pages/admin/ConcertForm';
+import AdminSongForm from './components/pages/AdminSongForm';
+import Container from './components/layouts/Main';
+import { GlobalStyle } from './assets/styles/GlobalStyle';
 
-const GlobalStyle = createGlobalStyle`
-* {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-}
-
-body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  line-height: 1.2;
-  padding-bottom: 95px;
-  background-color: ${({ theme, isAdminRoute }) =>
-    isAdminRoute ? '#f3f6f9' : theme === 'light' ? '#FFFFFF' : '#000000'};
-
-  @media screen and (min-width: 984px) { /* 1024 - padding 40 */
-  background-color: ${({ theme, isAdminRoute }) =>
-    isAdminRoute
-      ? '#f3f6f9'
-      : theme === 'light'
-        ? '#FFFFFF'
-        : 'linear-gradient(to right, #181818, #000000, #181818)'};
-}
-`;
-
-function App() {
+const App = () => {
   const theme = useSelector((state) => state.theme);
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin/');
+  const isAdmin = location.pathname.startsWith('/admin/');
 
   return (
-    <>
-      <GlobalStyle isAdminRoute={isAdminRoute} theme={theme} />
-      {isAdminRoute ? <AdminHeader /> : <Header />}
-      <main>
-        <Container>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/concerts/:slug" element={<ConcertPage />} />
-            <Route path="/songAll" element={<SongsAll />} />
-            <Route path="/admin/song" element={<Song />} />
-            <Route path="/admin/concert" element={<Concert />} />
-            <Route path="/admin/song/:songId/add" element={<FormTutorial />} />
-            <Route
-              path="/admin/song/:songId/:tutorialId/edit"
-              element={<FormTutorial />}
-            />
-            <Route path="/admin/concert/add" element={<FormConcert />} />
-            <Route
-              path="/admin/concert/edit/:concertId"
-              element={<FormConcert />}
-            />
+    <ThemeProvider theme={themes[theme]}>
+      <GlobalStyle isAdmin={isAdmin} />
+      {isAdmin ? <AdminHeader /> : <Header />}
+      <Container>
+        <Routes>
+          <Route path="/:slug?" element={<Home />} />
 
-            <Route path="/*" element={<Error />} />
-          </Routes>
-          <PlyrComponent />
-        </Container>
-      </main>
-    </>
+          <Route path="/admin/song" element={<AdminSong />} />
+          <Route path="/admin/concert" element={<AdminConcert />} />
+          <Route
+            path="/admin/song/:songId/add"
+            element={<AdminTutorialForm />}
+          />
+          <Route
+            path="/admin/song/:songId/:tutorialId/edit"
+            element={<AdminTutorialForm />}
+          />
+          <Route path="/admin/song/add" element={<AdminSongForm />} />
+          <Route path="/admin/song/edit/:songId" element={<AdminSongForm />} />
+          <Route path="/admin/concert/add" element={<AdminConcertForm />} />
+          <Route
+            path="/admin/concert/edit/:concertId"
+            element={<AdminConcertForm />}
+          />
+
+          <Route path="/*" element={<Error />} />
+        </Routes>
+        <PlyrComponent />
+      </Container>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

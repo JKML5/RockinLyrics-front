@@ -6,8 +6,6 @@ const savedCategory = localStorage.getItem('category');
 const savedTheme = localStorage.getItem('theme');
 
 const initialState = {
-  songs: [], // from MongoDB
-  name: 'riv', // riv, festirock, all
   gender: savedGender || 'F',
   category: savedCategory || 'LEAD',
   theme: savedTheme || 'light',
@@ -94,11 +92,10 @@ const reducer = (state = initialState, action = null) => {
           return { ...state, category: 'BV1' };
       }
     case 'toggleTheme':
-      localStorage.setItem('theme', action.theme);
-      return {
-        ...state,
-        theme: action.theme,
-      };
+      const newTheme = state.theme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+
+      return { ...state, theme: newTheme };
     case 'incrementFontSize':
       return {
         ...state,

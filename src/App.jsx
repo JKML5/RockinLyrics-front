@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={themes[theme]}>
-      <GlobalStyle isAdmin={isAdmin} />
+      <GlobalStyle isadmin={isAdmin} />
       {isAdmin ? <AdminHeader /> : <Header />}
       <Container>
         <Routes>

@@ -65,7 +65,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${({ theme, isAdmin }) => (isAdmin ? '#f9f9f9' : theme.colors.backgroundPrimary)};
     
     @media screen and (min-width: 984px) { /* 1024 - padding 40 */
-      background-color: ${({ theme, isAdmin }) => (isAdmin ? '#f9f9f9' : theme.colors.backgroundColorMobile)};
+      background: ${({ theme, isAdmin }) => (isAdmin ? '#f9f9f9' : theme.colors.backgroundColorMobile)};
     }
   }
 `;

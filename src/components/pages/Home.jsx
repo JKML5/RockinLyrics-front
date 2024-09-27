@@ -21,8 +21,9 @@ const Home = () => {
   const { fetchData, data: concert, error, loading } = useFetch();
 
   useEffect(() => {
-    document.title = 'Admin | Songs';
-    fetchData(`${import.meta.env.VITE_API_URL}/concert/slug/${slug}`);
+    if (slug) {
+      fetchData(`${import.meta.env.VITE_API_URL}/concert/slug/${slug}`);
+    }
   }, [fetchData]);
 
   if (loading) {
@@ -36,6 +37,8 @@ const Home = () => {
   if (!concert) {
     return <div>No concert data found</div>;
   }
+
+  document.title = concert.name;
 
   return (
     <Section>

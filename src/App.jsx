@@ -12,13 +12,14 @@ import AdminTutorialForm from './components/pages/admin/TutorialForm';
 import AdminConcert from './components/pages/admin/Concert';
 import AdminConcertForm from './components/pages/admin/ConcertForm';
 import AdminSongForm from './components/pages/AdminSongForm';
+import AdminIndex from './components/pages/admin/Index';
 import Container from './components/layouts/Main';
 import { GlobalStyle } from './assets/styles/GlobalStyle';
 
 const App = () => {
   const theme = useSelector((state) => state.theme);
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin/');
+  const isAdmin = location.pathname.startsWith('/admin');
 
   return (
     <ThemeProvider theme={themes[theme]}>
@@ -28,6 +29,7 @@ const App = () => {
         <Routes>
           <Route path="/:slug?" element={<Home />} />
 
+          <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/song" element={<AdminSong />} />
           <Route path="/admin/concert" element={<AdminConcert />} />
           <Route

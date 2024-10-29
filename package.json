@@ -1,6 +1,5 @@
 {
   "name": "rockin-lyrics-front",
-  "homepage": "/rockin-lyrics/",
   "private": true,
   "version": "0.0.0",
   "type": "module",

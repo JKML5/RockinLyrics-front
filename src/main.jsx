@@ -7,7 +7,7 @@ import store from './store';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/rockin-lyrics">
+    <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>

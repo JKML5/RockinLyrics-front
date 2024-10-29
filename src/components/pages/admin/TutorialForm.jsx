@@ -136,25 +136,10 @@ function FormTutorial() {
       type,
       title,
       url,
-      lyrics,
+      lyrics: lyrics ? lyrics.replace(/<p>(.*?)<\/p>/g, '$1<br>') : '',
       categories,
       gender,
     };
-
-    if (lyrics) {
-      // Remplace <p></p> par <br>
-      requestData.lyrics = lyrics.replace(/<p>(.*?)<\/p>/g, '$1<br>');
-
-      requestData.lyrics = lyrics.replace(
-        /<p>(.*?)<\/p>|(\n)/g,
-        (match, pTagContent) => {
-          if (pTagContent) {
-            return `${pTagContent}<br>`;
-          }
-          return '<br>';
-        },
-      );
-    }
 
     const audioUrl = isEditing
       ? `${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`

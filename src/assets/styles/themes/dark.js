@@ -2,8 +2,7 @@ const darkTheme = {
   colors: {
     primary: '#FFFFFF',
     secondary: '#000000',
-    backgroundColorMobile:
-      'linear-gradient(to right, #181818, #000000, #181818)',
+    backgroundColor: 'linear-gradient(to right, #181818, #000000, #181818)',
     text: '#F7FAFC',
     adminText: '#505050',
     themeButton: '#0F056B',

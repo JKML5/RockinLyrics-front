@@ -2,7 +2,7 @@ const lightTheme = {
   colors: {
     primary: '#000000',
     secondary: '#FFFFFF',
-    backgroundColorMobile: '#FFFFFF',
+    backgroundColor: '#FFFFFF',
     text: '#444444;',
     adminText: '#505050',
     themeButton: '#F39F18',

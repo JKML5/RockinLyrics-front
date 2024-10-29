@@ -3,7 +3,7 @@ const adminTheme = {
     primary: '#',
     secondary: '#',
     backgroundColor: '#F3F6F9',
-    backgroundColorMobile: '#F3F6F9',
+    backgroundColor: '#F3F6F9',
     text: '#CCCCCC',
   },
 };

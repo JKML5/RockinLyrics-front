@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import FormButton from '../common/FormButton';
-import useFetch from '../../hooks/useFetch';
+import FormButton from '../../common/FormButton';
+import useFetch from '../../../hooks/useFetch';
 
 const Section = styled.section`
   background-color: #ffffff;
@@ -33,7 +33,7 @@ const StyledGroup = styled.div`
   }
 `;
 
-function AdminSong() {
+function Song() {
   const { fetchData, data: songs, error, loading } = useFetch();
 
   useEffect(() => {
@@ -170,4 +170,4 @@ function AdminSong() {
   );
 }
 
-export default AdminSong;
+export default Song;

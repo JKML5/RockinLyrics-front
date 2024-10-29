@@ -7,12 +7,12 @@ import Error from './components/pages/Error';
 import Header from './components/layouts/Header';
 import PlyrComponent from './components/sections/PlyrComponent';
 import AdminHeader from './components/layouts/AdminHeader';
-import AdminSong from './components/pages/AdminSong';
-import AdminTutorialForm from './components/pages/admin/TutorialForm';
+import AdminIndex from './components/pages/admin/Index';
 import AdminConcert from './components/pages/admin/Concert';
 import AdminConcertForm from './components/pages/admin/ConcertForm';
+import AdminSong from './components/pages/admin/Song';
 import AdminSongForm from './components/pages/AdminSongForm';
-import AdminIndex from './components/pages/admin/Index';
+import AdminTutorialForm from './components/pages/admin/TutorialForm';
 import Container from './components/layouts/Main';
 import { GlobalStyle } from './assets/styles/GlobalStyle';
 

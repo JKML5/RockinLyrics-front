@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import FormButton from '../../common/FormButton';
 import Editor from '../../sections/SlideEditor';
+import StyledValidationMessage from '../../common/ValidationMessage';
+import StyledErrorMessage from '../../common/ErrorMessage';
 
 const StyledContainer = styled.div`
   margin: 50px 50px 0 50px;
@@ -63,21 +64,13 @@ const StyledCheckbox = styled.input`
   margin-right: 5px;
 `;
 
-const StyledValidationMessage = styled.p`
-  background-color: #b4eab4;
-  color: black;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 40px;
-`;
-
 function FormTutorial() {
   const [isEditing, setIsEditing] = useState(false);
   const [type, setType] = useState('audio');
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [lyrics, setLyrics] = useState('');
-  const [formError, setFormError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
   const [categories, setCategories] = useState([]);
   const [gender, setGender] = useState('');
@@ -129,7 +122,7 @@ function FormTutorial() {
     }
   }, [tutorialId]);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const requestData = {
@@ -147,35 +140,34 @@ function FormTutorial() {
 
     const method = isEditing ? 'PUT' : 'POST';
 
-    fetch(audioUrl, {
-      method,
-      body: JSON.stringify(requestData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((error) => {
-            throw new Error(error.message);
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (!isEditing && data.status === 201) {
-          navigate('/admin/song');
-        } else if (isEditing && data.status === 20) {
-          setValidationMessage('Tutoriel modifié avec succès');
-          fetchTutorialData();
-        } else {
-          throw new Error('Problème avec le formulaire');
-        }
-      })
-      .catch((error) => {
-        setFormError(error.message);
-        console.error(error);
+    try {
+      const response = await fetch(audioUrl, {
+        method,
+        body: JSON.stringify(requestData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
+
+      if (!response.ok) {
+        const errorData = await response.json(); // Parse JSON si possible pour obtenir un message d'erreur
+        throw new Error(errorData.message || 'Error submitting form');
+      }
+
+      const data = await response.json();
+
+      if (!isEditing && data.status === 201) {
+        navigate('/admin/song');
+      } else if (isEditing) {
+        setValidationMessage('Tutoriel modifié avec succès');
+        fetchTutorialData();
+      } else {
+        throw new Error('Problème avec le formulaire');
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+      console.error(error);
+    }
   }
 
   const pageTitle = isEditing ? 'Editer un tuto' : 'Ajouter un tuto';
@@ -183,8 +175,10 @@ function FormTutorial() {
   return (
     <StyledContainer>
       {validationMessage && (
-        <StyledValidationMessage>{validationMessage}</StyledValidationMessage>
+        <StyledValidationMessage message={validationMessage} />
       )}
+
+      {errorMessage && <StyledErrorMessage message={errorMessage} />}
 
       <StyledTitle>{pageTitle}</StyledTitle>
       <form onSubmit={handleSubmit}>
@@ -291,7 +285,6 @@ function FormTutorial() {
           </StyledSelect>
         </StyledGroup>
 
-        {formError === '' && <p className="error">{formError}</p>}
         <StyledGroup className="alignright">
           <FormButton type="submit">Ajouter</FormButton>
         </StyledGroup>

@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import FormButton from '../../common/FormButton';
 import Title1 from '../../common/Title1';
+import StyledErrorMessage from '../../common/ErrorMessage';
+import StyledValidationMessage from '../../common/ValidationMessage';
 
 const StyledContainer = styled.div`
   margin: 50px 50px 0 50px;
@@ -29,24 +31,15 @@ const StyledInputText = styled.input`
   height: 35px;
 `;
 
-const StyledValidationMessage = styled.p`
-  background-color: #b4eab4;
-  color: black;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 40px;
-`;
-
 function ConcertForm() {
   const navigate = useNavigate();
   const { concertId } = useParams();
 
-  const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [songs, setSongs] = useState([]);
 
-  const [formError, setFormError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
 
   // Fonction pour récupérer les détails des chansons
@@ -62,15 +55,13 @@ function ConcertForm() {
       setSongs(songDetails);
     } catch (error) {
       console.error('Error fetching song details:', error);
-      setFormError('Error fetching song details');
+      setErrorMessage('Error fetching song details');
     }
   };
 
   const fetchConcertData = async () => {
     try {
       if (concertId) {
-        setIsEditing(true);
-
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/concert/${concertId}`,
         );
@@ -90,7 +81,7 @@ function ConcertForm() {
         }
       }
     } catch (error) {
-      setFormError(error.message);
+      setErrorMessage(error.message);
       console.error(error);
     }
   };
@@ -174,12 +165,12 @@ function ConcertForm() {
           navigate(`/admin/concert/edit/${data.concert._id}`);
         } else {
           console.error('Missing _id in response:', data);
-          setFormError("Erreur lors de l'ajout du concert");
+          setErrorMessage("Erreur lors de l'ajout du concert");
         }
       }
     } catch (error) {
       console.error('Error adding/editing concert:', error);
-      setFormError(error.message);
+      setErrorMessage(error.message);
     }
   };
 
@@ -188,8 +179,10 @@ function ConcertForm() {
   return (
     <StyledContainer>
       {validationMessage && (
-        <StyledValidationMessage>{validationMessage}</StyledValidationMessage>
+        <StyledValidationMessage message={validationMessage} />
       )}
+
+      {errorMessage && <StyledErrorMessage message={errorMessage} />}
 
       <Title1 isAdmin={true}>{pageTitle}</Title1>
 
@@ -230,7 +223,6 @@ function ConcertForm() {
           ))}
         </StyledGroup>
 
-        {formError && <p className="error">{formError}</p>}
         <StyledGroup className="alignright">
           <FormButton type="submit">
             {concertId ? 'Editer' : 'Ajouter'}

@@ -1,35 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import FormButton from '../../common/FormButton';
+
 import Title1 from '../../common/Title1';
-import StyledErrorMessage from '../../common/ErrorMessage';
+import Container from '../../common/admin/Container';
+import FormGroup from '../../common/admin/FromGroup';
+import FormButton from '../../common/admin/FormButton';
+import Label from '../../common/admin/Label';
+import InputText from '../../common/admin/InputText';
+
 import StyledValidationMessage from '../../common/ValidationMessage';
-
-const StyledContainer = styled.div`
-  margin: 50px 50px 0 50px;
-  max-width: 1024px;
-  margin: 0 auto;
-`;
-
-const StyledGroup = styled.div`
-  margin-bottom: 30px;
-
-  &.alignright {
-    text-align: right;
-  }
-`;
-
-const StyledLabel = styled.label`
-  width: 100%;
-  margin-bottom: 5px;
-  display: inline-block;
-`;
-
-const StyledInputText = styled.input`
-  width: 100%;
-  height: 35px;
-`;
+import StyledErrorMessage from '../../common/ErrorMessage';
 
 function ConcertForm() {
   const navigate = useNavigate();
@@ -39,10 +19,9 @@ function ConcertForm() {
   const [slug, setSlug] = useState('');
   const [songs, setSongs] = useState([]);
 
-  const [errorMessage, setErrorMessage] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Fonction pour récupérer les détails des chansons
   const fetchSongsDetails = async (songIds) => {
     try {
       const songDetails = await Promise.all(
@@ -121,7 +100,11 @@ function ConcertForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const requestData = { name, slug, songs: songs.map((song) => song._id) }; // Ajouter l'ordre des chansons mis à jour
+    const requestData = {
+      name,
+      slug,
+      songs: songs.map((song) => song._id),
+    };
 
     try {
       let response;
@@ -177,7 +160,7 @@ function ConcertForm() {
   const pageTitle = concertId ? 'Editer un concert' : 'Ajouter un concert';
 
   return (
-    <StyledContainer>
+    <Container>
       {validationMessage && (
         <StyledValidationMessage message={validationMessage} />
       )}
@@ -187,29 +170,28 @@ function ConcertForm() {
       <Title1 isAdmin={true}>{pageTitle}</Title1>
 
       <form onSubmit={handleSubmit}>
-        <StyledGroup>
-          <StyledLabel htmlFor="title">Nom</StyledLabel>
-          <StyledInputText
+        <FormGroup>
+          <Label htmlFor="title">Nom</Label>
+          <InputText
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-        </StyledGroup>
+        </FormGroup>
 
-        <StyledGroup>
-          <StyledLabel htmlFor="title">Slug</StyledLabel>
-          <StyledInputText
+        <FormGroup>
+          <Label htmlFor="title">Slug</Label>
+          <InputText
             type="text"
             id="slug"
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
           />
-        </StyledGroup>
+        </FormGroup>
 
-        {/* Affichage des chansons */}
-        <StyledGroup>
-          <StyledLabel>Chansons</StyledLabel>
+        <FormGroup>
+          <Label>Chansons</Label>
           {songs.map((song, index) => (
             <div key={song._id}>
               <span>{song.title}</span>
@@ -221,15 +203,15 @@ function ConcertForm() {
               </button>
             </div>
           ))}
-        </StyledGroup>
+        </FormGroup>
 
-        <StyledGroup className="alignright">
+        <FormGroup className="alignright">
           <FormButton type="submit">
             {concertId ? 'Editer' : 'Ajouter'}
           </FormButton>
-        </StyledGroup>
+        </FormGroup>
       </form>
-    </StyledContainer>
+    </Container>
   );
 }
 

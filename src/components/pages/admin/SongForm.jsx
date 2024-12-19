@@ -1,63 +1,27 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import Title1 from '../common/Title1';
-import FormButton from '../common/FormButton';
+import { useNavigate } from 'react-router-dom';
 
-const Section = styled.section`
-  background-color: '#ffffff';
-  border-radius: 20px;
-  padding: 0 20px;
+import Title1 from '../../common/Title1';
+import Container from '../../common/admin/Container';
+import FormGroup from '../../common/admin/FromGroup';
+import FormButton from '../../common/admin/FormButton';
+import Label from '../../common/admin/Label';
+import InputText from '../../common/admin/InputText';
 
-  @media screen and (min-width: 992px) {
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 0;
-  }
-`;
-
-const StyledGroup = styled.div`
-  margin-bottom: 30px;
-
-  &.alignright {
-    text-align: right;
-  }
-`;
-
-const StyledTitle = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 50px;
-`;
-
-const StyledLabel = styled.label`
-  width: 100%;
-  margin-bottom: 5px;
-  display: inline-block;
-`;
-
-const StyledInputText = styled.input`
-  width: 100%;
-  height: 35px;
-`;
-
-const StyledValidationMessage = styled.p`
-  background-color: 'green';
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-`;
+import StyledValidationMessage from '../../common/ValidationMessage';
+import StyledErrorMessage from '../../common/ErrorMessage';
 
 const AdminSongForm = () => {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
+
   const [validationMessage, setValidationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Validation formulaire ajout chanson
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
 
     const requestData = {
       title,
@@ -101,43 +65,41 @@ const AdminSongForm = () => {
   }
 
   return (
-    <Section>
+    <Container>
+      {validationMessage && (
+        <StyledValidationMessage message={validationMessage} />
+      )}
+
+      {errorMessage && <StyledErrorMessage message={errorMessage} />}
+
       <Title1>Ajouter un titre</Title1>
+
       <form onSubmit={handleSubmit}>
-        <StyledGroup>
-          <StyledLabel htmlFor="title">Titre</StyledLabel>
-          <StyledInputText
+        <FormGroup>
+          <Label htmlFor="title">Titre</Label>
+          <InputText
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-        </StyledGroup>
-        <StyledGroup>
-          <StyledLabel htmlFor="artist">Artiste</StyledLabel>
-          <StyledInputText
+        </FormGroup>
+
+        <FormGroup>
+          <Label htmlFor="artist">Artiste</Label>
+          <InputText
             type="text"
             id="artist"
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
           />
-        </StyledGroup>
+        </FormGroup>
 
-        {/* Message de validation */}
-        {validationMessage && (
-          <StyledValidationMessage>{validationMessage}</StyledValidationMessage>
-        )}
-
-        {/* Message d'erreur */}
-        {errorMessage && (
-          <StyledValidationMessage>{errorMessage}</StyledValidationMessage>
-        )}
-
-        <StyledGroup className="alignright">
+        <FormGroup className="alignright">
           <FormButton type="submit">Ajouter</FormButton>
-        </StyledGroup>
+        </FormGroup>
       </form>
-    </Section>
+    </Container>
   );
 };
 

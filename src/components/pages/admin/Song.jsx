@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import FormButton from '../../common/FormButton';
+import FormButton from '../../common/admin/FormButton';
 import useFetch from '../../../hooks/useFetch';
 
 const Section = styled.section`

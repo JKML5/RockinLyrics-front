@@ -1,81 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import FormButton from '../../common/FormButton';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import Title1 from '../../common/Title1';
+import Container from '../../common/admin/Container';
+import FormGroup from '../../common/admin/FromGroup';
+import FormButton from '../../common/admin/FormButton';
+import Label from '../../common/admin/Label';
+import InputText from '../../common/admin/InputText';
+import Select from '../../common/admin/Select';
+import CheckboxGroup from '../../common/admin/CheckboxGroup';
+import CheckboxLabel from '../../common/admin/CheckboxLabel';
+import Checkbox from '../../common/admin/Checkbox';
 import Editor from '../../sections/SlideEditor';
 import StyledValidationMessage from '../../common/ValidationMessage';
 import StyledErrorMessage from '../../common/ErrorMessage';
 
-const StyledContainer = styled.div`
-  margin: 50px 50px 0 50px;
-`;
-
-const StyledGroup = styled.div`
-  margin-bottom: 30px;
-
-  &.alignright {
-    text-align: right;
-  }
-
-  .info {
-    color: #aaaaaa;
-  }
-
-  .disabled {
-    color: #dddddd;
-  }
-`;
-
-const StyledTitle = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 50px;
-`;
-
-const StyledLabel = styled.label`
-  width: 100%;
-  margin-bottom: 5px;
-  display: inline-block;
-`;
-
-const StyledInputText = styled.input`
-  width: 100%;
-  height: 35px;
-`;
-
-const StyledSelect = styled.select`
-  width: 100%;
-  height: 35px;
-`;
-
-const StyledCheckboxGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledCheckboxLabel = styled.label`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-`;
-
-const StyledCheckbox = styled.input`
-  margin-right: 5px;
-`;
-
-function FormTutorial() {
+function TutorialForm() {
+  const navigate = useNavigate();
+  const { songId, tutorialId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
+
   const [type, setType] = useState('audio');
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [lyrics, setLyrics] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [validationMessage, setValidationMessage] = useState('');
   const [categories, setCategories] = useState([]);
   const [gender, setGender] = useState('');
-  const { songId, tutorialId } = useParams();
-  const navigate = useNavigate();
+
+  const [validationMessage, setValidationMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const fetchTutorialData = async () => {
     try {
@@ -110,7 +63,7 @@ function FormTutorial() {
         }
       }
     } catch (error) {
-      setFormError(error.message);
+      setErrorMessage(error.message);
       console.error(error);
     }
   };
@@ -122,8 +75,9 @@ function FormTutorial() {
     }
   }, [tutorialId]);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  // Clic sur Valider
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     const requestData = {
       type,
@@ -168,23 +122,24 @@ function FormTutorial() {
       setErrorMessage(error.message);
       console.error(error);
     }
-  }
+  };
 
   const pageTitle = isEditing ? 'Editer un tuto' : 'Ajouter un tuto';
 
   return (
-    <StyledContainer>
+    <Container>
       {validationMessage && (
         <StyledValidationMessage message={validationMessage} />
       )}
 
       {errorMessage && <StyledErrorMessage message={errorMessage} />}
 
-      <StyledTitle>{pageTitle}</StyledTitle>
+      <Title1 isAdmin={true}>{pageTitle}</Title1>
+
       <form onSubmit={handleSubmit}>
-        <StyledGroup>
-          <StyledLabel htmlFor="type">Type</StyledLabel>
-          <StyledSelect
+        <FormGroup>
+          <Label htmlFor="type">Type</Label>
+          <Select
             id="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -192,41 +147,41 @@ function FormTutorial() {
             <option value="audio">Audio</option>
             <option value="video">Vidéo</option>
             <option value="lyrics">Texte (paroles)</option>
-          </StyledSelect>
-        </StyledGroup>
+          </Select>
+        </FormGroup>
 
-        <StyledGroup>
-          <StyledLabel htmlFor="title">Titre</StyledLabel>
-          <StyledInputText
+        <FormGroup>
+          <Label htmlFor="title">Titre</Label>
+          <InputText
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-        </StyledGroup>
+        </FormGroup>
 
-        <StyledGroup>
-          <StyledLabel htmlFor="url">URL</StyledLabel>
-          <StyledInputText
+        <FormGroup>
+          <Label htmlFor="url">URL</Label>
+          <InputText
             type="text"
             id="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
-        </StyledGroup>
+        </FormGroup>
 
         {type === 'lyrics' && (
-          <StyledGroup>
-            <StyledLabel htmlFor="lyrics">Paroles</StyledLabel>
+          <FormGroup>
+            <Label htmlFor="lyrics">Paroles</Label>
             <Editor contentValue={lyrics} handleChange={setLyrics} />{' '}
-          </StyledGroup>
+          </FormGroup>
         )}
 
-        <StyledGroup>
-          <StyledLabel>Catégories</StyledLabel>
-          <StyledCheckboxGroup>
-            <StyledCheckboxLabel>
-              <StyledCheckbox
+        <FormGroup>
+          <Label>Catégories</Label>
+          <CheckboxGroup>
+            <CheckboxLabel>
+              <Checkbox
                 type="checkbox"
                 value="LEAD"
                 checked={categories.includes('LEAD')}
@@ -239,9 +194,9 @@ function FormTutorial() {
                 }}
               />
               LEAD
-            </StyledCheckboxLabel>
-            <StyledCheckboxLabel>
-              <StyledCheckbox
+            </CheckboxLabel>
+            <CheckboxLabel>
+              <Checkbox
                 type="checkbox"
                 value="BV1"
                 checked={categories.includes('BV1')}
@@ -254,9 +209,9 @@ function FormTutorial() {
                 }}
               />
               BV1
-            </StyledCheckboxLabel>
-            <StyledCheckboxLabel>
-              <StyledCheckbox
+            </CheckboxLabel>
+            <CheckboxLabel>
+              <Checkbox
                 type="checkbox"
                 value="BV2"
                 checked={categories.includes('BV2')}
@@ -269,28 +224,27 @@ function FormTutorial() {
                 }}
               />
               BV2
-            </StyledCheckboxLabel>
-          </StyledCheckboxGroup>
-        </StyledGroup>
+            </CheckboxLabel>
+          </CheckboxGroup>
+        </FormGroup>
 
-        <StyledGroup>
-          <StyledLabel>Genre</StyledLabel>
-          <StyledSelect
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-          >
+        <FormGroup>
+          <Label>Genre</Label>
+          <Select value={gender} onChange={(e) => setGender(e.target.value)}>
             <option value="" />
             <option value="M">Masculin</option>
             <option value="F">Féminin</option>
-          </StyledSelect>
-        </StyledGroup>
+          </Select>
+        </FormGroup>
 
-        <StyledGroup className="alignright">
-          <FormButton type="submit">Ajouter</FormButton>
-        </StyledGroup>
+        <FormGroup className="alignright">
+          <FormButton type="submit">
+            {isEditing ? 'Editer' : 'Ajouter'}
+          </FormButton>
+        </FormGroup>
       </form>
-    </StyledContainer>
+    </Container>
   );
 }
 
-export default FormTutorial;
+export default TutorialForm;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import FormButton from '../../common/FormButton';
+import FormButton from '../../common/admin/FormButton';
 import Title1 from '../../common/Title1';
 
 const StyledContainer = styled.div`

@@ -11,7 +11,7 @@ import AdminIndex from './components/pages/admin/Index';
 import AdminConcert from './components/pages/admin/Concert';
 import AdminConcertForm from './components/pages/admin/ConcertForm';
 import AdminSong from './components/pages/admin/Song';
-import AdminSongForm from './components/pages/AdminSongForm';
+import AdminSongForm from './components/pages/admin/SongForm';
 import AdminTutorialForm from './components/pages/admin/TutorialForm';
 import Container from './components/layouts/Main';
 import { GlobalStyle } from './assets/styles/GlobalStyle';

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import songsExtracts from '../../data/songsExtracts';
-import { launchAudioPlayer } from '../../store';
+import { launchMediaPlayer } from '../../store';
 import speakerIcon from '../../assets/images/speaker.svg';
 
 const StyledContainerLyrics = styled.div`
@@ -45,7 +45,7 @@ function ContainerLyrics({ lyrics = '' }) {
 
   useEffect(() => {
     const handleClick = (url) => {
-      dispatch(launchAudioPlayer(url));
+      dispatch(launchMediaPlayer(url, 'audio'));
     };
 
     const handleClickOnWord = (event) => {

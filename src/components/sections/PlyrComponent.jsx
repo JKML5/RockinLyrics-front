@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PlyrInstance from './PlyrInstance';
-import { pauseAudioPlayer, stopAudioPlayer } from '../../store';
+import { pauseMediaPlayer, stopMediaPlayer } from '../../store';
 
 const Section = styled.section`
   &.hidden {
@@ -18,46 +18,46 @@ const options = {
 };
 
 function PlyrComponent() {
-  const [currentURL, setCurrentURL] = useState('');
+  const [currentSource, setCurrentSource] = useState({ url: '', type: '' });
 
   const ref = useRef(null);
   const dispatch = useDispatch();
-  const audioPlayer = useSelector((state) => state.audioPlayer);
+  const mediaPlayer = useSelector((state) => state.mediaPlayer);
 
   useEffect(() => {
     if (ref.current && ref.current.plyr) {
       const player = ref.current.plyr;
 
-      if (audioPlayer.isPlaying) {
-        if (currentURL !== audioPlayer.url) {
-          setCurrentURL(audioPlayer.url);
+      if (mediaPlayer.isPlaying) {
+        if (currentSource !== mediaPlayer.url) {
+          setCurrentSource(mediaPlayer.url);
 
           player.source = {
-            type: 'audio',
+            type: mediaPlayer.type,
             sources: [
               {
-                type: 'audio/mp3',
-                src: audioPlayer.url,
+                src: mediaPlayer.url,
+                type: mediaPlayer.type === 'video' ? 'video/mp4' : 'audio/mp3',
               },
             ],
           };
         }
 
         player.play();
-      } else if (audioPlayer.isVisible) {
+      } else if (mediaPlayer.isVisible) {
         player.pause();
       }
 
-      if (audioPlayer.isVisible) {
-        player.on('ended', () => dispatch(stopAudioPlayer()));
-        player.on('pause', () => dispatch(pauseAudioPlayer()));
+      if (mediaPlayer.isVisible) {
+        player.on('ended', () => dispatch(stopMediaPlayer()));
+        player.on('pause', () => dispatch(pauseMediaPlayer()));
       }
     }
-  }, [audioPlayer.isPlaying, audioPlayer.url, dispatch]);
+  }, [mediaPlayer.isPlaying, mediaPlayer.url, dispatch]);
 
   return (
-    <Section className={`${audioPlayer.isVisible ? '' : 'hidden'}`}>
-      <PlyrInstance ref={ref} options={options} />
+    <Section className={`${mediaPlayer.isVisible ? '' : 'hidden'}`}>
+      <PlyrInstance ref={ref} options={options} type={mediaPlayer.type} />
     </Section>
   );
 }

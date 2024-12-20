@@ -88,14 +88,14 @@ function TutorialForm() {
       gender,
     };
 
-    const audioUrl = isEditing
+    const mediaUrl = isEditing
       ? `${import.meta.env.VITE_API_URL}/song/${songId}/${tutorialId}`
       : `${import.meta.env.VITE_API_URL}/song/${songId}`;
 
     const method = isEditing ? 'PUT' : 'POST';
 
     try {
-      const response = await fetch(audioUrl, {
+      const response = await fetch(mediaUrl, {
         method,
         body: JSON.stringify(requestData),
         headers: {
@@ -173,7 +173,7 @@ function TutorialForm() {
         {type === 'lyrics' && (
           <FormGroup>
             <Label htmlFor="lyrics">Paroles</Label>
-            <Editor contentValue={lyrics} handleChange={setLyrics} />{' '}
+            <Editor contentValue={lyrics} handleChange={setLyrics} />
           </FormGroup>
         )}
 

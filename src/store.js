@@ -10,8 +10,9 @@ const initialState = {
   category: savedCategory || 'LEAD',
   theme: savedTheme || 'light',
   fontSize: 18,
-  audioPlayer: {
+  mediaPlayer: {
     url: '',
+    type: '',
     isPlaying: false,
     isVisible: false,
   },
@@ -43,16 +44,16 @@ export function decrementFontSize() {
   return { type: 'decrementFontSize' };
 }
 
-export function launchAudioPlayer(url) {
-  return { type: 'launchAudioPlayer', url };
+export function launchMediaPlayer(url, type) {
+  return { type: 'launchMediaPlayer', payload: { url, type } };
 }
 
-export function pauseAudioPlayer() {
-  return { type: 'pauseAudioPlayer' };
+export function pauseMediaPlayer() {
+  return { type: 'pauseMediaPlayer' };
 }
 
-export function stopAudioPlayer() {
-  return { type: 'stopAudioPlayer' };
+export function stopMediaPlayer() {
+  return { type: 'stopMediaPlayer' };
 }
 
 export function showPlayer() {
@@ -106,28 +107,29 @@ const reducer = (state = initialState, action = null) => {
         ...state,
         fontSize: state.fontSize - 1,
       };
-    case 'launchAudioPlayer':
+    case 'launchMediaPlayer':
       return {
         ...state,
-        audioPlayer: {
-          url: action.url,
+        mediaPlayer: {
+          url: action.payload.url,
+          type: action.payload.type,
           isPlaying: true,
           isVisible: true,
         },
       };
-    case 'pauseAudioPlayer':
+    case 'pauseMediaPlayer':
       return {
         ...state,
-        audioPlayer: {
-          ...state.audioPlayer, // Copie toutes les clés existantes de audioPlayer
+        mediaPlayer: {
+          ...state.mediaPlayer, // Copie toutes les clés existantes de mediaPlayer
           isPlaying: false,
         },
       };
-    case 'stopAudioPlayer':
+    case 'stopMediaPlayer':
       return {
         ...state,
-        audioPlayer: {
-          ...state.audioPlayer,
+        mediaPlayer: {
+          ...state.mediaPlayer,
           url: '',
           isPlaying: false,
         },

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { launchAudioPlayer, pauseAudioPlayer } from '../../../store';
+import { launchMediaPlayer, pauseMediaPlayer } from '../../../store';
 import playImgSrc from '../../../assets/images/play.svg';
 import pauseImgSrc from '../../../assets/images/pause.svg';
 import TutorialButton from '../../common/TutorialButton';
@@ -14,23 +14,23 @@ const Image = styled.img`
   filter: ${({ theme }) => theme.tutorial.iconFilter};
 `;
 
-const ButtonPlay = ({ url }) => {
+const ButtonPlay = ({ url, type }) => {
   const dispatch = useDispatch();
 
   const [currentURL, setCurrentURL] = useState('');
 
-  const audioPlayer = useSelector((state) => state.audioPlayer);
+  const mediaPlayer = useSelector((state) => state.mediaPlayer);
 
   const handleClick = (action) => {
     if (action === 'play') {
-      dispatch(pauseAudioPlayer());
+      dispatch(pauseMediaPlayer());
     } else {
-      dispatch(launchAudioPlayer(url));
+      dispatch(launchMediaPlayer(url, type));
       setCurrentURL(url);
     }
   };
 
-  return audioPlayer.isPlaying && currentURL === url ? (
+  return mediaPlayer.isPlaying && currentURL === url ? (
     <TutorialButton type="button" onClick={() => handleClick('play')}>
       <Image src={pauseImgSrc} alt="Pause" />
     </TutorialButton>

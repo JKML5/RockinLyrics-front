@@ -47,6 +47,7 @@ const Home = () => {
         concert.songs.map(({ _id, title, artist, tutorials }) => (
           <Song
             key={_id}
+            id={_id}
             title={`${title} - ${artist}`}
             tutorials={tutorials}
           />

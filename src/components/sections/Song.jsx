@@ -24,7 +24,7 @@ const SongTitle = styled.a`
   display: block;
 `;
 
-function Song({ title, tutorials }) {
+function Song({ id, title, tutorials }) {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -34,7 +34,7 @@ function Song({ title, tutorials }) {
       {isActive &&
         Array.isArray(tutorials) &&
         tutorials.map((tutorial) => (
-          <Tutorial key={tutorial._id} data={tutorial} />
+          <Tutorial key={tutorial._id} data={tutorial} songId={id} />
         ))}
     </SongWrapper>
   );

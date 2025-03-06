@@ -7,6 +7,7 @@ import QuizLyrics from './QuizLyrics';
 import ButtonPlay from '../unique/tutorial/ButtonPlay';
 import ButtonQuiz from '../unique/tutorial/ButtonQuiz';
 import ButtonDrive from '../unique/tutorial/ButtonDrive';
+import { Link } from 'react-router-dom';
 
 const StyledTutorial = styled.div`
   font-size: 16px;
@@ -21,13 +22,17 @@ const TutorialHeading = styled.div`
   padding: 0 25px;
 `;
 
-function Tutorial({ data }) {
-  const { categories, gender, url, lyrics, title, type } = data;
+function Tutorial({ data, songId }) {
+  const { _id, categories, gender, url, lyrics, title, type } = data;
 
   const selectedGender = useSelector((state) => state.gender);
   const selectedCategory = useSelector((state) => state.category);
 
   const [showQuiz, setShowQuiz] = useState(false);
+
+  // Paramètres GET
+  const searchParams = new URLSearchParams(document.location.search);
+  const isAdmin = searchParams.get('admin') === 'true';
 
   const handleToggle = () => {
     setShowQuiz((prevShowQuiz) => !prevShowQuiz);
@@ -54,6 +59,7 @@ function Tutorial({ data }) {
       <>
         <ButtonQuiz onClick={handleToggle} />
         <ButtonDrive url={url} />
+        {isAdmin && <Link to={`/admin/song/${songId}/${_id}/edit`}>EDIT</Link>}
       </>
     );
   }

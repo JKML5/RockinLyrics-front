@@ -60,6 +60,12 @@ function QuizLyrics({ lyrics }) {
     }
   }
 
+  function handleFirstLine() {
+    if (currentLineIndex > 0) {
+      setCurrentLineIndex(0);
+    }
+  }
+
   useEffect(() => {
     function handleKeyDown(event) {
       if (event.key === 'ArrowRight') {
@@ -88,6 +94,13 @@ function QuizLyrics({ lyrics }) {
     <Container fontSize={fontSize}>
       <Line dangerouslySetInnerHTML={{ __html: line }} />
       <div>
+        <Button
+          type="button"
+          onClick={() => handleFirstLine()}
+          disabled={isFirstLine}
+        >
+          Début
+        </Button>
         <Button
           type="button"
           onClick={() => handlePreviousLine()}

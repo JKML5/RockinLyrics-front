@@ -42,7 +42,7 @@ const Button = styled.button`
 function QuizLyrics({ lyrics }) {
   const fontSize = useSelector((state) => state.fontSize);
 
-  const songLyricsLines = lyrics.split('<br>');
+  const songLyricsLines = lyrics.split(/<br>|\n/);
   songLyricsLines.unshift('Début');
   songLyricsLines.push('Fin');
 

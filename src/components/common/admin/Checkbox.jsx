@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledCheckbox = styled.label`
+const StyledCheckbox = styled.input`
   margin-right: 5px;
 `;
 

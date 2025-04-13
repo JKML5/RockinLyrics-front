@@ -8,7 +8,20 @@ const Image = styled.img`
   filter: ${({ theme }) => theme.tutorial.iconFilter};
 `;
 
-const ButtonDrive = ({ url }) => {
+const ButtonDrive = ({ url, openInNewTab = false }) => {
+  if (openInNewTab) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: 'inline-block' }}
+      >
+        <Image src={imageSrc} alt="URL" />
+      </a>
+    );
+  }
+
   return (
     <TutorialButton to={url}>
       <Image src={imageSrc} alt="URL" />

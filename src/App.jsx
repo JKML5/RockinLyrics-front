@@ -15,6 +15,7 @@ import AdminSongForm from './components/pages/admin/SongForm';
 import AdminTutorialForm from './components/pages/admin/TutorialForm';
 import Container from './components/layouts/Main';
 import { GlobalStyle } from './assets/styles/GlobalStyle';
+import Partitions from './components/pages/Partitions';
 
 const App = () => {
   const theme = useSelector((state) => state.theme);
@@ -28,6 +29,7 @@ const App = () => {
       <Container>
         <Routes>
           <Route path="/:slug?" element={<Home />} />
+          <Route path="/:slug?/paroles" element={<Partitions />} />
 
           <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/song" element={<AdminSong />} />

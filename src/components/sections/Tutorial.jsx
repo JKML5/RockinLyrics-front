@@ -50,8 +50,7 @@ function Tutorial({ data, songId }) {
   } else if (type === 'video') {
     buttonsToShow = (
       <>
-        <ButtonPlay url={url} type="video" />
-        <ButtonDrive url={url} />
+        <ButtonDrive url={url} openInNewTab />
       </>
     );
   } else if (type === 'lyrics') {

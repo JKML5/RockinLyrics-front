@@ -36,7 +36,7 @@ function Partition({ id, title, tutorials }) {
       tutorial.categories.includes(selectedCategory));
 
   return (
-    <PartitionWrapper>
+    <PartitionWrapper id={`partition-${id}`}>
       <SongTitle>{title}</SongTitle>
 
       {Array.isArray(tutorials) &&

@@ -26,6 +26,37 @@ const Partitions = () => {
     }
   }, [fetchData]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!concert?.songs?.length) return;
+
+      const anchors = concert.songs.map((song) => `partition-${song._id}`);
+      const currentIndex = anchors.findIndex((id) => {
+        const el = document.getElementById(id);
+        return el && el.getBoundingClientRect().top >= 0;
+      });
+
+      if (e.key === 'ArrowRight') {
+        const nextId = anchors[currentIndex + 1];
+        if (nextId)
+          document
+            .getElementById(nextId)
+            ?.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      if (e.key === 'ArrowLeft') {
+        const prevId = anchors[currentIndex - 1];
+        if (prevId)
+          document
+            .getElementById(prevId)
+            ?.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [concert]);
+
   if (loading) {
     return <div>Loading...</div>;
   }

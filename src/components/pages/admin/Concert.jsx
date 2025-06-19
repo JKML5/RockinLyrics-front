@@ -35,7 +35,7 @@ function Concert() {
 
   return (
     <StyledContainer>
-      <Title1 isAdmin={true}>Concerts</Title1>
+      <Title1 isadmin={true}>Concerts</Title1>
 
       {concerts.map((concert) => (
         <p key={concert._id}>

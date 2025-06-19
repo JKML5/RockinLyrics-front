@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import FormButton from '../../common/admin/FormButton';
 import useFetch from '../../../hooks/useFetch';
 
@@ -34,6 +34,7 @@ const StyledGroup = styled.div`
 `;
 
 function Song() {
+  const { songId } = useParams();
   const { fetchData, data: songs, error, loading } = useFetch();
 
   useEffect(() => {
@@ -94,11 +95,14 @@ function Song() {
     return <div>No songs data found</div>;
   }
 
+  // Filtrage conditionnel
+  const songsToDisplay = songId ? songs.filter((s) => s._id === songId) : songs;
+
   return (
     <>
       <Section>
         <ul>
-          {songs.map((song) => (
+          {songsToDisplay.map((song) => (
             <li key={song._id}>
               <SongTitle>
                 {song._id} - {song.title} - {song.artist} -{' '}

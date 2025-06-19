@@ -33,6 +33,7 @@ const App = () => {
 
           <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/song" element={<AdminSong />} />
+          <Route path="/admin/song/:songId" element={<AdminSong />} />
           <Route path="/admin/concert" element={<AdminConcert />} />
           <Route
             path="/admin/song/:songId/add"

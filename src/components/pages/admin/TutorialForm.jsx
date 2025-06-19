@@ -134,7 +134,7 @@ function TutorialForm() {
 
       {errorMessage && <StyledErrorMessage message={errorMessage} />}
 
-      <Title1 isAdmin={true}>{pageTitle}</Title1>
+      <Title1 isadmin={true}>{pageTitle}</Title1>
 
       <form onSubmit={handleSubmit}>
         <FormGroup>

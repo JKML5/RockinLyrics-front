@@ -56,14 +56,11 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    color: ${({ theme, isAdmin }) => (isAdmin ? theme.colors.adminText : theme.colors.text)};
+    color: ${({ theme, isadmin }) => (isadmin ? theme.colors.adminText : theme.colors.text)};
     font-family: 'Roboto', sans-serif;
     font-size: 1em;
     line-height: 1.2;
     padding-bottom: 95px;
-
-      background: ${({ theme, isAdmin }) => (isAdmin ? '#f9f9f9' : theme.colors.backgroundColor)};
-    
-
+    background: ${({ theme, isadmin }) => (isadmin ? '#f9f9f9' : theme.colors.backgroundColor)};
   }
 `;

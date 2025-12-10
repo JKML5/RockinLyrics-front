@@ -18,6 +18,7 @@ import StyledErrorMessage from '../../common/ErrorMessage';
 function TutorialForm() {
   const navigate = useNavigate();
   const { songId, tutorialId } = useParams();
+  const [song, setSong] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const [type, setType] = useState('audio');
@@ -41,6 +42,7 @@ function TutorialForm() {
 
         if (response.ok) {
           const song = await response.json();
+          setSong(song);
 
           if (song && song.tutorials) {
             const tutorial = song.tutorials.find(
@@ -67,6 +69,27 @@ function TutorialForm() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    async function fetchSongOnly() {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/song/${songId}`,
+        );
+        if (!response.ok) throw new Error('Failed to fetch song');
+
+        const data = await response.json();
+        setSong(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Si on est en ajout → on charge juste la chanson (pour ses catégories)
+    if (!tutorialId && songId) {
+      fetchSongOnly();
+    }
+  }, [tutorialId, songId]);
 
   // Récupération des infos sur le tuto
   useEffect(() => {
@@ -180,51 +203,24 @@ function TutorialForm() {
         <FormGroup>
           <Label>Catégories</Label>
           <CheckboxGroup>
-            <CheckboxLabel>
-              <Checkbox
-                type="checkbox"
-                value="LEAD"
-                checked={categories.includes('LEAD')}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setCategories([...categories, 'LEAD']);
-                  } else {
-                    setCategories(categories.filter((cat) => cat !== 'LEAD'));
-                  }
-                }}
-              />
-              LEAD
-            </CheckboxLabel>
-            <CheckboxLabel>
-              <Checkbox
-                type="checkbox"
-                value="BV1"
-                checked={categories.includes('BV1')}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setCategories([...categories, 'BV1']);
-                  } else {
-                    setCategories(categories.filter((cat) => cat !== 'BV1'));
-                  }
-                }}
-              />
-              BV1
-            </CheckboxLabel>
-            <CheckboxLabel>
-              <Checkbox
-                type="checkbox"
-                value="BV2"
-                checked={categories.includes('BV2')}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setCategories([...categories, 'BV2']);
-                  } else {
-                    setCategories(categories.filter((cat) => cat !== 'BV2'));
-                  }
-                }}
-              />
-              BV2
-            </CheckboxLabel>
+            {song &&
+              song.categories &&
+              song.categories.map((cat) => (
+                <CheckboxLabel key={cat}>
+                  <Checkbox
+                    type="checkbox"
+                    checked={categories.includes(cat)}
+                    onChange={() => {
+                      if (categories.includes(cat)) {
+                        setCategories(categories.filter((c) => c !== cat));
+                      } else {
+                        setCategories([...categories, cat]);
+                      }
+                    }}
+                  />
+                  {cat}
+                </CheckboxLabel>
+              ))}
           </CheckboxGroup>
         </FormGroup>
 

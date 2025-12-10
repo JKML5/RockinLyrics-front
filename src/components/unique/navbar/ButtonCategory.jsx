@@ -9,15 +9,29 @@ const CategoryButton = styled(MenuButton)`
 
 const ButtonCategory = () => {
   const category = useSelector((state) => state.category);
+  const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
 
   const handleClick = () => {
+    if (!categories || categories.length === 0) return;
     dispatch(switchCategory());
   };
 
+  // Si aucune catégorie n’est disponible en base → le bouton n'affiche rien
+  if (!categories || categories.length === 0) {
+    return (
+      <CategoryButton type="button" disabled>
+        …
+      </CategoryButton>
+    );
+  }
+
+  // Si aucune catégorie n’est encore sélectionnée, sélectionner la première
+  const displayValue = category || categories[0];
+
   return (
     <CategoryButton type="button" onClick={handleClick}>
-      {category}
+      {displayValue}
     </CategoryButton>
   );
 };

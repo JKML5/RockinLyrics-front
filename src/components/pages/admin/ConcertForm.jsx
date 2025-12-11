@@ -17,10 +17,16 @@ function ConcertForm() {
 
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
-  const [songs, setSongs] = useState([]);
+  const [songs, setSongs] = useState([]); // chansons du concert
+  const [allSongs, setAllSongs] = useState([]); // toutes les chansons
+  const [selectedSong, setSelectedSong] = useState(''); // chanson à ajouter
 
   const [validationMessage, setValidationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const availableSongs = allSongs.filter(
+    (s) => !songs.some((assigned) => assigned._id === s._id),
+  );
 
   const fetchSongsDetails = async (songIds) => {
     try {
@@ -35,6 +41,17 @@ function ConcertForm() {
     } catch (error) {
       console.error('Error fetching song details:', error);
       setErrorMessage('Error fetching song details');
+    }
+  };
+
+  const fetchAllSongs = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/song`);
+      const data = await response.json();
+      setAllSongs(data);
+    } catch (error) {
+      console.error('Error fetching all songs:', error);
+      setErrorMessage('Error fetching all songs');
     }
   };
 
@@ -70,7 +87,25 @@ function ConcertForm() {
     if (concertId) {
       fetchConcertData();
     }
+    fetchAllSongs();
   }, [concertId]);
+
+  // Ajouter une chanson au concert
+  const handleAddSong = () => {
+    if (!selectedSong) return;
+
+    const songToAdd = allSongs.find((s) => s._id === selectedSong);
+
+    if (songToAdd) {
+      setSongs([...songs, songToAdd]);
+      setSelectedSong('');
+    }
+  };
+
+  // Retirer une chanson du concert
+  const removeSong = (songId) => {
+    setSongs(songs.filter((song) => song._id !== songId));
+  };
 
   // Fonction pour déplacer une chanson vers le haut
   const moveSongUp = (index) => {
@@ -194,15 +229,39 @@ function ConcertForm() {
           <Label>Chansons</Label>
           {songs.map((song, index) => (
             <div key={song._id}>
-              <span>{song.title}</span>
+              <span>
+                {song.title} - {song.artist}
+              </span>
               <button type="button" onClick={() => moveSongUp(index)}>
                 Monter
               </button>
               <button type="button" onClick={() => moveSongDown(index)}>
                 Descendre
               </button>
+              <button type="button" onClick={() => removeSong(song._id)}>
+                Supprimer
+              </button>
             </div>
           ))}
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Ajouter une chanson</Label>
+          <select
+            value={selectedSong}
+            onChange={(e) => setSelectedSong(e.target.value)}
+          >
+            <option value="">Choisir une chanson</option>
+            {availableSongs.map((song) => (
+              <option key={song._id} value={song._id}>
+                {song.title} - {song.artist}
+              </option>
+            ))}
+          </select>
+
+          <button type="button" onClick={handleAddSong}>
+            Ajouter
+          </button>
         </FormGroup>
 
         <FormGroup className="alignright">

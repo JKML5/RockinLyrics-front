@@ -21,6 +21,10 @@ const SongForm = () => {
   const [categories, setCategories] = useState([]);
   const [categoryInput, setCategoryInput] = useState('');
 
+  const [tutorials, setTutorials] = useState([]);
+  const [tutoTitle, setTutoTitle] = useState('');
+  const [tutoUrl, setTutoUrl] = useState('');
+
   const [validationMessage, setValidationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -34,6 +38,7 @@ const SongForm = () => {
         setTitle(data.title || '');
         setArtist(data.artist || '');
         setCategories(data.categories || []);
+        setTutorials(data.tutorials || []);
       })
       .catch(() => setErrorMessage('Erreur lors du chargement'));
   }, [songId]);
@@ -42,7 +47,7 @@ const SongForm = () => {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const requestData = { title, artist, categories };
+    const requestData = { title, artist, categories, tutorials };
 
     const url = isEditMode
       ? `${import.meta.env.VITE_API_URL}/song/${songId}`
@@ -101,6 +106,26 @@ const SongForm = () => {
       handleAddCategory();
     }
   };
+
+  // Ajouter un tutoriel
+  function handleAddTuto() {
+    if (!tutoTitle.trim()) return;
+
+    const newTuto = {
+      _id: crypto.randomUUID(), // ou généré côté backend
+      title: tutoTitle,
+      url: tutoUrl,
+    };
+
+    setTutorials([...tutorials, newTuto]);
+    setTutoTitle('');
+    setTutoUrl('');
+  }
+
+  // Supprimer un tutoriel
+  function handleRemoveTuto(id) {
+    setTutorials(tutorials.filter((t) => t._id !== id));
+  }
 
   return (
     <Container>
@@ -168,6 +193,41 @@ const SongForm = () => {
           />
           <button type="button" onClick={handleAddCategory}>
             Ajouter
+          </button>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Tutoriels</Label>
+
+          {tutorials.length === 0 && <div>Aucun tutoriel</div>}
+
+          {tutorials.map((t) => (
+            <div key={t._id}>
+              {t.title} –
+              <a href={t.url} target="_blank" rel="noreferrer">
+                Voir
+              </a>
+              {' - '}
+              <button type="button" onClick={() => handleRemoveTuto(t._id)}>
+                Supprimer
+              </button>
+              {' - '}
+              <button
+                type="button"
+                onClick={() => navigate(`/admin/song/${songId}/${t._id}/edit`)}
+              >
+                Editer
+              </button>
+            </div>
+          ))}
+
+          <br />
+
+          <button
+            type="button"
+            onClick={() => navigate(`/admin/song/${songId}/add`)}
+          >
+            Ajouter un tutoriel
           </button>
         </FormGroup>
 

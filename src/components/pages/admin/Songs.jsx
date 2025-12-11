@@ -36,12 +36,6 @@ function Songs() {
       fetchData(`${import.meta.env.VITE_API_URL}/song`),
     );
 
-  const moveUp = (id) =>
-    handleAction(`${import.meta.env.VITE_API_URL}/song/move-up/${id}`, 'PUT');
-
-  const moveDown = (id) =>
-    handleAction(`${import.meta.env.VITE_API_URL}/song/move-down/${id}`, 'PUT');
-
   const remove = (id) =>
     handleAction(`${import.meta.env.VITE_API_URL}/song/${id}`, 'DELETE');
 
@@ -53,17 +47,21 @@ function Songs() {
     <>
       <Section>
         <ul>
-          {songs.map((song) => (
-            <li key={song._id}>
-              <Link to={`/admin/song/${song._id}/tutorials`}></Link>
-              {song.title} – {song.artist} -
-              <button onClick={() => moveUp(song._id)}>Monter</button>
-              <button onClick={() => moveDown(song._id)}>Descendre</button>
-              <button onClick={() => remove(song._id)}>Supprimer</button>{' '}
-              -&nbsp;
-              <Link to={`/admin/song/${song._id}/tutorials`}>Editer</Link>
-            </li>
-          ))}
+          {[...songs]
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map((song) => (
+              <li key={song._id}>
+                <Link to={`/admin/song/${song._id}/tutorials`}></Link>
+                {song.title} – {song.artist}{' '}
+                <button onClick={() => remove(song._id)}>Supprimer</button>
+                {' - '}
+                <Link to={`/admin/song/edit/${song._id}`}>Editer</Link>
+                {' - '}
+                <Link to={`/admin/song/${song._id}/tutorials`}>
+                  Editer tutos
+                </Link>
+              </li>
+            ))}
         </ul>
       </Section>
 

@@ -134,7 +134,7 @@ function TutorialForm() {
       const data = await response.json();
 
       if (!isEditing && data.status === 201) {
-        navigate('/admin/song');
+        navigate(`/admin/song/edit/${songId}`);
       } else if (isEditing) {
         setValidationMessage('Tutoriel modifié avec succès');
         fetchTutorialData();

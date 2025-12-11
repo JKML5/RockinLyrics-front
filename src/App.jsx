@@ -11,7 +11,6 @@ import AdminIndex from './components/pages/admin/Index';
 import AdminConcert from './components/pages/admin/Concert';
 import AdminConcertForm from './components/pages/admin/ConcertForm';
 import AdminSongs from './components/pages/admin/Songs';
-import AdminSongTutorials from './components/pages/admin/SongTutotials';
 import AdminSongForm from './components/pages/admin/SongForm';
 import AdminTutorialForm from './components/pages/admin/TutorialForm';
 import Container from './components/layouts/Main';
@@ -34,10 +33,6 @@ const App = () => {
 
           <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/song" element={<AdminSongs />} />
-          <Route
-            path="/admin/song/:songId/tutorials"
-            element={<AdminSongTutorials />}
-          />
           <Route path="/admin/song/:songId" element={<AdminSongs />} />
           <Route path="/admin/concert" element={<AdminConcert />} />
           <Route

@@ -252,11 +252,17 @@ function ConcertForm() {
             onChange={(e) => setSelectedSong(e.target.value)}
           >
             <option value="">Choisir une chanson</option>
-            {availableSongs.map((song) => (
-              <option key={song._id} value={song._id}>
-                {song.title} - {song.artist}
-              </option>
-            ))}
+            {[...availableSongs]
+              .sort((a, b) =>
+                `${a.title} - ${a.artist}`.localeCompare(
+                  `${b.title} - ${b.artist}`,
+                ),
+              )
+              .map((song) => (
+                <option key={song._id} value={song._id}>
+                  {song.title} - {song.artist}
+                </option>
+              ))}
           </select>
 
           <button type="button" onClick={handleAddSong}>

@@ -270,6 +270,19 @@ function ConcertForm() {
           </button>
         </FormGroup>
 
+        {concertId && slug && (
+          <div style={{ marginTop: '20px' }}>
+            <a
+              href={`/${slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'underline' }}
+            >
+              Voir la page
+            </a>
+          </div>
+        )}
+
         <FormGroup className="alignright">
           <FormButton type="submit">
             {concertId ? 'Editer' : 'Ajouter'}

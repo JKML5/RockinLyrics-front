@@ -7,6 +7,8 @@ import FormGroup from '../../common/admin/FromGroup';
 import FormButton from '../../common/admin/FormButton';
 import Label from '../../common/admin/Label';
 import InputText from '../../common/admin/InputText';
+import Table from '../../common/admin/Table';
+import TableActionGroup from '../../common/admin/TableActionGroup';
 
 import StyledValidationMessage from '../../common/ValidationMessage';
 import StyledErrorMessage from '../../common/ErrorMessage';
@@ -20,10 +22,7 @@ const SongForm = () => {
   const [artist, setArtist] = useState('');
   const [categories, setCategories] = useState([]);
   const [categoryInput, setCategoryInput] = useState('');
-
   const [tutorials, setTutorials] = useState([]);
-  const [tutoTitle, setTutoTitle] = useState('');
-  const [tutoUrl, setTutoUrl] = useState('');
 
   const [validationMessage, setValidationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -70,13 +69,17 @@ const SongForm = () => {
         }
         return response.json();
       })
-      .then(() => {
+      .then((data) => {
         setValidationMessage(
           isEditMode
             ? 'Chanson modifiée avec succès !'
             : 'Chanson ajoutée avec succès !',
         );
-        navigate(`/admin/song`);
+
+        // Cas ajout → bascule en mode édition sans quitter la page
+        if (!isEditMode && data?._id) {
+          navigate(`/admin/song/edit/${data._id}`, { replace: true });
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -106,21 +109,6 @@ const SongForm = () => {
       handleAddCategory();
     }
   };
-
-  // Ajouter un tutoriel
-  function handleAddTuto() {
-    if (!tutoTitle.trim()) return;
-
-    const newTuto = {
-      _id: crypto.randomUUID(), // ou généré côté backend
-      title: tutoTitle,
-      url: tutoUrl,
-    };
-
-    setTutorials([...tutorials, newTuto]);
-    setTutoTitle('');
-    setTutoUrl('');
-  }
 
   // Supprimer un tutoriel
   function handleRemoveTuto(id) {
@@ -201,25 +189,41 @@ const SongForm = () => {
 
           {tutorials.length === 0 && <div>Aucun tutoriel</div>}
 
-          {tutorials.map((t) => (
-            <div key={t._id}>
-              {t.title} –
-              <a href={t.url} target="_blank" rel="noreferrer">
-                Voir
-              </a>
-              {' - '}
-              <button type="button" onClick={() => handleRemoveTuto(t._id)}>
-                Supprimer
-              </button>
-              {' - '}
-              <button
-                type="button"
-                onClick={() => navigate(`/admin/song/${songId}/${t._id}/edit`)}
-              >
-                Editer
-              </button>
-            </div>
-          ))}
+          <Table>
+            <tbody>
+              {tutorials.map((t) => (
+                <tr key={t._id}>
+                  <td>{t.title}</td>
+                  <td>
+                    {t.categories?.length ? t.categories.join(', ') : '—'}
+                  </td>
+                  <td>{t.genre || '—'}</td>
+                  <td>
+                    <TableActionGroup>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          navigate(`/admin/song/${songId}/${t._id}/edit`)
+                        }
+                      >
+                        Éditer
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (window.confirm('Confirmer la suppression ?')) {
+                            handleRemoveTuto(t._id);
+                          }
+                        }}
+                      >
+                        Supprimer
+                      </button>
+                    </TableActionGroup>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
 
           <br />
 

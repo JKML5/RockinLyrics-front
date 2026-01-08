@@ -1,21 +1,15 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormButton from '../../common/admin/FormButton';
 import useFetch from '../../../hooks/useFetch';
+import Table from '../../common/admin/Table';
+import TableActionGroup from '../../common/admin/TableActionGroup';
 
 const Section = styled.section`
   background-color: #ffffff;
   border-radius: 20px;
   padding: 20px;
-`;
-
-const SongTitle = styled.div`
-  padding: 15px 0 0 0;
-  font-size: 20px;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-weight: 700;
-  color: #505050;
 `;
 
 const StyledGroup = styled.div`
@@ -25,6 +19,7 @@ const StyledGroup = styled.div`
 
 function Songs() {
   const { fetchData, data: songs, loading, error } = useFetch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = 'Admin | Songs';
@@ -36,8 +31,10 @@ function Songs() {
       fetchData(`${import.meta.env.VITE_API_URL}/song`),
     );
 
-  const remove = (id) =>
+  const remove = (id) => {
+    if (!window.confirm('Confirmer la suppression ?')) return;
     handleAction(`${import.meta.env.VITE_API_URL}/song/${id}`, 'DELETE');
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -46,23 +43,29 @@ function Songs() {
   return (
     <>
       <Section>
-        <ul>
+        <Table>
           {[...songs]
             .sort((a, b) => a.title.localeCompare(b.title))
             .map((song) => (
-              <li key={song._id}>
-                <Link to={`/admin/song/${song._id}/tutorials`}></Link>
-                {song.title} – {song.artist}{' '}
-                <button onClick={() => remove(song._id)}>Supprimer</button>
-                {' - '}
-                <Link to={`/admin/song/edit/${song._id}`}>Editer</Link>
-                {' - '}
-                <Link to={`/admin/song/${song._id}/tutorials`}>
-                  Editer tutos
-                </Link>
-              </li>
+              <tr key={song._id}>
+                <td>{song.title}</td>
+                <td>{song.artist}</td>
+                <td>
+                  <TableActionGroup>
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/admin/song/edit/${song._id}`)}
+                    >
+                      Éditer
+                    </button>
+                    <button type="button" onClick={() => remove(song._id)}>
+                      Supprimer
+                    </button>
+                  </TableActionGroup>
+                </td>
+              </tr>
             ))}
-        </ul>
+        </Table>
       </Section>
 
       <StyledGroup>

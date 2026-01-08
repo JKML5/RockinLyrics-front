@@ -7,6 +7,8 @@ import FormGroup from '../../common/admin/FromGroup';
 import FormButton from '../../common/admin/FormButton';
 import Label from '../../common/admin/Label';
 import InputText from '../../common/admin/InputText';
+import Table from '../../common/admin/Table';
+import TableActionGroup from '../../common/admin/TableActionGroup';
 
 import StyledValidationMessage from '../../common/ValidationMessage';
 import StyledErrorMessage from '../../common/ErrorMessage';
@@ -226,23 +228,48 @@ function ConcertForm() {
         </FormGroup>
 
         <FormGroup>
-          <Label>Chansons</Label>
-          {songs.map((song, index) => (
-            <div key={song._id}>
-              <span>
-                {song.title} - {song.artist}
-              </span>
-              <button type="button" onClick={() => moveSongUp(index)}>
-                Monter
-              </button>
-              <button type="button" onClick={() => moveSongDown(index)}>
-                Descendre
-              </button>
-              <button type="button" onClick={() => removeSong(song._id)}>
-                Supprimer
-              </button>
-            </div>
-          ))}
+          <Label>
+            <strong>Chansons</strong>
+          </Label>
+
+          <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            {songs.map((song, index) => (
+              <tr key={song._id}>
+                <td>{song.title}</td>
+                <td>{song.artist}</td>
+                <td>
+                  <TableActionGroup>
+                    <button
+                      type="button"
+                      onClick={() => moveSongUp(index)}
+                      disabled={index === 0}
+                    >
+                      ↑
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => moveSongDown(index)}
+                      disabled={index === songs.length - 1}
+                    >
+                      ↓
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/admin/song/edit/${song._id}`)}
+                    >
+                      Éditer
+                    </button>
+
+                    <button type="button" onClick={() => removeSong(song._id)}>
+                      Supprimer
+                    </button>
+                  </TableActionGroup>
+                </td>
+              </tr>
+            ))}
+          </Table>
         </FormGroup>
 
         <FormGroup>

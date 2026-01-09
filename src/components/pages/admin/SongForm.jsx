@@ -22,6 +22,8 @@ const SongForm = () => {
   const [artist, setArtist] = useState('');
   const [categories, setCategories] = useState([]);
   const [categoryInput, setCategoryInput] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
   const [tutorials, setTutorials] = useState([]);
 
   const [validationMessage, setValidationMessage] = useState('');
@@ -37,6 +39,7 @@ const SongForm = () => {
         setTitle(data.title || '');
         setArtist(data.artist || '');
         setCategories(data.categories || []);
+        setTags(data.tags || []);
         setTutorials(data.tutorials || []);
       })
       .catch(() => setErrorMessage('Erreur lors du chargement'));
@@ -46,7 +49,7 @@ const SongForm = () => {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const requestData = { title, artist, categories, tutorials };
+    const requestData = { title, artist, categories, tags, tutorials };
 
     const url = isEditMode
       ? `${import.meta.env.VITE_API_URL}/song/${songId}`
@@ -57,9 +60,7 @@ const SongForm = () => {
     fetch(url, {
       method,
       body: JSON.stringify(requestData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
     })
       .then((response) => {
         if (!response.ok) {
@@ -76,33 +77,28 @@ const SongForm = () => {
             : 'Chanson ajoutée avec succès !',
         );
 
-        // Cas ajout → bascule en mode édition sans quitter la page
         if (!isEditMode && data?._id) {
           navigate(`/admin/song/edit/${data._id}`, { replace: true });
         }
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         setValidationMessage('');
         setErrorMessage("Erreur lors de l'enregistrement");
       });
   }
 
-  // Ajout d’une catégorie
+  // === Fonctions catégories ===
   const handleAddCategory = () => {
     const trimmed = categoryInput.trim();
-    if (trimmed && !categories.includes(trimmed)) {
+    if (trimmed && !categories.includes(trimmed))
       setCategories([...categories, trimmed]);
-    }
     setCategoryInput('');
   };
 
-  // Suppression d’une catégorie
   const handleRemoveCategory = (cat) => {
     setCategories(categories.filter((c) => c !== cat));
   };
 
-  // Entrée = ajouter la catégorie
   const handleCategoryKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -110,17 +106,34 @@ const SongForm = () => {
     }
   };
 
-  // Supprimer un tutoriel
-  function handleRemoveTuto(id) {
+  // === Fonctions tags ===
+  const handleAddTag = () => {
+    const trimmed = tagInput.trim();
+    if (trimmed && !tags.includes(trimmed)) setTags([...tags, trimmed]);
+    setTagInput('');
+  };
+
+  const handleRemoveTag = (tag) => {
+    setTags(tags.filter((t) => t !== tag));
+  };
+
+  const handleTagKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddTag();
+    }
+  };
+
+  // === Fonctions tutoriels ===
+  const handleRemoveTuto = (id) => {
     setTutorials(tutorials.filter((t) => t._id !== id));
-  }
+  };
 
   return (
     <Container>
       {validationMessage && (
         <StyledValidationMessage message={validationMessage} />
       )}
-
       {errorMessage && <StyledErrorMessage message={errorMessage} />}
 
       <Title1 isadmin={true}>
@@ -148,6 +161,7 @@ const SongForm = () => {
           />
         </FormGroup>
 
+        {/* Catégories */}
         <FormGroup>
           <Label>Catégories de voix</Label>
           <div>
@@ -184,6 +198,44 @@ const SongForm = () => {
           </button>
         </FormGroup>
 
+        {/* Tags */}
+        <FormGroup>
+          <Label>Tags</Label>
+          <div>
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  marginRight: '8px',
+                  padding: '4px 8px',
+                  background: '#eee',
+                  borderRadius: '4px',
+                }}
+              >
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTag(tag)}
+                  style={{ marginLeft: '4px' }}
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+          <InputText
+            type="text"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={handleTagKeyDown}
+            placeholder="Ajouter un tag (Entrée)"
+          />
+          <button type="button" onClick={handleAddTag}>
+            Ajouter
+          </button>
+        </FormGroup>
+
+        {/* Tutoriels */}
         <FormGroup>
           <Label>Tutoriels</Label>
 
@@ -197,7 +249,7 @@ const SongForm = () => {
                   <td>
                     {t.categories?.length ? t.categories.join(', ') : '—'}
                   </td>
-                  <td>{t.genre || '—'}</td>
+                  <td>{t.gender || 'ALL'}</td>
                   <td>
                     <TableActionGroup>
                       <button
@@ -211,9 +263,8 @@ const SongForm = () => {
                       <button
                         type="button"
                         onClick={() => {
-                          if (window.confirm('Confirmer la suppression ?')) {
+                          if (window.confirm('Confirmer la suppression ?'))
                             handleRemoveTuto(t._id);
-                          }
                         }}
                       >
                         Supprimer

@@ -50,6 +50,7 @@ function Songs() {
               <tr key={song._id}>
                 <td>{song.title}</td>
                 <td>{song.artist}</td>
+                <td>{song.tags?.length ? song.tags.join(', ') : '—'}</td>
                 <td>
                   <TableActionGroup>
                     <button

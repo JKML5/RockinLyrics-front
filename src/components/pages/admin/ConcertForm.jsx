@@ -288,6 +288,7 @@ function ConcertForm() {
               .map((song) => (
                 <option key={song._id} value={song._id}>
                   {song.title} - {song.artist}
+                  {song.tags?.length ? ` (${song.tags.join(', ')})` : ''}
                 </option>
               ))}
           </select>

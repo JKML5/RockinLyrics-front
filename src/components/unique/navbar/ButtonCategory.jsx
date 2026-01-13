@@ -26,12 +26,11 @@ const ButtonCategory = () => {
     );
   }
 
-  // Si aucune catégorie n’est encore sélectionnée, sélectionner la première
-  const displayValue = category || categories[0];
+  const displayValue = category;
 
   return (
     <CategoryButton type="button" onClick={handleClick}>
-      {displayValue}
+      {displayValue || '…'}
     </CategoryButton>
   );
 };

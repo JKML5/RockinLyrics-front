@@ -98,9 +98,7 @@ const reducer = (state = initialState, action = null) => {
       const selectedCategory =
         state.category && allCats.includes(state.category)
           ? state.category
-          : allCats[0] || null;
-
-      if (selectedCategory) localStorage.setItem('category', selectedCategory);
+          : state.category || allCats[0] || null;
 
       return {
         ...state,
@@ -113,14 +111,17 @@ const reducer = (state = initialState, action = null) => {
     case 'setConcertCategories': {
       const cats = action.payload || [];
 
+      if (!cats.length) {
+        return {
+          ...state,
+          categories: cats,
+        };
+      }
+
       const selected =
         state.category && cats.includes(state.category)
           ? state.category
-          : cats[0] || null;
-
-      if (selected) {
-        localStorage.setItem('category', selected);
-      }
+          : state.category || cats[0];
 
       return {
         ...state,
@@ -135,8 +136,6 @@ const reducer = (state = initialState, action = null) => {
         state.category && allCats.includes(state.category)
           ? state.category
           : allCats[0] || null;
-
-      if (selectedCategory) localStorage.setItem('category', selectedCategory);
 
       return {
         ...state,

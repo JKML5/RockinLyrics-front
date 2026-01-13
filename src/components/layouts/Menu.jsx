@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import ButtonGender from '../unique/navbar/ButtonGender';
-import ButtonRole from '../unique/navbar/ButtonCategory';
+import ButtonCategory from '../unique/navbar/ButtonCategory';
 import ButtonTheme from '../unique/navbar/ButtonTheme';
 import ButtonZoom from '../unique/navbar/ButtonZoom';
 
@@ -24,7 +24,7 @@ function Menu() {
     <Container>
       <Side>
         <ButtonGender />
-        <ButtonRole />
+        <ButtonCategory />
       </Side>
       <Side>
         <ButtonTheme />

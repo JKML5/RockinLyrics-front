@@ -125,6 +125,22 @@ const SongForm = () => {
   };
 
   // === Fonctions tutoriels ===
+  const moveTutoUp = (index) => {
+    if (index === 0) return;
+
+    const updated = [...tutorials];
+    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
+    setTutorials(updated);
+  };
+
+  const moveTutoDown = (index) => {
+    if (index === tutorials.length - 1) return;
+
+    const updated = [...tutorials];
+    [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+    setTutorials(updated);
+  };
+
   const handleRemoveTuto = (id) => {
     setTutorials(tutorials.filter((t) => t._id !== id));
   };
@@ -243,7 +259,7 @@ const SongForm = () => {
 
           <Table>
             <tbody>
-              {tutorials.map((t) => (
+              {tutorials.map((t, index) => (
                 <tr key={t._id}>
                   <td>{t.title}</td>
                   <td>
@@ -252,6 +268,21 @@ const SongForm = () => {
                   <td>{t.gender || 'ALL'}</td>
                   <td>
                     <TableActionGroup>
+                      <button
+                        type="button"
+                        onClick={() => moveTutoUp(index)}
+                        disabled={index === 0}
+                      >
+                        ↑
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => moveTutoDown(index)}
+                        disabled={index === tutorials.length - 1}
+                      >
+                        ↓
+                      </button>
                       <button
                         type="button"
                         onClick={() =>

@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import themes from './assets/styles/theme';
@@ -28,6 +28,13 @@ const App = () => {
       {isAdmin ? <AdminHeader /> : <Header />}
       <Container>
         <Routes>
+          {/* Redirection manuelle */}
+          <Route path="/riv" element={<Navigate to="/riv5" replace />} />
+          <Route
+            path="/festirock"
+            element={<Navigate to="/festirock5" replace />}
+          />
+
           <Route path="/:slug?" element={<Home />} />
           <Route path="/:slug?/paroles" element={<Partitions />} />
 

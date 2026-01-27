@@ -13,6 +13,45 @@ import TableActionGroup from '../../common/admin/TableActionGroup';
 import StyledValidationMessage from '../../common/ValidationMessage';
 import StyledErrorMessage from '../../common/ErrorMessage';
 
+const StatusDot = ({ status }) => {
+  const color =
+    status === 'ok' ? 'green' : status === 'error' ? 'red' : 'transparent';
+
+  return (
+    <span
+      style={{
+        display: 'inline-block',
+        width: 10,
+        height: 10,
+        borderRadius: '50%',
+        backgroundColor: color,
+        border: '1px solid #999',
+      }}
+    />
+  );
+};
+
+const checkClickTrackStatus = async (song) => {
+  try {
+    const firstTuto = song.tutorials?.[0];
+
+    if (!firstTuto?.url) return '-';
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/check-url`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: firstTuto.url }),
+    });
+
+    if (!response.ok) return '-';
+
+    const data = await response.json();
+    return data.ok ? 'ok' : 'error';
+  } catch {
+    return '-';
+  }
+};
+
 function ConcertForm() {
   const navigate = useNavigate();
   const { concertId } = useParams();
@@ -22,6 +61,7 @@ function ConcertForm() {
   const [songs, setSongs] = useState([]); // chansons du concert
   const [allSongs, setAllSongs] = useState([]); // toutes les chansons
   const [selectedSong, setSelectedSong] = useState(''); // chanson à ajouter
+  const [statusClickTrack, setStatusClickTrack] = useState({});
 
   const [validationMessage, setValidationMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -39,7 +79,25 @@ function ConcertForm() {
           ),
         ),
       );
+
       setSongs(songDetails);
+
+      // init statut à "-"
+      const initialStatuses = {};
+      songDetails.forEach((song) => {
+        initialStatuses[song._id] = '-';
+      });
+      setStatusClickTrack(initialStatuses);
+
+      // checks async non bloquants
+      songDetails.forEach((song) => {
+        checkClickTrackStatus(song).then((result) => {
+          setStatusClickTrack((prev) => ({
+            ...prev,
+            [song._id]: result,
+          }));
+        });
+      });
     } catch (error) {
       console.error('Error fetching song details:', error);
       setErrorMessage('Error fetching song details');
@@ -97,16 +155,32 @@ function ConcertForm() {
     if (!selectedSong) return;
 
     const songToAdd = allSongs.find((s) => s._id === selectedSong);
+    if (!songToAdd) return;
 
-    if (songToAdd) {
-      setSongs([...songs, songToAdd]);
-      setSelectedSong('');
-    }
+    setSongs([...songs, songToAdd]);
+    setStatusClickTrack((prev) => ({
+      ...prev,
+      [songToAdd._id]: '-',
+    }));
+
+    checkClickTrackStatus(songToAdd).then((result) => {
+      setStatusClickTrack((prev) => ({
+        ...prev,
+        [songToAdd._id]: result,
+      }));
+    });
+
+    setSelectedSong('');
   };
 
   // Retirer une chanson du concert
   const removeSong = (songId) => {
     setSongs(songs.filter((song) => song._id !== songId));
+    setStatusClickTrack((prev) => {
+      const copy = { ...prev };
+      delete copy[songId];
+      return copy;
+    });
   };
 
   // Fonction pour déplacer une chanson vers le haut
@@ -233,42 +307,50 @@ function ConcertForm() {
           </Label>
 
           <Table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            {songs.map((song, index) => (
-              <tr key={song._id}>
-                <td>{song.title}</td>
-                <td>{song.artist}</td>
-                <td>
-                  <TableActionGroup>
-                    <button
-                      type="button"
-                      onClick={() => moveSongUp(index)}
-                      disabled={index === 0}
-                    >
-                      ↑
-                    </button>
+            <tbody>
+              {songs.map((song, index) => (
+                <tr key={song._id}>
+                  <td>{song.title}</td>
+                  <td>{song.artist}</td>
+                  <td>
+                    <StatusDot status={statusClickTrack[song._id]} />
+                  </td>
+                  <td>
+                    <TableActionGroup>
+                      <button
+                        type="button"
+                        onClick={() => moveSongUp(index)}
+                        disabled={index === 0}
+                      >
+                        ↑
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => moveSongDown(index)}
-                      disabled={index === songs.length - 1}
-                    >
-                      ↓
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => moveSongDown(index)}
+                        disabled={index === songs.length - 1}
+                      >
+                        ↓
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => navigate(`/admin/song/edit/${song._id}`)}
-                    >
-                      Éditer
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/admin/song/edit/${song._id}`)}
+                      >
+                        Éditer
+                      </button>
 
-                    <button type="button" onClick={() => removeSong(song._id)}>
-                      Supprimer
-                    </button>
-                  </TableActionGroup>
-                </td>
-              </tr>
-            ))}
+                      <button
+                        type="button"
+                        onClick={() => removeSong(song._id)}
+                      >
+                        Supprimer
+                      </button>
+                    </TableActionGroup>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </Table>
         </FormGroup>
 
